@@ -247,7 +247,7 @@ def load_data(dataset, Classification):
         file_list = os.listdir(dataset_folder)
         data_list = []
         if Classification == 'multiple':
-            isc_count, cor_count, nor_count, noi_count, sti_cont = 0, 0, 0, 0, 0
+            isc_count, cor_count, nor_count, noi_count, sti_count = 0, 0, 0, 0, 0
             for filename in file_list:
                 if not filename.endswith('.csv'): continue
                 file_path = os.path.join(dataset_folder, filename)
@@ -267,7 +267,7 @@ def load_data(dataset, Classification):
                     if values == 'noi':
                         i = i + noi_count
                     if values == 'sti':
-                        i = i + sti_cont
+                        i = i + sti_count
                     save_folder = os.path.join(folder, values)
                     if not os.path.exists(save_folder):
                         os.makedirs(save_folder)
@@ -276,10 +276,14 @@ def load_data(dataset, Classification):
 
                 if values == 'Isc':
                     isc_count += len(win_data_list)
-                if values == 'Cor':
+                elif values == 'Cor':
                     cor_count += len(win_data_list)
                 elif values == 'Nor':
                     nor_count += len(win_data_list)
+                elif values == 'noi':
+                    noi_count += len(win_data_list)
+                elif values == 'sti':
+                    sti_count += len(win_data_list)
         elif Classification == 'single':
             fault_count, nor_count = 0, 0
             for filename in file_list:
@@ -318,7 +322,7 @@ def load_data(dataset, Classification):
         file_list = os.listdir(dataset_folder)
         data_list = []
         if Classification == 'multiple':
-            isc_count, cor_count, nor_count, noi_count, sti_cont  = 0, 0, 0, 0, 0
+            isc_count, cor_count, nor_count, noi_count, sti_count = 0, 0, 0, 0, 0
             for filename in file_list:
                 if not filename.endswith('.csv'): continue
                 file_path = os.path.join(dataset_folder, filename)
@@ -339,7 +343,7 @@ def load_data(dataset, Classification):
                     if values == 'noi':
                         i = i + noi_count
                     if values == 'sti':
-                        i = i + sti_cont
+                        i = i + sti_count
                     save_folder = os.path.join(folder, values)
 
                     if not os.path.exists(save_folder):
@@ -348,10 +352,14 @@ def load_data(dataset, Classification):
                     np.save(save_filename, train)
                 if values == 'Isc':
                     isc_count += len(win_data_list)
-                if values == 'Cor':
+                elif values == 'Cor':
                     cor_count += len(win_data_list)
                 elif values == 'Nor':
                     nor_count += len(win_data_list)
+                elif values == 'noi':
+                    noi_count += len(win_data_list)
+                elif values == 'sti':
+                    sti_count += len(win_data_list)
         elif Classification == 'single':
             fault_count, nor_count = 0, 0
             for filename in file_list:

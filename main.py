@@ -1,10 +1,6 @@
-import torchvision.datasets
-import os
 import torch
 
 from my_dataset import MyDataSet
-from utils import read_split_data
-from models_yz import transformer
 import time
 import tqdm
 

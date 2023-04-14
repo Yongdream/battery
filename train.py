@@ -1,16 +1,14 @@
-import os
-import numpy as np
 import torch
 import torch.nn as nn
-import tqdm
 import torch.optim as optim
 
 from torch.optim.lr_scheduler import ExponentialLR
 from matplotlib import pyplot as plt
 from my_dataset import MyDataSet
-from utils import read_split_data, delete_files, get_parameter_number, tsne_visualization
+from utils import read_split_data, get_parameter_number
 from torch.utils.data import DataLoader
-from models_yz import transformer
+from model.models_yz import transformer
+
 
 
 def validate(model, val_loader, criterion, num_epochs):
@@ -78,8 +76,10 @@ def train(model, train_loader, val_loader ,criterion, optimizer, num_epochs):
             optimizer.step()
             # lr_scheduler.step()
             running_loss += loss.item()
-            if epoch > (num_epochs * 0.95):
-                tsne_visualization(logits, predicted_labels)
+
+            # # t-sne图片显示
+            # if epoch > (num_epochs * 0.95):
+            #     tsne_visualization(logits, predicted_labels)
         epoch_loss = running_loss / len(train_loader)
         epoch_acc = correct / total 
         train_accs.append(epoch_acc)
@@ -123,7 +123,7 @@ def train(model, train_loader, val_loader ,criterion, optimizer, num_epochs):
     return model, train_losses, train_accs, val_losses, val_accs
 
 
-root = r'..\processed\fuds'
+root = r'processed\udds'
 device = torch.device('cuda' if torch.cuda.is_available else 'cpu')
 print("using {} device.".format(device))
 
@@ -144,7 +144,7 @@ val_num = len(val_data_set)
 nw = 0
 batch_size = 450
 num_epochs = 32
-lr = 3e-4
+lr = 1e-5
 model = transformer().to(device)
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters(), lr)
@@ -152,7 +152,7 @@ lr_scheduler = ExponentialLR(optimizer, gamma=0.98)   # 定义学习率调度程
 print('Model build successfully')
 
 best_acc = 0.0
-save_path = './logs/demo.pth'
+save_path = 'logs/demo.pth'
 
 
 train_loader = DataLoader(train_data_set,
