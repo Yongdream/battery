@@ -13,7 +13,7 @@ class transformer(nn.Module):
         self.cls_token = nn.Parameter(torch.randn(1, 1, self.embed_dim))
         self.avg = nn.AvgPool1d(1)
         self.fc_1 = nn.Linear(embed_dim, 64)
-        self.fc_2 = nn.Linear(64, 3)
+        self.fc_2 = nn.Linear(64, 5)
         self.softmax = nn.Softmax(-1)
         self.Sigmoid = nn.Sigmoid()
         self.dropout = nn.Dropout(p=0.5)
