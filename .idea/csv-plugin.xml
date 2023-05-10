@@ -17,13 +17,6 @@
             </Attribute>
           </value>
         </entry>
-        <entry key="\data\fuds\1\FUDS_Nor_0704.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
         <entry key="\data\fuds\FUDS_Cor_0630.csv">
           <value>
             <Attribute>
@@ -136,6 +129,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\data\udds\ UDDS_noi_0711.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\data\udds\ UDDS_sti_0706.csv">
           <value>
             <Attribute>
@@ -207,13 +207,6 @@
           </value>
         </entry>
         <entry key="\data\udds\UDDS_Nor_0711.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="\origin\fuds\FUDS_Nor_0704.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />

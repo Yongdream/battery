@@ -2,9 +2,6 @@ import numpy as np
 import torch
 from torch.utils.data import Dataset
 import os
-import random
-from sklearn.model_selection import train_test_split
-
 from tqdm import tqdm
 
 
@@ -16,15 +13,15 @@ class MyDataSet(Dataset):
         self.timeWin_path = timeWin_path
         self.timeWin_class = timeWin_class
         self.transform = transform
-    
+
     def __len__(self):
         return len(self.timeWin_path)
-    
+
     def __getitem__(self, index):
         timeWin = torch.from_numpy(np.load(self.timeWin_path[index]))
         label = self.timeWin_class[index]
         return timeWin, label
-    
+
     @staticmethod
     def collate_fn(batch):
         images, labels = tuple(zip(*batch))
@@ -114,7 +111,7 @@ def prepro(dir=r'processed/fuds/',  number=1000, normal=True,
     return Train_X, Train_Y, Valid_X, Valid_Y, Test_X, Test_Y
 
 
-class DANNDataLoader():
+class YangDataLoader():
     def __init__(self):
         # 训练参数
         batch_size = 128
@@ -126,19 +123,15 @@ class DANNDataLoader():
         normal = True  # 是否标准化
         rate = [0.7, 0.28, 0.02]  # 测试集验证集划分比例
 
-        self.x_train, self.x_train_rel, self.lab_train, self.y_train, self.x_valid, self.x_valid_rel, self.lab_valid, self.y_valid, self.x_test, self.x_test_rel, self.lab_test, self.y_test = prepro(
-            length=length,
+        self.x_train, self.y_train, self.x_valid, self.y_valid, self.x_test, self.y_test = prepro(
             number=number,
-            number_set=number,
             normal=normal,
             rate=rate,
             enc=True, enc_step=100)
+
         self.sample_true = np.ones(self.x_train.shape[0])
-        self.x_target, self.x_target_rel, self.lab_target, self.y_target, self.x_valid_target, self.x_valid_rel_target, self.lab_valid_target, self.y_valid_target, self.x_test_target, self.x_test_rel_target, self.lab_test_target, self.y_test_target = prepro(
-            dirA=r'data/Fault_data_with_lianjie_sensor_2600/',
-            length=length,
+        self.x_target, self.y_target, self.x_valid_target,  self.y_valid_target, self.x_test_target, self.y_test_target = prepro(
             number=number,
-            number_set=number,
             normal=normal,
             rate=rate,
             enc=True, enc_step=100)
@@ -160,17 +153,22 @@ class DANNDataLoader():
         self.num_train_data, self.num_valid_data, self.num_test_data = self.train_x.shape[0], self.x_valid.shape[0], \
                                                                        self.test_x.shape[0]
 
-    def get_train_batch(self, batch_size):
+    def get_pretrain_batch(self, batch_size):
         # 从训练集里随机取出 batch_size 个样本
         idx = np.random.randint(0, self.num_train_data, batch_size)
-        # train_lab为故障电池的索引,
-        return self.train_x[idx, :, :], self.train_lab[idx, :], self.train_rel[idx, :, :], self.train_y[idx, :], \
-               self.train_true[idx]
+        return self.train_x[idx, :, :], self.train_y[idx, :]
+
+    def get_train_batch(self, batch_size):
+        # 从训练集里随机取出 batch_size 个样本
+        idx = np.random.randint(0, self.domain_x.shape[0], batch_size)
+
+        return self.domain_x[idx, :, :], self.domain_lab[idx, :], self.domain_rel[idx, :, :], self.domain_y[idx, :], \
+               self.domain_true[idx]
 
     def get_valid_batch(self, batch_size):
-        # 从训练集里随机取出 batch_size 个样本
+        # 从验证集里随机取出 batch_size 个样本
         idx = np.random.randint(0, self.num_test_data, batch_size)
-        return self.x_valid[idx, :, :], self.lab_valid[idx, :]
+        return self.x_valid[idx, :, :], self.y_valid[idx, :]
 
     def get_test_batch(self, batch_size):
         # 从训练集里随机取出 batch_size 个样本
@@ -179,5 +177,4 @@ class DANNDataLoader():
                self.test_true[idx]
 
 
-prepro()
 

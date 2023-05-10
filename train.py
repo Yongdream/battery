@@ -1,14 +1,19 @@
+import os
 import torch
 import torch.nn as nn
 import torch.optim as optim
+import numpy as np
 
 from torch.optim.lr_scheduler import ExponentialLR
 from matplotlib import pyplot as plt
 from my_dataset import MyDataSet
-from utils import read_split_data, get_parameter_number
+from utils import read_split_data, get_parameter_number, delete_files
 from torch.utils.data import DataLoader
-from model.models_yz import transformer
+from model.models_yz import transformer, yang
+from torchinfo import summary
 
+from plot import ConfusionMatrix
+from sklearn.metrics import confusion_matrix
 
 
 def validate(model, val_loader, criterion, num_epochs):
@@ -59,16 +64,19 @@ def train(model, train_loader, val_loader ,criterion, optimizer, num_epochs):
         total = 0
         all_logits = []
         all_predicted_labels = []
+        all_labels = []
 
         for step, data in enumerate(train_loader, start=0):
             states, labels = data
             optimizer.zero_grad()
             logits = model(states.to(device))
+            # (128, 5)
             all_logits.append(logits)
 
             loss = criterion(logits, labels.to(device))
             predicted_labels = torch.argmax(logits, dim=1)
 
+            all_labels.append(labels)
             all_predicted_labels.append(predicted_labels)
             correct += (predicted_labels == labels.to(device)).sum().item()
             total += len(labels)
@@ -80,6 +88,17 @@ def train(model, train_loader, val_loader ,criterion, optimizer, num_epochs):
             # # t-sne图片显示
             # if epoch > (num_epochs * 0.95):
             #     tsne_visualization(logits, predicted_labels)
+        if epoch == num_epochs-1:
+            # 混淆矩阵test
+            confusion_matrix_obj = ConfusionMatrix(5, ['Cor', 'Isc', 'Noi', 'Nor', 'Sti'])
+            labels_n = np.concatenate([t.cpu().numpy() for t in all_labels])
+            predicted_labels_n = np.concatenate([t.cpu().numpy() for t in all_predicted_labels])
+            confusion_matrix_obj.update(predicted_labels_n, labels_n)
+            sk_confusion_matrix = confusion_matrix(labels_n, predicted_labels_n)
+            print('sk_confusion_matrix:\n', sk_confusion_matrix)
+            confusion_matrix_obj.plot()
+            confusion_matrix_obj.summary()
+
         epoch_loss = running_loss / len(train_loader)
         epoch_acc = correct / total 
         train_accs.append(epoch_acc)
@@ -87,7 +106,6 @@ def train(model, train_loader, val_loader ,criterion, optimizer, num_epochs):
 
         # if epoch > (num_epochs*0.9):
         #     tsne_visualization(all_logits, all_predicted_labels)
-
         # validation
         model.eval()
         running_loss = 0.0
@@ -129,7 +147,7 @@ print("using {} device.".format(device))
 
 # # Set the deletion rates for each subfolder
 # subfolders = [f.name for f in os.scandir(root) if f.is_dir()]
-# deletion_rates = [0.75, 0]
+# deletion_rates = [0.75, 0.75, 0.75, 0, 0.75]
 # delete_files(root, subfolders, deletion_rates)
 
 train_wintime_path, train_wintime_label, val_wintime_path, val_wintime_label = read_split_data(root)
@@ -142,14 +160,15 @@ val_num = len(val_data_set)
 
 
 nw = 0
-batch_size = 450
+batch_size = 256
 num_epochs = 32
-lr = 1e-5
-model = transformer().to(device)
+lr = 1e-4
+model = yang().to(device)
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters(), lr)
-lr_scheduler = ExponentialLR(optimizer, gamma=0.98)   # 定义学习率调度程序
+lr_scheduler = ExponentialLR(optimizer, gamma=0.99)   # 定义学习率调度程序
 print('Model build successfully')
+summary(model, input_size=(batch_size, 225, 20))
 
 best_acc = 0.0
 save_path = 'logs/demo.pth'
@@ -163,7 +182,7 @@ train_loader = DataLoader(train_data_set,
                           collate_fn=train_data_set.collate_fn,
                           drop_last=True)
 
-val_loader = DataLoader(val_data_set, 
+val_loader = DataLoader(val_data_set,
                         batch_size=batch_size,
                         shuffle=True,
                         pin_memory=True,
@@ -172,4 +191,3 @@ val_loader = DataLoader(val_data_set,
                         drop_last=True)
 
 train(model, train_loader, val_loader, criterion, optimizer, num_epochs)
-print(get_parameter_number(model))

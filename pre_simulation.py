@@ -7,7 +7,7 @@ import torch.nn as nn
 import matplotlib.pyplot as plt
 
 
-def signal_noise(signal, snr=20):
+def signal_noise(signal, snr=10):
     # SNR越高，说明信号的质量越好，可靠性越高.以dB为单位
     noise = np.random.randn(signal.shape[0], 1)  # 产生N(0,1)噪声数据，第二维度为1
     noise = noise - np.mean(noise)  # 均值为0
@@ -25,7 +25,7 @@ def signal_noise(signal, snr=20):
     return signal_noiset
 
 
-def signal_stick(data, sti_step=100, con_step=130, start=1):
+def signal_stick(data, sti_step=200, con_step=20, start=1):
     step = sti_step + con_step
     rounds = len(data) // step + 1
     for j in range(1, rounds):
@@ -37,7 +37,7 @@ def signal_stick(data, sti_step=100, con_step=130, start=1):
     return np.array(data)
 
 
-def simulate_noise(source_folder, target_folder, plot_image=False):
+def simulate_noise(source_folder, target_folder, plot_image=True):
     pattern = f"{source_folder}/*_Nor*"
     file_paths = glob.glob(pattern)
 

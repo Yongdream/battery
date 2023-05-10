@@ -11,6 +11,8 @@ from src.dlutils import *
 from src.constants import *
 # from src.VIT import VisualTransformer
 torch.manual_seed(1)
+
+
 ## Separate LSTM for each variable
 class LSTM_Univariate(nn.Module):
 	def __init__(self, feats):
@@ -35,6 +37,7 @@ class LSTM_Univariate(nn.Module):
 			outputs.append(output)
 		return torch.stack(outputs)
 
+
 ## Simple Multi-Head Self-Attention Model
 class Attention(nn.Module):
 	def __init__(self, feats):
@@ -53,6 +56,7 @@ class Attention(nn.Module):
 			ats = at(g.view(-1)).reshape(self.n_feats, self.n_feats)
 			g = torch.matmul(g, ats)		
 		return g, ats
+
 
 ## LSTM_AD Model
 class LSTM_AD(nn.Module):
@@ -76,6 +80,7 @@ class LSTM_AD(nn.Module):
 			out = self.fcn(out.view(-1))
 			outputs.append(2 * out.view(-1))
 		return torch.stack(outputs)
+
 
 ## DAGMM Model (ICLR 18)
 class DAGMM(nn.Module):
@@ -121,6 +126,7 @@ class DAGMM(nn.Module):
 		## Estimate
 		gamma = self.estimate(z)
 		return z_c, x_hat.view(-1), z, gamma.view(-1)
+
 
 ## OmniAnomaly Model (KDD 19)
 class OmniAnomaly(nn.Module):

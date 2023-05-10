@@ -5,11 +5,12 @@ import torch
 
 from matplotlib import pyplot as plt
 from sklearn.manifold import TSNE
+# from sklearn import confusion_matrix
 import numpy as np
 from warnings import simplefilter
 
 
-def read_split_data(root: str, val_rate: float = 0.2):
+def read_split_data(root: str, val_rate: float = 0.2, plot_image = False):
     random.seed(0)  # 保证随机结果可复现
     assert os.path.exists(root), "dataset root: {} does not exist.".format(root)
 
@@ -54,7 +55,6 @@ def read_split_data(root: str, val_rate: float = 0.2):
     print("{} states for training.".format(len(train_wintime_path)))
     print("{} states for validation.".format(len(val_wintime_path)))
 
-    plot_image = True
     if plot_image:
         #绘制每种类别个数柱状图
         plt.bar(range(len(state_class)), every_class_num, align='center')  # 将横坐标0,1,2,3,4替换为相应的类别名称
