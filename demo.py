@@ -1,3 +1,23 @@
+import torch
+import torch.nn as nn
+from utils import LabelSmoothing
+
+# 创建LabelSmoothing实例
+smoothing_factor = 0.1
+label_smoothing = LabelSmoothing(smoothing=smoothing_factor)
+
+# 生成随机输入和目标标签
+batch_size = 32
+num_classes = 10
+input_size = 100
+x = torch.randn(batch_size, input_size)
+target = torch.randint(0, num_classes, (batch_size,))
+
+# 计算损失
+loss = label_smoothing(x, target)
+
+print("Loss:", loss.item())
+
 # import numpy as np
 # import matplotlib.pyplot as plt
 #

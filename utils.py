@@ -8,6 +8,64 @@ from sklearn.manifold import TSNE
 # from sklearn import confusion_matrix
 import numpy as np
 from warnings import simplefilter
+import torch.nn as nn
+import torch.nn.functional as F
+
+from plot import ConfusionMatrix
+from sklearn.metrics import confusion_matrix
+
+
+# Label Smoothing 标签平滑
+class LabelSmoothing(nn.Module):
+    """NLL loss with label smoothing.
+    """
+    def __init__(self, smoothing=0.0):
+        """Constructor for the LabelSmoothing module.
+        :param smoothing: label smoothing factor
+        """
+        super(LabelSmoothing, self).__init__()
+        self.confidence = 1.0 - smoothing
+        self.smoothing = smoothing
+        # 此处的self.smoothing即我们的epsilon平滑参数。
+
+    def forward(self, x, target):
+        logprobs = torch.nn.functional.log_softmax(x, dim=-1)
+        nll_loss = -logprobs.gather(dim=-1, index=target.unsqueeze(1))
+        nll_loss = nll_loss.squeeze(1)
+        smooth_loss = -logprobs.mean(dim=-1)
+        loss = self.confidence * nll_loss + self.smoothing * smooth_loss
+        return loss.mean()
+
+
+class CELoss(nn.Module):
+    ''' Cross Entropy Loss with label smoothing '''
+    def __init__(self, label_smooth=None, class_num=137):
+        super().__init__()
+        self.label_smooth = label_smooth
+        self.class_num = class_num
+    def forward(self, pred, target):
+        '''
+        Args:
+            pred: prediction of model output    [N, M]
+            target: ground truth of sampler [N]
+        '''
+        eps = 1e-12
+        if self.label_smooth is not None:
+            # cross entropy loss with label smoothing
+            logprobs = F.log_softmax(pred, dim=1)	# softmax + log
+            target = F.one_hot(target, self.class_num)	# 转换成one-hot
+            # label smoothing
+            # 实现 1
+            # target = (1.0-self.label_smooth)*target + self.label_smooth/self.class_num
+            # 实现 2
+            # implement 2
+            target = torch.clamp(target.float(), min=self.label_smooth/(self.class_num-1), max=1.0-self.label_smooth)
+            loss = -1*torch.sum(target*logprobs, 1)
+        else:
+            # standard cross entropy loss
+            loss = -1.*pred.gather(1, target.unsqueeze(-1)) + torch.log(torch.exp(pred+eps).sum(dim=1))
+        return loss.mean()
+
 
 
 def read_split_data(root: str, val_rate: float = 0.2, plot_image = False):
@@ -152,4 +210,24 @@ def tsne_visualization(output, labels, perplexity=30, early_exaggeration=12.0, l
     plt.show()
 
     return output_tsne
+
+
+def plot_and_summarize_confusion_matrix(all_labels, all_predicted_labels, num_classes, class_names, title):
+    labels_n = np.concatenate([t.cpu().numpy() for t in all_labels])
+    predicted_labels_n = np.concatenate([t.cpu().numpy() for t in all_predicted_labels])
+
+    # 计算混淆矩阵
+    confusion_matrix_obj = ConfusionMatrix(num_classes, class_names, title)
+    confusion_matrix_obj.update(predicted_labels_n, labels_n)
+    sk_confusion_matrix = confusion_matrix(labels_n, predicted_labels_n)
+
+    # 打印sklearn生成的混淆矩阵
+    print('sk_confusion_matrix:\n', sk_confusion_matrix)
+
+    # 绘制混淆矩阵
+    confusion_matrix_obj.plot()
+
+    if title == "Train":
+        # 打印混淆矩阵的总结信息
+        confusion_matrix_obj.summary()
 

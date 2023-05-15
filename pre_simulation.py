@@ -37,7 +37,7 @@ def signal_stick(data, sti_step=200, con_step=20, start=1):
     return np.array(data)
 
 
-def simulate_noise(source_folder, target_folder, plot_image=True):
+def simulate_noise(source_folder, target_folder, plot_image=False):
     pattern = f"{source_folder}/*_Nor*"
     file_paths = glob.glob(pattern)
 
@@ -86,6 +86,7 @@ def simulate_stick(source_folder, target_folder, plot_image=False):
         df = pd.read_csv(file_path, header=0)
 
         col_name = df.columns[2]
+        origininf = df[df.columns[3]].values
         origin = df[col_name].values
         x_stick = signal_stick(df[col_name].values)
         df_stick = df.copy()
@@ -94,8 +95,10 @@ def simulate_stick(source_folder, target_folder, plot_image=False):
         if plot_image:
             plt.figure(figsize=(10, 6))
             start_idx, end_idx = 1000, 1600
-            plt.plot(x_stick[start_idx:end_idx])
-            plt.legend(labels=['keep_last'])
+            plt.plot(origininf[start_idx:end_idx], label='Raw')
+            plt.plot(x_stick[start_idx:end_idx], label='keep_last')
+            plt.legend()
+            # plt.legend(labels=['keep_last'])
             plt.show()
 
         file_name = os.path.basename(file_path)
@@ -109,8 +112,8 @@ def simulate_stick(source_folder, target_folder, plot_image=False):
 
 
 # 定义源文件夹路径和目标文件夹路径
-source_folder = 'data/udds'
-target_folder = 'data/udds'
+source_folder = 'data/us06'
+target_folder = 'data/us06'
 
 simulate_noise(source_folder, target_folder)
 simulate_stick(source_folder, target_folder)

@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 # 定义文件路径的起始和结束索引
 start_index = 1
-end_index = 100
+end_index = 600
 
 de_ta = end_index - start_index
 
@@ -13,7 +13,7 @@ for j in range(de_ta):
 
     # 构建当前索引对应的文件路径
     file_index = start_index + j
-    file_path = f"processed/udds/Cor/Cor_{file_index}.npy"
+    file_path = f"processed/udds/Nor/Nor_{file_index}.npy"
 
     # 检查文件是否存在
     if not os.path.exists(file_path):
@@ -46,7 +46,7 @@ for j in range(de_ta):
     plt.tight_layout()
     # plt.show()
     # 保存图像
-    plt.savefig(f'result/2Dsave/Cor/img_{file_index}.png')
+    plt.savefig(f'result/2Dsave/Nor/img_{file_index}.png')
     plt.clf()  # 清除图像，准备下一轮循环
 
     # 关闭图像

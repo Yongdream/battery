@@ -392,6 +392,81 @@ def load_data(dataset, Classification):
 
         print('preprocess ok！')
 
+    # us06 preprocess
+    elif dataset == 'us06':
+        dataset_folder = 'data/us06'
+        file_list = os.listdir(dataset_folder)
+        data_list = []
+        if Classification == 'multiple':
+            isc_count, cor_count, nor_count, noi_count, sti_count = 0, 0, 0, 0, 0
+            for filename in file_list:
+                if not filename.endswith('.csv'): continue
+                file_path = os.path.join(dataset_folder, filename)
+                values = filename.split('_')[1]
+                data = pd.read_csv(file_path, header=0)
+
+                win_data_list = sliding_window(data, 225, 10)
+
+                for i, win_data in enumerate(win_data_list, start=1):
+                    train = noemalize_matrix(win_data).astype('float')
+                    data_list.append(train)
+                    if values == 'Isc':
+                        i = i + isc_count
+                    if values == 'Cor':
+                        i = i + cor_count
+                    if values == 'Nor':
+                        i = i + nor_count
+                    if values == 'noi':
+                        i = i + noi_count
+                    if values == 'sti':
+                        i = i + sti_count
+                    save_folder = os.path.join(folder, values)
+
+                    if not os.path.exists(save_folder):
+                        os.makedirs(save_folder)
+                    save_filename = os.path.join(save_folder, f'{values}_{i}.npy')
+                    np.save(save_filename, train)
+                if values == 'Isc':
+                    isc_count += len(win_data_list)
+                elif values == 'Cor':
+                    cor_count += len(win_data_list)
+                elif values == 'Nor':
+                    nor_count += len(win_data_list)
+                elif values == 'noi':
+                    noi_count += len(win_data_list)
+                elif values == 'sti':
+                    sti_count += len(win_data_list)
+        elif Classification == 'single':
+            fault_count, nor_count = 0, 0
+            for filename in file_list:
+                if not filename.endswith('.csv'): continue
+                file_path = os.path.join(dataset_folder, filename)
+                values = filename.split('_')[1]
+                data = pd.read_csv(file_path, header=0)
+
+                win_data_list = sliding_window(data, 225, 10)
+
+                for i, win_data in enumerate(win_data_list, start=1):
+                    # train = noemalize_matrix(win_data).astype('float')
+                    train = win_data.astype('float')
+                    data_list.append(train)
+                    if values == 'Isc' or 'Cor':
+                        i = i + fault_count
+                        savename = 'fault'
+                    if values == 'Nor':
+                        i = i + nor_count
+                        savename = values
+                    save_folder = os.path.join(folder, savename)
+                    if not os.path.exists(save_folder):
+                        os.makedirs(save_folder)
+                    save_filename = os.path.join(save_folder, f'{savename}_{i}.npy')
+                    np.save(save_filename, train)
+                if values == 'Isc' or 'Cor':
+                    fault_count += len(win_data_list)
+                elif values == 'Nor':
+                    nor_count += len(win_data_list)
+
+        print('preprocess ok！')
     else:
         raise Exception(f'Not Implemented. Check one of {datasets}')
 
