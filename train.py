@@ -57,9 +57,13 @@ def train(model, train_loader, val_loader ,criterion, optimizer, num_epochs):
 
     val_losses = []
     val_accs = []
-    smoothing_factor = 0.1
-    # label_smoothing = LabelSmoothing(smoothing=smoothing_factor)
+
     loss2 = CELoss(label_smooth=0.05, class_num=5)
+
+    best_loss = float('inf')  # 初始化最小的损失值
+    best_confusion_matrix = None  # 初始化最小损失时对应的混淆矩阵
+    best_loss_val = float('inf')
+    best_confusion_matrix_val = None
     for epoch in range(num_epochs):
         # train
         model.train()
@@ -92,17 +96,23 @@ def train(model, train_loader, val_loader ,criterion, optimizer, num_epochs):
             optimizer.step()
             running_loss += loss.item()
 
+
             # # t-sne图片显示
             # if epoch > (num_epochs * 0.95):
             #     tsne_visualization(logits, predicted_labels)
-        if epoch == num_epochs - 1:
-            utils.plot_and_summarize_confusion_matrix(all_labels, all_predicted_labels,
-                                                      5, ['Cor', 'Isc', 'Noi', 'Nor', 'Sti'], title='Train')
 
         epoch_loss = running_loss / len(train_loader)
         epoch_acc = correct / total 
         train_accs.append(epoch_acc)
         train_losses.append(epoch_loss)
+
+        if epoch_loss < best_loss:
+            best_loss = epoch_loss
+            best_confusion_matrix = (all_labels, all_predicted_labels)
+
+        if epoch == num_epochs - 1:
+            utils.plot_and_summarize_confusion_matrix(best_confusion_matrix[0], best_confusion_matrix[1],
+                                                      5, ['Cor', 'Isc', 'Noi', 'Nor', 'Sti'], title='Train')
 
         # validation
         model.eval()
@@ -124,14 +134,19 @@ def train(model, train_loader, val_loader ,criterion, optimizer, num_epochs):
                 total += len(labels)
                 running_loss += loss.item()
 
-            if epoch == num_epochs - 1:
-                utils.plot_and_summarize_confusion_matrix(all_labels_v, all_predicted_labels_v, 5,
-                                                          ['Cor', 'Isc', 'Noi', 'Nor', 'Sti'], title='Valid')
 
         val_loss = running_loss / len(val_loader)
         val_acc = correct / total
         val_losses.append(val_loss)
         val_accs.append(val_acc)
+
+        if val_loss < best_loss:
+            best_loss = val_loss
+            best_confusion_matrix_val = (all_labels, all_predicted_labels)
+
+        if epoch == num_epochs - 1:
+            utils.plot_and_summarize_confusion_matrix(best_confusion_matrix_val[0], best_confusion_matrix_val[1],
+                                                      5, ['Cor', 'Isc', 'Noi', 'Nor', 'Sti'], title='Train')
 
         print("Epoch {}: Training Loss {:.4f}, Training Accuracy {:.4f}, "
               "Validation Loss {:.4f}, Validation Accuracy {:.4f}"
@@ -172,7 +187,10 @@ def train(model, train_loader, val_loader ,criterion, optimizer, num_epochs):
     return model, train_losses, train_accs, val_losses, val_accs
 
 
-root = r'processed\us06'
+# root = r'processed\udds'
+root = r'processed\fuds'
+# root = r'processed\us06'
+
 device = torch.device('cuda' if torch.cuda.is_available else 'cpu')
 print("using {} device.".format(device))
 
@@ -192,8 +210,8 @@ val_num = len(val_data_set)
 
 nw = 0
 batch_size = 128
-num_epochs = 5
-lr = 1e-3
+num_epochs = 100
+lr = 1e-2
 model = Network().to(device)
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters(), lr)

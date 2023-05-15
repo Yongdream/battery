@@ -84,7 +84,7 @@ class Network(nn.Module):
         self.conv3 = nn.Conv1d(64, 128, kernel_size=3, stride=1, padding=1)
 
         self.BN_1 = nn.BatchNorm1d(32, track_running_stats=False)
-        self.BN_2 = nn.BatchNorm1d(64)
+        self.BN_2 = nn.BatchNorm1d(64, track_running_stats=False)
 
         self.MaxPooling1D_1 = nn.MaxPool1d(kernel_size=2)
         self.MaxPooling1D_2 = nn.MaxPool1d(kernel_size=2, stride=2)
@@ -100,16 +100,16 @@ class Network(nn.Module):
         x = x + self.position_embedding     # (B, 20, 256)
 
         x = self.conv1(x)                   # (B, 64, 15)
-        x = self.BN_1(x)
+        # x = self.BN_1(x)
         x = F.relu(x)
         x = self.MaxPooling1D_1(x)          # (B, 64, 7)
-        x = self.dropout1(x)
+        # x = self.dropout1(x)
 
         x = self.conv2(x)                   # (B, 32, 7)
-        # x = self.BN_2(x)
+        x = self.BN_2(x)
         x = F.relu(x)
-        # x = self.MaxPooling1D_2(x)          # (B, 32, 3)
-        x = self.dropout2(x)
+        x = self.MaxPooling1D_2(x)          # (B, 32, 3)
+        # x = self.dropout2(x)
         x = self.conv3(x)
         x = F.relu(x)
 
