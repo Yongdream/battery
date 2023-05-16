@@ -92,7 +92,7 @@ class Network(nn.Module):
         self.dropout1 = nn.Dropout(p=0.3)  # Dropout layer 1
         self.dropout2 = nn.Dropout(p=0.3)  # Dropout layer 2
 
-        self.fc = nn.Linear(128, 5)  # Classification layer
+        self.fc = nn.Linear(64, 5)  # Classification layer
 
     def forward(self, x):
         x = x.permute(0, 2, 1).float()      # (B, 225, 20) Reshape to (B, 20, 225)
@@ -110,8 +110,7 @@ class Network(nn.Module):
         x = F.relu(x)
         x = self.MaxPooling1D_2(x)          # (B, 32, 3)
         # x = self.dropout2(x)
-        x = self.conv3(x)
-        x = F.relu(x)
+        # x = F.relu(self.conv3(x))
 
         x = torch.mean(x, dim=2)    # Global average pooling  (B, 32)
         x = self.fc(x)              # Classification layer    (B, 5)

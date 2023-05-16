@@ -43,6 +43,7 @@ class CELoss(nn.Module):
         super().__init__()
         self.label_smooth = label_smooth
         self.class_num = class_num
+
     def forward(self, pred, target):
         '''
         Args:
@@ -65,7 +66,6 @@ class CELoss(nn.Module):
             # standard cross entropy loss
             loss = -1.*pred.gather(1, target.unsqueeze(-1)) + torch.log(torch.exp(pred+eps).sum(dim=1))
         return loss.mean()
-
 
 
 def read_split_data(root: str, val_rate: float = 0.2, plot_image = False):
@@ -212,7 +212,7 @@ def tsne_visualization(output, labels, perplexity=30, early_exaggeration=12.0, l
     return output_tsne
 
 
-def plot_and_summarize_confusion_matrix(all_labels, all_predicted_labels, num_classes, class_names, title):
+def summarize_confusion_matrix(all_labels, all_predicted_labels, num_classes, class_names, title):
     labels_n = np.concatenate([t.cpu().numpy() for t in all_labels])
     predicted_labels_n = np.concatenate([t.cpu().numpy() for t in all_predicted_labels])
 
@@ -227,7 +227,7 @@ def plot_and_summarize_confusion_matrix(all_labels, all_predicted_labels, num_cl
     # 绘制混淆矩阵
     confusion_matrix_obj.plot()
 
-    if title == "Train":
-        # 打印混淆矩阵的总结信息
-        confusion_matrix_obj.summary()
+    # if title == "Train":
+    #     # 打印混淆矩阵的总结信息
+    #     confusion_matrix_obj.summary()
 

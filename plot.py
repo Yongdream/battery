@@ -17,46 +17,6 @@ class ConfusionMatrix(object):
         for p, t in zip(preds, labels):  # pred为预测结果，labels为真实标签
             self.matrix[p, t] += 1  # 根据预测结果和真实标签的值统计数量，在混淆矩阵相应位置+1
 
-    # def summary(self):  # 计算指标函数
-    #     # calculate accuracy
-    #     sum_TP = 0
-    #     n = np.sum(self.matrix)
-    #     for i in range(self.num_classes):
-    #         sum_TP += self.matrix[i, i]  # 混淆矩阵对角线的元素之和，也就是分类正确的数量
-    #     acc = sum_TP / n  # 总体准确率
-    #     print("the model accuracy is ", acc)
-    #
-    #     # kappa
-    #     sum_po = 0
-    #     sum_pe = 0
-    #     for i in range(len(self.matrix[0])):
-    #         sum_po += self.matrix[i][i]
-    #         row = np.sum(self.matrix[i, :])
-    #         col = np.sum(self.matrix[:, i])
-    #         sum_pe += row * col
-    #     po = sum_po / n
-    #     pe = sum_pe / (n * n)
-    #     # print(po, pe)
-    #     kappa = round((po - pe) / (1 - pe), 3)
-    #     # print("the model kappa is ", kappa)
-    #
-    #     # precision, recall, specificity
-    #     table = PrettyTable()  # 创建一个表格
-    #     table.field_names = ["", "Precision", "Recall", "Specificity"]
-    #     for i in range(self.num_classes):  # 精确度、召回率、特异度的计算
-    #         TP = self.matrix[i, i]
-    #         FP = np.sum(self.matrix[i, :]) - TP
-    #         FN = np.sum(self.matrix[:, i]) - TP
-    #         TN = np.sum(self.matrix) - TP - FP - FN
-    #
-    #         Precision = round(TP / (TP + FP), 3) if TP + FP != 0 else 0.
-    #         Recall = round(TP / (TP + FN), 3) if TP + FN != 0 else 0.  # 每一类准确度
-    #         Specificity = round(TN / (TN + FP), 3) if TN + FP != 0 else 0.
-    #
-    #         table.add_row([self.labels[i], Precision, Recall, Specificity])
-    #     print(table)
-    #     return str(acc)
-
     def summary(self):
         # calculate accuracy
         sum_TP = 0
@@ -99,7 +59,7 @@ class ConfusionMatrix(object):
 
     def plot(self):  # 绘制混淆矩阵
         matrix = self.matrix
-        print(matrix)
+        # print(matrix)
         plt.imshow(matrix, cmap=plt.cm.Blues)
 
         # 设置x轴坐标label

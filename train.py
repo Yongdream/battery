@@ -51,7 +51,7 @@ def validate(model, val_loader, criterion, num_epochs):
     return val_loss, val_acc
 
 
-def train(model, train_loader, val_loader ,criterion, optimizer, num_epochs):
+def train(model, train_loader, val_loader, criterion, optimizer, num_epochs):
     train_losses = []
     train_accs = []
 
@@ -65,6 +65,7 @@ def train(model, train_loader, val_loader ,criterion, optimizer, num_epochs):
     best_loss_val = float('inf')
     best_confusion_matrix_val = None
     for epoch in range(num_epochs):
+
         # train
         model.train()
         running_loss = 0.0
@@ -85,8 +86,8 @@ def train(model, train_loader, val_loader ,criterion, optimizer, num_epochs):
 
             all_logits.append(logits)
             predicted_labels = torch.argmax(logits, dim=1)  # (B)
-            loss = criterion(logits, labels.to(device))     # (B,5) (B)
-            # loss = loss2(logits, labels.to(device))
+            # loss = criterion(logits, labels.to(device))     # (B,5) (B)
+            loss = loss2(logits, labels.to(device))
 
             all_labels.append(labels)
             all_predicted_labels.append(predicted_labels)
@@ -96,8 +97,7 @@ def train(model, train_loader, val_loader ,criterion, optimizer, num_epochs):
             optimizer.step()
             running_loss += loss.item()
 
-
-            # # t-sne图片显示
+            # t-sne图片显示
             # if epoch > (num_epochs * 0.95):
             #     tsne_visualization(logits, predicted_labels)
 
@@ -111,8 +111,8 @@ def train(model, train_loader, val_loader ,criterion, optimizer, num_epochs):
             best_confusion_matrix = (all_labels, all_predicted_labels)
 
         if epoch == num_epochs - 1:
-            utils.plot_and_summarize_confusion_matrix(best_confusion_matrix[0], best_confusion_matrix[1],
-                                                      5, ['Cor', 'Isc', 'Noi', 'Nor', 'Sti'], title='Train')
+            utils.summarize_confusion_matrix(best_confusion_matrix[0], best_confusion_matrix[1], 5,
+                                             ['Cor', 'Isc', 'Noi', 'Nor', 'Sti'], title='Train')
 
         # validation
         model.eval()
@@ -123,8 +123,8 @@ def train(model, train_loader, val_loader ,criterion, optimizer, num_epochs):
             for step, data in enumerate(val_loader, start=0):
                 states, labels = data
                 logits = model(states.to(device))
-                loss = criterion(logits, labels.to(device))
-                # loss = loss2(logits, labels.to(device))
+                # loss = criterion(logits, labels.to(device))
+                loss = loss2(logits, labels.to(device))
 
                 all_labels_v.append(labels)
                 predicted_labels = torch.argmax(logits, dim=1)
@@ -134,19 +134,18 @@ def train(model, train_loader, val_loader ,criterion, optimizer, num_epochs):
                 total += len(labels)
                 running_loss += loss.item()
 
-
         val_loss = running_loss / len(val_loader)
         val_acc = correct / total
         val_losses.append(val_loss)
         val_accs.append(val_acc)
 
-        if val_loss < best_loss:
-            best_loss = val_loss
-            best_confusion_matrix_val = (all_labels, all_predicted_labels)
+        if val_loss < best_loss_val:
+            best_loss_val = val_loss
+            best_confusion_matrix_val = (all_labels_v, all_predicted_labels_v)
 
         if epoch == num_epochs - 1:
-            utils.plot_and_summarize_confusion_matrix(best_confusion_matrix_val[0], best_confusion_matrix_val[1],
-                                                      5, ['Cor', 'Isc', 'Noi', 'Nor', 'Sti'], title='Train')
+            utils.summarize_confusion_matrix(best_confusion_matrix_val[0], best_confusion_matrix_val[1], 5,
+                                             ['Cor', 'Isc', 'Noi', 'Nor', 'Sti'], title='Train')
 
         print("Epoch {}: Training Loss {:.4f}, Training Accuracy {:.4f}, "
               "Validation Loss {:.4f}, Validation Accuracy {:.4f}"
@@ -166,6 +165,11 @@ def train(model, train_loader, val_loader ,criterion, optimizer, num_epochs):
     min_val_loss = min(val_losses)
     min_val_loss_index = val_losses.index(min_val_loss)
     ax1.scatter(min_val_loss_index, min_val_loss, c='red', label='Min Validation Loss')
+    ax1.plot([min_val_loss_index, min_val_loss_index], [min_val_loss+0.01, min_val_loss], 'r--', linewidth=0.7, alpha=0.7)
+    ax1.plot([0, min_val_loss_index], [min_val_loss, min_val_loss], 'r--', linewidth=0.7, alpha=0.7)
+
+    ax1.annotate(f'({min_val_loss_index}, {min_val_loss})', xy=(min_val_loss_index, min_val_loss), xytext=(-40, 10),
+                 textcoords='offset points', arrowprops=dict(arrowstyle="->", connectionstyle="arc3"))
 
     # 绘制训练准确率和验证准确率
     ax2.plot(train_accs, label='Training Accuracy')
@@ -178,6 +182,11 @@ def train(model, train_loader, val_loader ,criterion, optimizer, num_epochs):
     max_val_acc = max(val_accs)
     max_val_acc_index = val_accs.index(max_val_acc)
     ax2.scatter(max_val_acc_index, max_val_acc, c='red', label='Max Validation Accuracy')
+    ax2.plot([max_val_acc_index, max_val_acc_index], [0.3, max_val_acc], 'r--', linewidth=0.7, alpha=0.7)
+    ax2.plot([0, max_val_acc_index], [max_val_acc, max_val_acc], 'r--', linewidth=0.7, alpha=0.7)
+
+    ax2.annotate(f'({max_val_acc_index}, {max_val_acc})', xy=(max_val_acc_index, max_val_acc), xytext=(-40, -10),
+                 textcoords='offset points', arrowprops=dict(arrowstyle="->", connectionstyle="arc3"))
 
     # 调整子图之间的间距
     plt.tight_layout()
@@ -188,8 +197,8 @@ def train(model, train_loader, val_loader ,criterion, optimizer, num_epochs):
 
 
 # root = r'processed\udds'
-root = r'processed\fuds'
-# root = r'processed\us06'
+# root = r'processed\fuds'
+root = r'processed\us06'
 
 device = torch.device('cuda' if torch.cuda.is_available else 'cpu')
 print("using {} device.".format(device))

@@ -2,8 +2,8 @@ import os
 import pandas as pd
 
 
-dataset_folder = 'dataorigin/us06'
-target_folder = 'data/us06'
+dataset_folder = 'dataorigin/udds'
+target_folder = 'data/udds'
 file_list = os.listdir(dataset_folder)
 for filename in file_list:
     if not filename.endswith('.csv'): continue
