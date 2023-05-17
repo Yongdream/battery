@@ -3,125 +3,6 @@
   <component name="CsvFileAttributes">
     <option name="attributeMap">
       <map>
-        <entry key="E:\Sail\21届论文box\电池故障数据集(保密)_wh\yz\US06_Cor_0908.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="E:\Sail\21届论文box\电池故障数据集(保密)_wh\yz\US06_Cor_0909.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="E:\Sail\21届论文box\电池故障数据集(保密)_wh\yz\US06_Cor_1009.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="E:\Sail\21届论文box\电池故障数据集(保密)_wh\yz\US06_Isc_10ohm_1009.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="E:\Sail\21届论文box\电池故障数据集(保密)_wh\yz\US06_Isc_1ohm_0907.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="E:\Sail\21届论文box\电池故障数据集(保密)_wh\yz\US06_Isc_5ohm_1008.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="E:\Sail\21届论文box\电池故障数据集(保密)_wh\yz\US06_Nor_0907.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="E:\Sail\21届论文box\电池故障数据集(保密)_wh\yz\US06_Nor_0919.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="E:\Sail\21届论文box\电池故障数据集(保密)_wh\yz\US06_Nor_0921_f.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="E:\Sail\21届论文box\电池故障数据集(保密)_wh\yz\US06_Nor_0922_f.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="E:\Sail\21届论文box\电池故障数据集(保密)_wh\yz\US06_Nor_0926.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="E:\Sail\21届论文box\电池故障数据集(保密)_wh\yz\US06_Nor_0927.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="E:\Sail\21届论文box\电池故障数据集(保密)_wh\yz\US06_Nor_0928.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="E:\Sail\21届论文box\电池故障数据集(保密)_wh\yz\US06_Nor_0929.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="E:\Sail\21届论文box\电池故障数据集(保密)_wh\yz\US06_Nor_0930.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="E:\Sail\21届论文box\电池故障数据集(保密)_wh\yz\US06_Nor_1008.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="E:\Sail\21届论文box\电池故障数据集(保密)_wh\yz\US06_Nor_1009.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
         <entry key="\data\fuds\ FUDS_noi_0704.csv">
           <value>
             <Attribute>
@@ -151,6 +32,13 @@
           </value>
         </entry>
         <entry key="\data\fuds\FUDS_Cor_0718.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\data\fuds\FUDS_Cor_temp.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />

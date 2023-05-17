@@ -1,22 +1,63 @@
-import torch
-import torch.nn as nn
-from utils import LabelSmoothing
+import numpy as np
+from torch.utils.tensorboard import SummaryWriter
 
-# 创建LabelSmoothing实例
-smoothing_factor = 0.1
-label_smoothing = LabelSmoothing(smoothing=smoothing_factor)
+writer = SummaryWriter(comment='test_tensorboard')
 
-# 生成随机输入和目标标签
-batch_size = 32
-num_classes = 10
-input_size = 100
-x = torch.randn(batch_size, input_size)
-target = torch.randint(0, num_classes, (batch_size,))
+for x in range(100):
+    writer.add_scalar('y=2x', x * 2, x)
+    writer.add_scalar('y=pow(2, x)', 2 ** x, x)
 
-# 计算损失
-loss = label_smoothing(x, target)
+    writer.add_scalars('data/scalar_group', {"xsinx": x * np.sin(x),
+                                             "xcosx": x * np.cos(x),
+                                             "arctanx": np.arctan(x)}, x)
+writer.close()
 
-print("Loss:", loss.item())
+
+# import numpy as np
+# import pandas as pd
+# import scipy.io
+#
+# # 加载MAT文件
+# data = scipy.io.loadmat('dataorigin/UDDS_2600_data_41diya_1.mat')
+#
+# # 提取数据（假设数据按列存储）
+# original_data = data['data']  # 根据MAT文件中的变量名提取数据
+#
+# # 将数据转为DataFrame
+# df = pd.DataFrame(original_data)
+#
+# # 复制后8列，并添加到原始数据的末尾
+# new_columns = df.iloc[:, -8:].copy()
+# df = pd.concat([df, new_columns], axis=1)
+#
+# # 扩展为20列（如果原始数据不足12列，可以根据需要添加适当数量的空列）
+# while df.shape[1] < 20:
+#     df[f'New Column {df.shape[1] + 1}'] = ''
+#
+# # 保存为CSV文件
+# output_path = 'data/fuds/FUDS_Cor_temp.csv'  # 输出文件的路径和名称
+# df.to_csv(output_path, index=False)
+
+
+# import torch
+# import torch.nn as nn
+# from utils import LabelSmoothing
+#
+# # 创建LabelSmoothing实例
+# smoothing_factor = 0.1
+# label_smoothing = LabelSmoothing(smoothing=smoothing_factor)
+#
+# # 生成随机输入和目标标签
+# batch_size = 32
+# num_classes = 10
+# input_size = 100
+# x = torch.randn(batch_size, input_size)
+# target = torch.randint(0, num_classes, (batch_size,))
+#
+# # 计算损失
+# loss = label_smoothing(x, target)
+#
+# print("Loss:", loss.item())
 
 # import numpy as np
 # import matplotlib.pyplot as plt

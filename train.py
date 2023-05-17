@@ -8,11 +8,13 @@ from torch.optim.lr_scheduler import ExponentialLR
 from matplotlib import pyplot as plt
 from my_dataset import MyDataSet
 import utils
-from utils import read_split_data, get_parameter_number, delete_files
+from utils import read_split_data, get_parameter_number, delete_files, ResultLogger
 from utils import LabelSmoothing, CELoss
 from torch.utils.data import DataLoader
 from model.models_yz import transformer, yang, Network
 from torchinfo import summary
+
+from torch.utils.tensorboard import SummaryWriter
 
 from plot import ConfusionMatrix
 from sklearn.metrics import confusion_matrix
@@ -54,16 +56,20 @@ def validate(model, val_loader, criterion, num_epochs):
 def train(model, train_loader, val_loader, criterion, optimizer, num_epochs):
     train_losses = []
     train_accs = []
-
     val_losses = []
     val_accs = []
-
-    loss2 = CELoss(label_smooth=0.05, class_num=5)
 
     best_loss = float('inf')  # 初始化最小的损失值
     best_confusion_matrix = None  # 初始化最小损失时对应的混淆矩阵
     best_loss_val = float('inf')
     best_confusion_matrix_val = None
+
+    # 定义当前patience计数
+    patience = 12
+    current_patience = 0
+
+    writer = SummaryWriter('./logs/to')
+
     for epoch in range(num_epochs):
 
         # train
@@ -87,7 +93,7 @@ def train(model, train_loader, val_loader, criterion, optimizer, num_epochs):
             all_logits.append(logits)
             predicted_labels = torch.argmax(logits, dim=1)  # (B)
             # loss = criterion(logits, labels.to(device))     # (B,5) (B)
-            loss = loss2(logits, labels.to(device))
+            loss = criterion(logits, labels.to(device))
 
             all_labels.append(labels)
             all_predicted_labels.append(predicted_labels)
@@ -106,13 +112,16 @@ def train(model, train_loader, val_loader, criterion, optimizer, num_epochs):
         train_accs.append(epoch_acc)
         train_losses.append(epoch_loss)
 
+        writer.add_scalar('train_acc', epoch_acc, epoch)
+        writer.add_scalar('train_loss', epoch_loss, epoch)
+
         if epoch_loss < best_loss:
             best_loss = epoch_loss
             best_confusion_matrix = (all_labels, all_predicted_labels)
 
-        if epoch == num_epochs - 1:
-            utils.summarize_confusion_matrix(best_confusion_matrix[0], best_confusion_matrix[1], 5,
-                                             ['Cor', 'Isc', 'Noi', 'Nor', 'Sti'], title='Train')
+        # if epoch == num_epochs - 1:
+        #     utils.summarize_confusion_matrix(best_confusion_matrix[0], best_confusion_matrix[1], 5,
+        #                                      ['Cor', 'Isc', 'Noi', 'Nor', 'Sti'], title='Train')
 
         # validation
         model.eval()
@@ -124,7 +133,7 @@ def train(model, train_loader, val_loader, criterion, optimizer, num_epochs):
                 states, labels = data
                 logits = model(states.to(device))
                 # loss = criterion(logits, labels.to(device))
-                loss = loss2(logits, labels.to(device))
+                loss = criterion(logits, labels.to(device))
 
                 all_labels_v.append(labels)
                 predicted_labels = torch.argmax(logits, dim=1)
@@ -139,19 +148,29 @@ def train(model, train_loader, val_loader, criterion, optimizer, num_epochs):
         val_losses.append(val_loss)
         val_accs.append(val_acc)
 
+        writer.add_scalar('Val_acc', val_acc, epoch)
+        writer.add_scalar('Val_loss', val_loss, epoch)
+
         if val_loss < best_loss_val:
             best_loss_val = val_loss
             best_confusion_matrix_val = (all_labels_v, all_predicted_labels_v)
+            current_patience = 0  # 重置耐心计数器
+        else:
+            current_patience += 1  # 验证损失没有改善，耐心计数器加1
 
-        if epoch == num_epochs - 1:
-            utils.summarize_confusion_matrix(best_confusion_matrix_val[0], best_confusion_matrix_val[1], 5,
-                                             ['Cor', 'Isc', 'Noi', 'Nor', 'Sti'], title='Train')
+        # if epoch == num_epochs - 1:
+        #     utils.summarize_confusion_matrix(best_confusion_matrix_val[0], best_confusion_matrix_val[1], 5,
+        #                                      ['Cor', 'Isc', 'Noi', 'Nor', 'Sti'], title='Train')
 
         print("Epoch {}: Training Loss {:.4f}, Training Accuracy {:.4f}, "
               "Validation Loss {:.4f}, Validation Accuracy {:.4f}"
               .format(epoch + 1, epoch_loss, epoch_acc, val_loss, val_acc))
 
-    # 创建包含两个子图的图形
+        # 判断是否达到耐心值，如果达到则停止训练
+        if current_patience >= patience:
+            print("Early stopping: Lack of improvement in loss.")
+            break
+
     fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(8, 8))
 
     # 绘制训练损失和验证损失
@@ -168,7 +187,7 @@ def train(model, train_loader, val_loader, criterion, optimizer, num_epochs):
     ax1.plot([min_val_loss_index, min_val_loss_index], [min_val_loss+0.01, min_val_loss], 'r--', linewidth=0.7, alpha=0.7)
     ax1.plot([0, min_val_loss_index], [min_val_loss, min_val_loss], 'r--', linewidth=0.7, alpha=0.7)
 
-    ax1.annotate(f'({min_val_loss_index}, {min_val_loss})', xy=(min_val_loss_index, min_val_loss), xytext=(-40, 10),
+    ax1.annotate(f'({min_val_loss_index}, {min_val_loss:.5f})', xy=(min_val_loss_index, min_val_loss), xytext=(-40, 20),
                  textcoords='offset points', arrowprops=dict(arrowstyle="->", connectionstyle="arc3"))
 
     # 绘制训练准确率和验证准确率
@@ -185,20 +204,24 @@ def train(model, train_loader, val_loader, criterion, optimizer, num_epochs):
     ax2.plot([max_val_acc_index, max_val_acc_index], [0.3, max_val_acc], 'r--', linewidth=0.7, alpha=0.7)
     ax2.plot([0, max_val_acc_index], [max_val_acc, max_val_acc], 'r--', linewidth=0.7, alpha=0.7)
 
-    ax2.annotate(f'({max_val_acc_index}, {max_val_acc})', xy=(max_val_acc_index, max_val_acc), xytext=(-40, -10),
+    ax2.annotate(f'({max_val_acc_index}, {max_val_acc:.3%})', xy=(max_val_acc_index, max_val_acc), xytext=(-40, -30),
                  textcoords='offset points', arrowprops=dict(arrowstyle="->", connectionstyle="arc3"))
 
     # 调整子图之间的间距
     plt.tight_layout()
-
-    # 显示图形
     plt.show()
-    return model, train_losses, train_accs, val_losses, val_accs
+
+    # 最佳效果的混淆矩阵
+    summary_tra = utils.summarize_confusion_matrix(best_confusion_matrix[0], best_confusion_matrix[1], 5,
+                                     ['Cor', 'Isc', 'Noi', 'Nor', 'Sti'], title='Train')
+    summary_val = utils.summarize_confusion_matrix(best_confusion_matrix_val[0], best_confusion_matrix_val[1], 5,
+                                     ['Cor', 'Isc', 'Noi', 'Nor', 'Sti'], title='Valid')
+
+    return max_val_acc, summary_val
 
 
-# root = r'processed\udds'
-# root = r'processed\fuds'
-root = r'processed\us06'
+op_mode = 'us06'
+root = os.path.join('processed', op_mode)
 
 device = torch.device('cuda' if torch.cuda.is_available else 'cpu')
 print("using {} device.".format(device))
@@ -220,16 +243,17 @@ val_num = len(val_data_set)
 nw = 0
 batch_size = 128
 num_epochs = 100
-lr = 1e-2
+lr = 1e-3
 model = Network().to(device)
-criterion = nn.CrossEntropyLoss()
+# criterion = nn.CrossEntropyLoss()
+criterion = CELoss(label_smooth=0.05, class_num=5)
 optimizer = optim.Adam(model.parameters(), lr)
 lr_scheduler = ExponentialLR(optimizer, gamma=0.95)   # 定义学习率调度程序
 print('Model build successfully')
 summary(model, input_size=(batch_size, 225, 20))
 
-best_acc = 0.0
-save_path = 'logs/demo.pth'
+model_parameters = {'num_epochs': num_epochs, 'learning_rate': lr, 'batch_size': batch_size, 'model': model,
+                    'criterion': criterion, 'optimizer': optimizer, 'lr_scheduler': lr_scheduler}
 
 
 train_loader = DataLoader(train_data_set,
@@ -248,4 +272,6 @@ val_loader = DataLoader(val_data_set,
                         collate_fn=val_data_set.collate_fn,
                         drop_last=True)
 
-train(model, train_loader, val_loader, criterion, optimizer, num_epochs)
+logger = ResultLogger(op_mode)
+best_accuracy, summary_val = train(model, train_loader, val_loader, criterion, optimizer, num_epochs)
+logger.log_best_result(best_accuracy, model_parameters, summary_val)

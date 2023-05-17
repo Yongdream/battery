@@ -81,7 +81,7 @@ class Network(nn.Module):
 
         self.conv1 = nn.Conv1d(20, 32, kernel_size=64, stride=16, padding=16)
         self.conv2 = nn.Conv1d(32, 64, kernel_size=3, stride=1, padding=1)
-        self.conv3 = nn.Conv1d(64, 128, kernel_size=3, stride=1, padding=1)
+        self.conv3 = nn.Conv1d(64, 16, kernel_size=3, stride=1, padding=1)
 
         self.BN_1 = nn.BatchNorm1d(32, track_running_stats=False)
         self.BN_2 = nn.BatchNorm1d(64, track_running_stats=False)

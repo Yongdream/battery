@@ -69,6 +69,7 @@ def convertNumpy(df):
 def sliding_window(data, window_size, stride):
     """
     将时间序列数据切分成固定大小的时间窗口。
+    滑窗从后往前滑
     :param data: 时间序列数据。
     :param window_size: 时间窗口的大小。
     :param stride: 窗口滑动的步长。
@@ -77,7 +78,7 @@ def sliding_window(data, window_size, stride):
     num_windows = (data.shape[0] - window_size) // stride + 1
     windows = np.zeros((num_windows, window_size, data.shape[1]))
 
-    for i in range(num_windows):
+    for i in range(num_windows - 1, -1, -1):
         start = i * stride
         end = start + window_size
         windows[i] = data[start:end]

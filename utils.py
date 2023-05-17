@@ -15,6 +15,9 @@ from plot import ConfusionMatrix
 from sklearn.metrics import confusion_matrix
 
 
+from datetime import datetime
+
+
 # Label Smoothing 标签平滑
 class LabelSmoothing(nn.Module):
     """NLL loss with label smoothing.
@@ -225,9 +228,49 @@ def summarize_confusion_matrix(all_labels, all_predicted_labels, num_classes, cl
     print('sk_confusion_matrix:\n', sk_confusion_matrix)
 
     # 绘制混淆矩阵
-    confusion_matrix_obj.plot()
+    summary = confusion_matrix_obj.plot()
 
     # if title == "Train":
     #     # 打印混淆矩阵的总结信息
     #     confusion_matrix_obj.summary()
+    return summary
+
+
+class ResultLogger:
+    def __init__(self, op_mode):
+        self.op_mode = op_mode
+        self.log_dir = os.path.join('logs', self.op_mode)
+
+        self.log_file = os.path.join(self.log_dir, 'best_result.log')
+
+        if not os.path.exists(self.log_file):
+            if not os.path.exists(self.log_dir):
+                os.makedirs(self.log_dir)
+            with open(self.log_file, 'w') as f:
+                f.write('')  # Creating an empty file
+
+    def log_best_result(self, acc, model_params, summary_val):
+        with open(self.log_file, 'r') as f:
+            lines = f.readlines()
+
+        best_acc = 0.0
+        for line in lines:
+            if line.startswith('Best Accuracy:'):
+                best_acc = float(line.split(':')[1].strip())
+                break
+
+        if acc > best_acc:
+            with open(self.log_file, 'w') as f:
+                f.write(f'Operating conditions: {self.op_mode}\n')
+                f.write(f'Best Accuracy: {acc}\n')
+                f.write('Model Parameters:\n')
+                for param_name, param_value in model_params.items():
+                    f.write(f'  {param_name}: {param_value}\n')
+                f.write(f'summary: {summary_val}\n')
+
+        print(self.op_mode + " success!")
+
+
+
+
 
