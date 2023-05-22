@@ -62,10 +62,12 @@ class ConfusionMatrix(object):
     def plot(self):  # 绘制混淆矩阵
         matrix = self.matrix
         # print(matrix)
+        # 计算每一类的比率
+        class_ratios = matrix / matrix.sum(axis=0, keepdims=True)
         acc, summary = self.summary()
         summary += "confusion_matrix:" + "\n" + str(matrix)
 
-        plt.imshow(matrix, cmap=plt.cm.Blues)
+        plt.imshow(class_ratios, cmap=plt.cm.Purples)
 
         # 设置x轴坐标label
         plt.xticks(range(self.num_classes), self.labels, rotation=45)
@@ -78,15 +80,24 @@ class ConfusionMatrix(object):
         plt.title(self.title + ' Confusion matrix (acc=' + acc + ')')
 
         # 在图中标注数量/概率信息
-        thresh = matrix.max() / 2
+        thresh = class_ratios.max() / 2
         for x in range(self.num_classes):
             for y in range(self.num_classes):
                 # 注意这里的matrix[y, x]不是matrix[x, y]
                 info = int(matrix[y, x])
-                plt.text(x, y, info,
-                         verticalalignment='center',
-                         horizontalalignment='center',
-                         color="white" if info > thresh else "black")
+                ratio = class_ratios[y, x]
+                if ratio > 0:
+                    plt.text(x, y, f"{info}\n({ratio:.2%})",
+                             verticalalignment='center',
+                             horizontalalignment='center',
+                             color="white" if ratio > thresh else "black",
+                             fontsize=8)  # 标注文字大小为8
+                else:
+                    plt.text(x, y, f"{info}",
+                             verticalalignment='center',
+                             horizontalalignment='center',
+                             color="white" if ratio > thresh else "black",
+                             fontsize=8)  # 标注文字大小为8
         plt.tight_layout()
         plt.show()
         return summary

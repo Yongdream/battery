@@ -3,6 +3,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 import numpy as np
+from datetime import datetime
 
 from torch.optim.lr_scheduler import ExponentialLR
 from matplotlib import pyplot as plt
@@ -16,41 +17,49 @@ from torchinfo import summary
 
 from torch.utils.tensorboard import SummaryWriter
 
-from plot import ConfusionMatrix
-from sklearn.metrics import confusion_matrix
+import argparse
+
+args = None
 
 
-def validate(model, val_loader, criterion, num_epochs):
-    val_losses = []
-    val_accs = []
-    for epoch in range(num_epochs):
-        model.eval()
-        running_loss = 0.0
-        correct = 0
-        total = 0
-        with torch.no_grad():
-            for step, data in enumerate(val_loader, start=0):
-                states, labels = data
-                logits = model(states.to(device))
-                loss = criterion(logits, labels.to(device))
-                predicted_labels = torch.argmax(logits, dim=1)
-                correct += (predicted_labels == labels.to(device)).sum().item()
-                total += len(labels)
-                running_loss += loss.item()
-        val_loss = running_loss / len(val_loader)
-        val_acc = correct / total
+def parse_args():
+    parser = argparse.ArgumentParser(description='Train')
 
-        val_losses.append(val_loss)
-        val_accs.append(val_acc)
-        print("Validation Loss {:.4f}, Validation Accuracy {:.4f}".format(val_loss, val_acc))
+    # model and data parameters
+    parser.add_argument('--model_name', type=str, default='Network', help='the name of the model')
+    parser.add_argument('--data_name', type=str, default='udds', help='the name of the data')
+    parser.add_argument('--data_dir', type=str, default='processed/udds', help='the directory of the data')
 
-    plt.plot(val_losses, label='validation loss')
-    plt.legend()
-    plt.show()
-    plt.plot(val_accs, label='validation accuracy')
-    plt.legend()
-    plt.show()
-    return val_loss, val_acc
+    parser.add_argument('--transfer_task', type=list, default=[[0], [1]], help='transfer learning tasks')
+    parser.add_argument('--normlizetype', type=str, default='mean-std', help='nomalization type')
+
+    # adabn parameters
+    parser.add_argument('--adabn', type=bool, default=True, help='whether using adabn')
+    parser.add_argument('--eval_all', type=bool, default=False, help='whether using all samples to update the results')
+    parser.add_argument('--adabn_epochs', type=int, default=3, help='the number of training process')
+
+    # training parameters
+    parser.add_argument('--cuda_device', type=str, default='0', help='assign device')
+    parser.add_argument('--checkpoint_dir', type=str, default='./checkpoint', help='the directory to save the model')
+    parser.add_argument("--pretrained", type=bool, default=False, help='whether to load the pretrained model')
+    parser.add_argument('--batch_size', type=int, default=64, help='batchsize of the training process')
+    parser.add_argument('--num_workers', type=int, default=0, help='the number of training process')
+
+    # optimization information
+    parser.add_argument('--opt', type=str, choices=['sgd', 'adam'], default='adam', help='the optimizer')
+    parser.add_argument('--lr', type=float, default=1e-3, help='the initial learning rate')
+    parser.add_argument('--momentum', type=float, default=0.9, help='the momentum for sgd')
+    parser.add_argument('--weight-decay', type=float, default=1e-5, help='the weight decay')
+    parser.add_argument('--lr_scheduler', type=str, choices=['step', 'exp', 'stepLR', 'fix'], default='step', help='the learning rate schedule')
+    parser.add_argument('--gamma', type=float, default=0.1, help='learning rate scheduler parameter for step and exp')
+    parser.add_argument('--steps', type=str, default='150, 250', help='the learning rate decay for step and stepLR')
+
+    # save, load and display information
+    parser.add_argument('--max_epoch', type=int, default=128, help='max number of epoch')
+    parser.add_argument('--print_step', type=int, default=600, help='the interval of log training information')
+
+    args = parser.parse_args()
+    return args
 
 
 def train(model, train_loader, val_loader, criterion, optimizer, num_epochs):
@@ -220,58 +229,66 @@ def train(model, train_loader, val_loader, criterion, optimizer, num_epochs):
     return max_val_acc, summary_val
 
 
-op_mode = 'us06'
-root = os.path.join('processed', op_mode)
+if __name__ == '__main__':
+    args = parse_args()
+    os.environ['CUDA_VISIBLE_DEVICES'] = args.cuda_device.strip()
 
-device = torch.device('cuda' if torch.cuda.is_available else 'cpu')
-print("using {} device.".format(device))
+    # Prepare the saving path for the model
+    sub_dir = args.model_name + '_' + datetime.strftime(datetime.now(), '%m%d-%H%M%S')
+    save_dir = os.path.join(args.checkpoint_dir, sub_dir)
+    if not os.path.exists(save_dir):
+        os.makedirs(save_dir)
 
-# # Set the deletion rates for each subfolder
-# subfolders = [f.name for f in os.scandir(root) if f.is_dir()]
-# deletion_rates = [0.75, 0.75, 0.75, 0, 0.75]
-# delete_files(root, subfolders, deletion_rates)
+    op_mode = args.data_name
+    root = os.path.join('processed', op_mode)
 
-train_wintime_path, train_wintime_label, val_wintime_path, val_wintime_label = read_split_data(root)
-train_data_set = MyDataSet(timeWin_path=train_wintime_path,
-                           timeWin_class=train_wintime_label)
+    device = torch.device('cuda' if torch.cuda.is_available else 'cpu')
+    print("using {} device.".format(device))
 
-val_data_set = MyDataSet(timeWin_path=val_wintime_path,
-                         timeWin_class=val_wintime_label)
-val_num = len(val_data_set)
+    # # Set the deletion rates for each subfolder
+    # subfolders = [f.name for f in os.scandir(root) if f.is_dir()]
+    # deletion_rates = [0.75, 0.75, 0.75, 0, 0.75]
+    # delete_files(root, subfolders, deletion_rates)
 
+    train_wintime_path, train_wintime_label, val_wintime_path, val_wintime_label = read_split_data(root)
+    train_data_set = MyDataSet(timeWin_path=train_wintime_path,
+                               timeWin_class=train_wintime_label)
 
-nw = 0
-batch_size = 128
-num_epochs = 100
-lr = 1e-3
-model = Network().to(device)
-# criterion = nn.CrossEntropyLoss()
-criterion = CELoss(label_smooth=0.05, class_num=5)
-optimizer = optim.Adam(model.parameters(), lr)
-lr_scheduler = ExponentialLR(optimizer, gamma=0.95)   # 定义学习率调度程序
-print('Model build successfully')
-summary(model, input_size=(batch_size, 225, 20))
+    val_data_set = MyDataSet(timeWin_path=val_wintime_path,
+                             timeWin_class=val_wintime_label)
+    val_num = len(val_data_set)
 
-model_parameters = {'num_epochs': num_epochs, 'learning_rate': lr, 'batch_size': batch_size, 'model': model,
-                    'criterion': criterion, 'optimizer': optimizer, 'lr_scheduler': lr_scheduler}
+    nw = args.num_workers
+    batch_size = args.batch_size
+    num_epochs = args.max_epoch
+    lr = args.lr
+    model = Network().to(device)
+    # criterion = nn.CrossEntropyLoss()
+    criterion = CELoss(label_smooth=0.05, class_num=5)
+    optimizer = optim.Adam(model.parameters(), lr)
+    lr_scheduler = ExponentialLR(optimizer, gamma=0.95)   # 定义学习率调度程序
+    print('Model build successfully')
+    summary(model, input_size=(batch_size, 225, 20))
 
+    model_parameters = {'num_epochs': num_epochs, 'learning_rate': lr, 'batch_size': batch_size, 'model': model,
+                        'criterion': criterion, 'optimizer': optimizer, 'lr_scheduler': lr_scheduler}
 
-train_loader = DataLoader(train_data_set,
-                          batch_size=batch_size,
-                          shuffle=True,
-                          pin_memory=True,
-                          num_workers=nw,
-                          collate_fn=train_data_set.collate_fn,
-                          drop_last=True)
+    train_loader = DataLoader(train_data_set,
+                              batch_size=batch_size,
+                              shuffle=True,
+                              pin_memory=True,
+                              num_workers=nw,
+                              collate_fn=train_data_set.collate_fn,
+                              drop_last=True)
 
-val_loader = DataLoader(val_data_set,
-                        batch_size=batch_size,
-                        shuffle=True,
-                        pin_memory=True,
-                        num_workers=nw,
-                        collate_fn=val_data_set.collate_fn,
-                        drop_last=True)
+    val_loader = DataLoader(val_data_set,
+                            batch_size=batch_size,
+                            shuffle=True,
+                            pin_memory=True,
+                            num_workers=nw,
+                            collate_fn=val_data_set.collate_fn,
+                            drop_last=True)
 
-logger = ResultLogger(op_mode)
-best_accuracy, summary_val = train(model, train_loader, val_loader, criterion, optimizer, num_epochs)
-logger.log_best_result(best_accuracy, model_parameters, summary_val)
+    logger = ResultLogger(op_mode)
+    best_accuracy, summary_val = train(model, train_loader, val_loader, criterion, optimizer, num_epochs)
+    logger.log_best_result(best_accuracy, model_parameters, summary_val)

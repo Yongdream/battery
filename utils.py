@@ -230,9 +230,6 @@ def summarize_confusion_matrix(all_labels, all_predicted_labels, num_classes, cl
     # 绘制混淆矩阵
     summary = confusion_matrix_obj.plot()
 
-    # if title == "Train":
-    #     # 打印混淆矩阵的总结信息
-    #     confusion_matrix_obj.summary()
     return summary
 
 
