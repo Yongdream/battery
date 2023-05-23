@@ -100,7 +100,7 @@ class Network(nn.Module):
         self.fc = nn.Linear(64, out_channel)  # Classification layer
 
     def forward(self, x):
-        # x = x.permute(0, 2, 1).float()      # (B, 225, 20) Reshape to (B, 20, 225)
+        # x = x.permute(0, 2, 1).float()      # (B, 20, 225)
         x = self.patch_embedding(x)         # (B, 20, 256)
         x = x + self.position_embedding     # (B, 20, 256)
 

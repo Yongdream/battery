@@ -11,8 +11,10 @@ from torch.utils.tensorboard import SummaryWriter
 
 import datasets
 import model
+from torchinfo import summary
 
 from utlis.utils import CELoss
+from utlis.utils import summarize_confusion_matrix
 
 
 def apply_dropout(m):
@@ -67,6 +69,10 @@ class TrainUtils(object):
         self.model = getattr(model, args.model_name)(args.pretrained)
         self.model.fc = torch.nn.Linear(self.model.fc.in_features, Dataset.num_classes)
 
+        if args.adabn:
+            self.model_eval = getattr(model, args.model_name)(args.pretrained)
+            self.model_eval.fc = torch.nn.Linear(self.model_eval.fc.in_features, Dataset.num_classes)
+
         # torch.nn.DataParallel 用于在多个 GPU 上同时运行模型的模块
         if self.device_count > 1:
             self.model = torch.nn.DataParallel(self.model)
@@ -112,6 +118,9 @@ class TrainUtils(object):
         else:
             raise Exception("Criterion not implement")
 
+        print('Model build successfully')
+        summary(self.model, input_size=(args.batch_size, 20, 225))
+
     def train(self):
         """
         Training process
@@ -130,7 +139,7 @@ class TrainUtils(object):
         best_confusion_matrix_val = None
 
         # 定义当前patience计数
-        patience = 12
+        patience = args.patience
         current_patience = 0
 
         step = 0
@@ -157,6 +166,9 @@ class TrainUtils(object):
                 epoch_start = time.time()
                 epoch_acc = 0
                 epoch_loss = 0.0
+
+                all_pred_labels = []
+                all_true_labels = []
 
                 # Set model to train mode or test mode
                 if phase != 'target_val':
@@ -213,6 +225,9 @@ class TrainUtils(object):
                         epoch_loss += loss_temp
                         epoch_acc += correct
 
+                        all_true_labels.append(labels)
+                        all_pred_labels.append(pred)
+
                         # Calculate the training information
                         if phase == 'source_train':
                             # backward
@@ -253,7 +268,9 @@ class TrainUtils(object):
                 logging.info('Epoch: {} {}-Loss: {:.4f} {}-Acc: {:.4f}, Cost {:.1f} sec'.format(
                     epoch, phase, epoch_loss, phase, epoch_acc, time.time() - epoch_start
                     ))
-                print('1')
+
+                writer.add_scalar(phase+'-acc', epoch_acc, epoch)
+                writer.add_scalar(phase+'-loss', epoch_loss, epoch)
 
                 # save the model
                 if phase == 'target_val':
@@ -265,3 +282,22 @@ class TrainUtils(object):
                         logging.info("save best model epoch {}, acc {:.4f}".format(epoch, epoch_acc))
                         torch.save(model_state_dic,
                                    os.path.join(self.save_dir, '{}-{:.4f}-best_model.pth'.format(epoch, best_acc)))
+                        current_patience = 0  # 重置耐心计数器
+
+                        best_confusion_matrix_val = (all_true_labels, all_pred_labels)
+
+                    else:
+                        current_patience += 1  # 验证损失没有改善，耐心计数器加1
+
+            # 判断是否达到耐心值，如果达到则停止训练
+            if current_patience >= patience:
+                print("Early stopping: Lack of improvement in loss.")
+                writer.close()
+                break
+
+        summary_confusion = summarize_confusion_matrix(best_confusion_matrix_val[0], best_confusion_matrix_val[1], 5,
+                                                       ['Cor', 'Isc', 'Noi', 'Nor', 'Sti'], title='Target_Valid')
+        logging.info(summary_confusion)
+        writer.close()
+
+
