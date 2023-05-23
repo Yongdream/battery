@@ -1,3 +1,5 @@
+import warnings
+
 import torch.nn as nn
 import torch
 import torch.nn.functional as F
@@ -72,10 +74,13 @@ class transformer(nn.Module):
 
 
 class Network(nn.Module):
-    def __init__(self):
+    def __init__(self, pretrained=False, in_channel=225, out_channel=10):
         super(Network, self).__init__()
 
-        self.patch_embedding = nn.Linear(225, 256)
+        if pretrained:
+            warnings.warn("Pretrained model is not available")
+
+        self.patch_embedding = nn.Linear(in_channel, 256)
         self.position_embedding = nn.Parameter(torch.FloatTensor(torch.randn([1, 20, 256])))
         # Position embedding
 
@@ -92,10 +97,10 @@ class Network(nn.Module):
         self.dropout1 = nn.Dropout(p=0.3)  # Dropout layer 1
         self.dropout2 = nn.Dropout(p=0.3)  # Dropout layer 2
 
-        self.fc = nn.Linear(64, 5)  # Classification layer
+        self.fc = nn.Linear(64, out_channel)  # Classification layer
 
     def forward(self, x):
-        x = x.permute(0, 2, 1).float()      # (B, 225, 20) Reshape to (B, 20, 225)
+        # x = x.permute(0, 2, 1).float()      # (B, 225, 20) Reshape to (B, 20, 225)
         x = self.patch_embedding(x)         # (B, 20, 256)
         x = x + self.position_embedding     # (B, 20, 256)
 

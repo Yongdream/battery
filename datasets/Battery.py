@@ -25,7 +25,7 @@ def get_files(n):
         state = WS[n[w]]
         for i in tqdm(range(len(BAT_state))):
             # 构建搜索路径
-            search_path = os.path.join("..", "processed", state, BAT_state[i], "*")
+            search_path = os.path.join(".", "processed", state, BAT_state[i], "*")
 
             # 使用glob模块搜索匹配的文件
             file_list = [file_path for file_path in glob.glob(search_path) if file_path.endswith(".npy")]
@@ -89,6 +89,6 @@ class Battery(object):
             return source_train, source_val, target_val
 
 
-data_dir = 'E:/Galaxy/yang7hi_battery/processed'
-battery = Battery(data_dir, transfer_task=[[0], [1]])
-battery.data_split()
+# data_dir = 'E:/Galaxy/yang7hi_battery/processed'
+# battery = Battery(data_dir, transfer_task=[[0], [1]])
+# battery.data_split()

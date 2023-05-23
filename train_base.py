@@ -1,18 +1,19 @@
+import logging
+from utlis.train_utils_base import TrainUtils
 import os
 import torch
-import torch.nn as nn
 import torch.optim as optim
-import numpy as np
 from datetime import datetime
 
 from torch.optim.lr_scheduler import ExponentialLR
 from matplotlib import pyplot as plt
 from my_dataset import MyDataSet
-import utils
-from utils import read_split_data, get_parameter_number, delete_files, ResultLogger
-from utils import LabelSmoothing, CELoss
+from utlis import utils
+from utlis.utils import read_split_data, ResultLogger
+from utlis.utils import CELoss
+from utlis.logger import setlogger
 from torch.utils.data import DataLoader
-from model.models_yz import transformer, yang, Network
+from model.models_yz import Network
 from torchinfo import summary
 
 from torch.utils.tensorboard import SummaryWriter
@@ -27,14 +28,14 @@ def parse_args():
 
     # model and data parameters
     parser.add_argument('--model_name', type=str, default='Network', help='the name of the model')
-    parser.add_argument('--data_name', type=str, default='udds', help='the name of the data')
-    parser.add_argument('--data_dir', type=str, default='processed/udds', help='the directory of the data')
+    parser.add_argument('--data_name', type=str, default='Battery', help='the name of the data')
+    parser.add_argument('--data_dir', type=str, default='E:/Galaxy/yang7hi_battery/processed', help='the directory of the data')
 
     parser.add_argument('--transfer_task', type=list, default=[[0], [1]], help='transfer learning tasks')
     parser.add_argument('--normlizetype', type=str, default='mean-std', help='nomalization type')
 
     # adabn parameters
-    parser.add_argument('--adabn', type=bool, default=True, help='whether using adabn')
+    parser.add_argument('--adabn', type=bool, default=False, help='whether using adabn')            # Adabn 批量归一化
     parser.add_argument('--eval_all', type=bool, default=False, help='whether using all samples to update the results')
     parser.add_argument('--adabn_epochs', type=int, default=3, help='the number of training process')
 
@@ -45,17 +46,21 @@ def parse_args():
     parser.add_argument('--batch_size', type=int, default=64, help='batchsize of the training process')
     parser.add_argument('--num_workers', type=int, default=0, help='the number of training process')
 
+    parser.add_argument('--patience', type=int, default=12, help='Early Stopping')
+
     # optimization information
     parser.add_argument('--opt', type=str, choices=['sgd', 'adam'], default='adam', help='the optimizer')
     parser.add_argument('--lr', type=float, default=1e-3, help='the initial learning rate')
     parser.add_argument('--momentum', type=float, default=0.9, help='the momentum for sgd')
     parser.add_argument('--weight-decay', type=float, default=1e-5, help='the weight decay')
-    parser.add_argument('--lr_scheduler', type=str, choices=['step', 'exp', 'stepLR', 'fix'], default='step', help='the learning rate schedule')
-    parser.add_argument('--gamma', type=float, default=0.1, help='learning rate scheduler parameter for step and exp')
+    parser.add_argument('--lr_scheduler', type=str, choices=['step', 'exp', 'stepLR', 'fix'], default='exp', help='the learning rate schedule')
+    parser.add_argument('--gamma', type=float, default=0.95, help='learning rate scheduler parameter for step and exp')
     parser.add_argument('--steps', type=str, default='150, 250', help='the learning rate decay for step and stepLR')
 
+    parser.add_argument('--criterion', type=str,choices=['Entropy', 'CeLoss'], default='CeLoss', help='')
+
     # save, load and display information
-    parser.add_argument('--max_epoch', type=int, default=128, help='max number of epoch')
+    parser.add_argument('--max_epoch', type=int, default=10, help='max number of epoch')
     parser.add_argument('--print_step', type=int, default=600, help='the interval of log training information')
 
     args = parser.parse_args()
@@ -222,9 +227,9 @@ def train(model, train_loader, val_loader, criterion, optimizer, num_epochs):
 
     # 最佳效果的混淆矩阵
     summary_tra = utils.summarize_confusion_matrix(best_confusion_matrix[0], best_confusion_matrix[1], 5,
-                                     ['Cor', 'Isc', 'Noi', 'Nor', 'Sti'], title='Train')
+                                                   ['Cor', 'Isc', 'Noi', 'Nor', 'Sti'], title='Train')
     summary_val = utils.summarize_confusion_matrix(best_confusion_matrix_val[0], best_confusion_matrix_val[1], 5,
-                                     ['Cor', 'Isc', 'Noi', 'Nor', 'Sti'], title='Valid')
+                                                   ['Cor', 'Isc', 'Noi', 'Nor', 'Sti'], title='Valid')
 
     return max_val_acc, summary_val
 
@@ -238,6 +243,17 @@ if __name__ == '__main__':
     save_dir = os.path.join(args.checkpoint_dir, sub_dir)
     if not os.path.exists(save_dir):
         os.makedirs(save_dir)
+
+    # set the logger
+    setlogger(os.path.join(save_dir, 'train.log'))
+
+    # save the args
+    for k, v in args.__dict__.items():
+        logging.info("{}: {}".format(k, v))
+
+    trainer = TrainUtils(args, save_dir)
+    trainer.setup()
+    trainer.train()
 
     op_mode = args.data_name
     root = os.path.join('processed', op_mode)

@@ -80,10 +80,10 @@ def read_split_data(root: str, val_rate: float = 0.2, plot_image = False):
 
     class_indices = dict((k, v) for v, k in enumerate(state_class))
     json_str = json.dumps(dict((val, key) for key, val in class_indices.items()), indent=4)
-    with open('class_indices.json', 'w') as json_file:
+    with open('../class_indices.json', 'w') as json_file:
         json_file.write(json_str)
         
-    json_path = os.path.abspath('class_indices.json')
+    json_path = os.path.abspath('../class_indices.json')
     print('class_indices.json的绝对路径：', json_path)
 
     train_wintime_path = []
@@ -236,7 +236,7 @@ def summarize_confusion_matrix(all_labels, all_predicted_labels, num_classes, cl
 class ResultLogger:
     def __init__(self, op_mode):
         self.op_mode = op_mode
-        self.log_dir = os.path.join('logs', self.op_mode)
+        self.log_dir = os.path.join('../logs', self.op_mode)
 
         self.log_file = os.path.join(self.log_dir, 'best_result.log')
 
