@@ -20,7 +20,7 @@ def parse_args():
     parser.add_argument('--data_name', type=str, default='Battery', help='the name of the data')
     parser.add_argument('--data_dir', type=str, default='E:/Galaxy/yang7hi_battery/processed', help='the directory of the data')
 
-    parser.add_argument('--transfer_task', type=list, default=[[1], [2]], help='transfer learning tasks')
+    parser.add_argument('--transfer_task', type=list, default=[[2], [1]], help='transfer learning tasks')
     parser.add_argument('--normlizetype', type=str, default='mean-std', help='nomalization type')
 
     # adabn parameters
@@ -29,10 +29,10 @@ def parse_args():
     parser.add_argument('--adabn_epochs', type=int, default=3, help='the number of training process')
 
     # training parameters
-    parser.add_argument('--cuda_device', type=str, default='0', help='assign device')
+    parser.add_argument('--cuda_device', type=str, default='3', help='assign device')
     parser.add_argument('--checkpoint_dir', type=str, default='./checkpoint', help='the directory to save the model')
     parser.add_argument("--pretrained", type=bool, default=False, help='whether to load the pretrained model')
-    parser.add_argument('--batch_size', type=int, default=128, help='batchsize of the training process')
+    parser.add_argument('--batch_size', type=int, default=512, help='batchsize of the training process')
     parser.add_argument('--num_workers', type=int, default=0, help='the number of training process')
 
     parser.add_argument('--patience', type=int, default=50, help='Early Stopping')
@@ -64,8 +64,8 @@ def parse_args():
     parser.add_argument('--criterion', type=str, choices=['Entropy', 'CeLoss'], default='CeLoss', help='')
 
     # save, load and display information
-    parser.add_argument('--middle_epoch', type=int, default=20, help='max number of epoch')
-    parser.add_argument('--max_epoch', type=int, default=128, help='max number of epoch')
+    parser.add_argument('--middle_epoch', type=int, default=50, help='max number of epoch')
+    parser.add_argument('--max_epoch', type=int, default=129, help='max number of epoch')
     parser.add_argument('--print_step', type=int, default=600, help='the interval of log training information')
 
     args = parser.parse_args()

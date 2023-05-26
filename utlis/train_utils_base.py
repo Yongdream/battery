@@ -35,6 +35,7 @@ class TrainUtils(object):
         self.args = args
         self.save_dir = save_dir
 
+        print(torch.cuda.is_available())
         # Consider the gpu or cpu condition
         if torch.cuda.is_available():
             self.device = torch.device("cuda")
