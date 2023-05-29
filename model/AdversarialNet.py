@@ -2,18 +2,21 @@ from torch import nn
 import numpy as np
 
 
+# # 计算系数的函数，用于计算对抗网络中的权重系数
 def calc_coeff(iter_num, high=1.0, low=0.0, alpha=10.0, max_iter=10000.0):
     return np.float(2.0 * (high - low) / (1.0 + np.exp(-alpha * iter_num / max_iter)) - (high - low) + low)
 
 
+# GRL（域逆向层）的hook函数，用于反向传播时对梯度进行处理
 def grl_hook(coeff):
     def fun1(grad):
         return -coeff * grad.clone()
     return fun1
 
 
+# 对抗网络类
 class AdversarialNet(nn.Module):
-    def __init__(self, in_feature, hidden_size,max_iter=10000.0, trade_off_adversarial='Step', lam_adversarial=1.0):
+    def __init__(self, in_feature, hidden_size, max_iter=10000.0, trade_off_adversarial='Step', lam_adversarial=1.0):
         super(AdversarialNet, self).__init__()
         self.ad_layer1 = nn.Sequential(
             nn.Linear(in_feature, hidden_size),
@@ -40,6 +43,8 @@ class AdversarialNet(nn.Module):
     def forward(self, x):
         if self.training:
             self.iter_num += 1
+
+        # 根据设定的权重计算方式选择不同的权重系数
         if self.trade_off_adversarial == 'Cons':
             coeff = self.lam_adversarial
         elif self.trade_off_adversarial == 'Step':

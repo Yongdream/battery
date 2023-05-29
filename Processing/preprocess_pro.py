@@ -44,7 +44,7 @@ def extract_features(data):
     max_abs_cum_change_rate = np.max(abs_cum_change_rate, axis=1, keepdims=True)
     max_abs_cum_change_rate = np.insert(max_abs_cum_change_rate, 0, 0, axis=0)
 
-    features = np.hstack((mean, var, max_abs_cum_change_rate))
+    features = np.hstack((data, mean, var, max_abs_cum_change_rate))
     return features
 
 
@@ -69,7 +69,7 @@ def preprocess_dataset(dataset_folder, Classification, folder):
         values = filename.split('_')[1]
         data = pd.read_csv(file_path, header=0)
 
-        win_data_list = sliding_window(data, 225, 10)
+        win_data_list = sliding_window(data, 225, 5)
 
         for i, win_data in enumerate(win_data_list, start=1):
             train = normalize_matrix(win_data).astype('float')
@@ -121,7 +121,7 @@ def preprocess_dataset(dataset_folder, Classification, folder):
             elif values == 'Nor':
                 nor_count += len(win_data_list)
 
-    print('preprocess ok！')
+    print(f'{dataset_folder} {Classification} preprocess ok！')
 
 
 if __name__ == '__main__':

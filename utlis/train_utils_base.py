@@ -35,7 +35,7 @@ class TrainUtils(object):
         self.args = args
         self.save_dir = save_dir
 
-        print(torch.cuda.is_available())
+        # print(torch.cuda.is_available())
         # Consider the gpu or cpu condition
         if torch.cuda.is_available():
             self.device = torch.device("cuda")
@@ -225,7 +225,7 @@ class TrainUtils(object):
             raise Exception("Criterion not implement")
 
         print('Model build successfully')
-        summary(self.model, input_size=(args.batch_size, 20, 225))
+        summary(self.model, input_size=(args.batch_size, 23, 225))
 
     def train(self):
         """
@@ -249,7 +249,10 @@ class TrainUtils(object):
 
         iter_num = 0
         sub_dir = datetime.strftime(datetime.now(), '%m%d-%H%M%S')
-        writer = SummaryWriter(f'./logs/to_{sub_dir}')
+        # writer = SummaryWriter(f'./logs/to_{sub_dir}')
+        if isinstance(args.transfer_task[0], str):
+           args.transfer_task = eval("".join(args.transfer_task))
+        writer = SummaryWriter(f'./logs/{args.transfer_task[0]}-{args.transfer_task[1]}{sub_dir}')
 
         for epoch in range(self.start_epoch, args.max_epoch):
 
