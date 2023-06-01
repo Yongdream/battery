@@ -528,7 +528,7 @@ class TrainUtils(object):
                                                         best_confusion_matrix_val[1], 5,
                                                         ['Cor', 'Isc', 'Noi', 'Nor', 'Sti'],
                                                         title='Target_Valid')
-        plot_3D(source_data_best, source_label_best, target_data_best, target_label_best, classes)
+        plot_2D(source_data_best, source_label_best, target_data_best, target_label_best, classes)
         logging.info(summary_confusion)
         writer.close()
 

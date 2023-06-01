@@ -64,7 +64,7 @@ def plot_3D(source_data, source_label, target_data, target_label, classes):
 
 # 生成源域数据
 # np.random.seed(10)
-num_samples = 1024
+num_samples = 128
 feature = 128
 source_data, source_label = make_blobs(n_samples=num_samples, centers=5, n_features=256, random_state=0)
 

@@ -67,8 +67,8 @@ def parse_args():
     parser.add_argument('--criterion', type=str, choices=['Entropy', 'CeLoss'], default='CeLoss', help='')
 
     # save, load and display information
-    parser.add_argument('--middle_epoch', type=int, default=50, help='max number of epoch')
-    parser.add_argument('--max_epoch', type=int, default=100, help='max number of epoch')
+    parser.add_argument('--middle_epoch', type=int, default=1, help='max number of epoch')
+    parser.add_argument('--max_epoch', type=int, default=2, help='max number of epoch')
     parser.add_argument('--print_step', type=int, default=600, help='the interval of log training information')
 
     args_s = parser.parse_args()
