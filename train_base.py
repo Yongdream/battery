@@ -49,7 +49,7 @@ def parse_args():
     parser.add_argument('--trade_off_distance', type=str, default='Step', help='')
     parser.add_argument('--lam_distance', type=float, default=1.2, help='this is used for Cons')
     #
-    parser.add_argument('--domain_adversarial', type=bool, default=True, help='whether use domain_adversarial')
+    parser.add_argument('--domain_adversarial', type=bool, default=False, help='whether use domain_adversarial')
     parser.add_argument('--adversarial_loss', type=str, choices=['DA', 'CDA', 'CDA+E'], default='CDA+E', help='which adversarial loss you use')
     parser.add_argument('--hidden_size', type=int, default=1024, help='whether using the last batch')
     parser.add_argument('--trade_off_adversarial', type=str, default='Step', help='')
@@ -67,8 +67,8 @@ def parse_args():
     parser.add_argument('--criterion', type=str, choices=['Entropy', 'CeLoss'], default='CeLoss', help='')
 
     # save, load and display information
-    parser.add_argument('--middle_epoch', type=int, default=1, help='max number of epoch')
-    parser.add_argument('--max_epoch', type=int, default=2, help='max number of epoch')
+    parser.add_argument('--middle_epoch', type=int, default=50, help='max number of epoch')
+    parser.add_argument('--max_epoch', type=int, default=101, help='max number of epoch')
     parser.add_argument('--print_step', type=int, default=600, help='the interval of log training information')
 
     args_s = parser.parse_args()

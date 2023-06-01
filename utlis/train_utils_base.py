@@ -500,7 +500,7 @@ class TrainUtils(object):
                     model_state_dic = self.model_all.state_dict()
                     # save the best model according to the val accuracy
                     # if (epoch_acc > best_acc or epoch > args.max_epoch - 2) and (epoch > args.middle_epoch - 1):
-                    if epoch_acc > best_acc:
+                    if epoch_acc > best_acc and epoch > args.middle_epoch/2:
                         best_acc = epoch_acc
                         logging.info("save best model epoch {}, acc {:.4f}".format(epoch, epoch_acc))
                         torch.save(model_state_dic,

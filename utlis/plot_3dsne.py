@@ -64,19 +64,19 @@ def plot_3D(source_data, source_label, target_data, target_label, classes):
 
 # 生成源域数据
 # np.random.seed(10)
-num_samples = 128
-feature = 128
-source_data, source_label = make_blobs(n_samples=num_samples, centers=5, n_features=256, random_state=0)
-
-# 生成目标域数据
-# np.random.seed(1)
-num_samples = 128
-# target_data = np.random.randn(num_samples, feature)
-# target_label = np.random.randint(0, 5, size=num_samples)
-target_data, target_label = make_blobs(n_samples=num_samples, centers=5, n_features=256, random_state=1)
-
-# 定义类别列表
-classes = ['Cor', 'Isc', 'Noi', 'Nor', 'Sti']
-
-# 调用绘图函数
-plot_3D(source_data, source_label, target_data, target_label, classes)
+# num_samples = 128
+# feature = 128
+# source_data, source_label = make_blobs(n_samples=num_samples, centers=5, n_features=256, random_state=0)
+#
+# # 生成目标域数据
+# # np.random.seed(1)
+# num_samples = 128
+# # target_data = np.random.randn(num_samples, feature)
+# # target_label = np.random.randint(0, 5, size=num_samples)
+# target_data, target_label = make_blobs(n_samples=num_samples, centers=5, n_features=256, random_state=1)
+#
+# # 定义类别列表
+# classes = ['Cor', 'Isc', 'Noi', 'Nor', 'Sti']
+#
+# # 调用绘图函数
+# plot_3D(source_data, source_label, target_data, target_label, classes)

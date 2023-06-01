@@ -16,12 +16,15 @@ class BiGruAd(nn.Module):
         self.n_layers = n_layers
         self.out_size = out_size
 
-        self.conv1 = nn.Conv1d(16, 64, kernel_size=10, stride=2, padding=4)
+        self.conv1 = nn.Conv1d(16, 128, kernel_size=10, stride=2, padding=4)
         self.act1 = nn.ReLU()
         self.AvgPooling_1 = nn.AvgPool1d(kernel_size=3, stride=1, padding=1)
 
-        # self.res_Gru_block1 = ResidualBlock()
-        # self.act4 = nn.ReLU()
+        self.conv2 = nn.Conv1d(128, 64, kernel_size=3, stride=1, padding=1)
+        self.act2 = nn.ReLU()
+
+        # self.conv3 = nn.Conv1d(256, 64, kernel_size=3, stride=1, padding=1)
+        # self.act3 = nn.ReLU()
 
         self.gru_1 = torch.nn.GRU(64, hidden_size, 5, batch_first=True, bidirectional=True)
         # outputs:(b, 128, 64=hidden_dim*2)    hidden:(n_layers*2, b, 32=hidden_dim)
@@ -33,8 +36,8 @@ class BiGruAd(nn.Module):
         self.gru_2 = torch.nn.GRU(64, 16, 2, batch_first=True, bidirectional=True)
 
         self.fc1 = torch.nn.Linear(128, 512)
-        self.fc2 = torch.nn.Linear(512, 64)
-        self.fc3 = torch.nn.Linear(64, 128)
+        self.fc2 = torch.nn.Linear(512, 256)
+        self.fc3 = torch.nn.Linear(256, 128)
 
     def forward(self, inputs):
         # (b, 16, 256)
@@ -42,6 +45,10 @@ class BiGruAd(nn.Module):
         outputs = self.conv1(inputs)     # (b, 64, 256)
         outputs = self.act1(outputs)
         outputs = self.AvgPooling_1(outputs)    # (b, 64, 256)
+        outputs = self.conv2(outputs)
+        outputs = self.act2(outputs)
+        # outputs = self.conv3(outputs)
+        # outputs = self.act3(outputs)
 
         outputs = outputs.permute(0, 2, 1)
 
@@ -99,17 +106,17 @@ class BiGruAdFeatures(nn.Module):
         return self.__in_features
 
 
-# batch_size = 128
-# input_dim = 256
-# sequence_length = 16
-# input_tensor = torch.randn(batch_size, sequence_length, input_dim)
-#
-# # 创建模型实例
-# model = BiGruAdFeatures()
-#
-# # 进行前向传播
-# output = model(input_tensor)
-#
-# # 打印输出张量的形状
-# print("Output shape:", output.shape)
+batch_size = 128
+input_dim = 256
+sequence_length = 16
+input_tensor = torch.randn(batch_size, sequence_length, input_dim)
+
+# 创建模型实例
+model = BiGruAdFeatures()
+
+# 进行前向传播
+output = model(input_tensor)
+
+# 打印输出张量的形状
+print("Output shape:", output.shape)
 

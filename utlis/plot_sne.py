@@ -1,5 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import torch
+from torch import nn
 from sklearn.manifold import TSNE
 from sklearn.datasets import make_blobs
 import warnings
@@ -7,7 +9,7 @@ import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
 
-def plot_embedding(data, label, classes, alpha=1.0, ax=None, target_marker='o', target_size=80, cmap='Set3'):
+def plot_embedding(data, label, classes, alpha=1.0, ax=None, target_marker='o', target_size=80, cmap='tab10'):
     """
     data为n * 2矩阵
     label为n * 1向量，对应着data的标签
@@ -22,7 +24,7 @@ def plot_embedding(data, label, classes, alpha=1.0, ax=None, target_marker='o', 
     cmap = plt.cm.get_cmap(cmap)
     unique_labels = np.unique(label)
     num_labels = len(unique_labels)
-    colors = cmap(np.linspace(0.3, 0.5, num_labels))
+    colors = cmap(np.linspace(0, 1, num_labels))
 
     for i, c in zip(unique_labels, colors):
         indices = np.where(label == i)
@@ -40,14 +42,14 @@ def plot_embedding(data, label, classes, alpha=1.0, ax=None, target_marker='o', 
 
 def plot_2D(source_data, source_label, target_data, target_label, classes):
     print('Computing t-SNE embedding for source domain')
-    tsne = TSNE(n_components=2, init='pca', random_state=0)
+    tsne = TSNE(n_components=2, init='pca', random_state=0, n_jobs=-1)
 
-    source_result = tsne.fit_transform(source_data.copy())
-    source_label = source_label.copy()
+    source_result = tsne.fit_transform(source_data.cpu().detach().numpy())
+    source_label = source_label.cpu().detach().numpy()
 
     print('Computing t-SNE embedding for target domain')
-    target_result = tsne.fit_transform(target_data.copy())
-    target_label = target_label.copy()
+    target_result = tsne.fit_transform(target_data.cpu().detach().numpy())
+    target_label = target_label.cpu().detach().numpy()
 
     fig, ax = plt.subplots(figsize=(8, 6))
     ax.set_title('Source and Target Domains')
@@ -68,11 +70,10 @@ def plot_2D(source_data, source_label, target_data, target_label, classes):
 
     return fig
 
-
 # data = (b, feature)       label = (b, )
 # num_samples = 128
 # feature = 128
-
+#
 # # 生成源域数据和标签
 # source_data = np.random.randn(num_samples, 128)
 # source_label = np.random.randint(0, 5, size=num_samples)
