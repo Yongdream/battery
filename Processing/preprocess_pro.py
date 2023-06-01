@@ -69,14 +69,14 @@ def preprocess_dataset(dataset_folder, Classification, folder):
         values = filename.split('_')[1]
         data = pd.read_csv(file_path, header=0)
 
-        win_data_list = sliding_window(data, 225, 5)
+        win_data_list = sliding_window(data, 256, 5)
 
         for i, win_data in enumerate(win_data_list, start=1):
-            train = normalize_matrix(win_data).astype('float')
-            data_list.append(train)
+            features = normalize_matrix(win_data).astype('float')
+            data_list.append(features)
 
             # 提取特征
-            features = extract_features(train)
+            # features = extract_features(features)
 
             if Classification == 'multiple':
                 if values == 'Isc':

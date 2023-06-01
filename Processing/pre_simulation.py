@@ -112,8 +112,9 @@ def simulate_stick(source_folder, target_folder, plot_image=False):
 
 
 # 定义源文件夹路径和目标文件夹路径
-source_folder = 'data/udds'
-target_folder = 'data/udds'
+run_work = 'us06'
+source_folder = f'../data/{run_work}'
+target_folder = f'../data/{run_work}'
 
 simulate_noise(source_folder, target_folder)
 simulate_stick(source_folder, target_folder)

@@ -9,6 +9,8 @@ from utlis.logger import setlogger
 from torch.utils.tensorboard import SummaryWriter
 import argparse
 
+torch.autograd.set_detect_anomaly(True)
+
 args = None
 
 
@@ -19,7 +21,7 @@ def parse_args():
     # parser.add_argument('--model_name', type=str, default='resnet_features_1d', help='the name of the model')
     parser.add_argument('--model_name', type=str, default='BiGruAdFeatures', help='the name of the model')
     parser.add_argument('--data_name', type=str, default='Battery', help='the name of the data')
-    parser.add_argument('--data_dir', type=str, default='E:/Galaxy/yang7hi_battery/processed', help='the directory of the data')
+    parser.add_argument('--data_dir', type=str, default='../processed', help='the directory of the data')
 
     parser.add_argument('--transfer_task', type=list, default=[[2], [1]], help='transfer learning tasks')
     parser.add_argument('--normlizetype', type=str, default='mean-std', help='nomalization type')
@@ -43,9 +45,9 @@ def parse_args():
 
     #
     parser.add_argument('--distance_metric', type=bool, default=True, help='whether use distance metric')
-    parser.add_argument('--distance_loss', type=str, choices=['MK-MMD', 'JMMD', 'CORAL'], default='MK-MMD', help='which distance loss you use')
+    parser.add_argument('--distance_loss', type=str, choices=['MK-MMD', 'JMMD', 'CORAL'], default='JMMD', help='which distance loss you use')
     parser.add_argument('--trade_off_distance', type=str, default='Step', help='')
-    parser.add_argument('--lam_distance', type=float, default=1, help='this is used for Cons')
+    parser.add_argument('--lam_distance', type=float, default=1.2, help='this is used for Cons')
     #
     parser.add_argument('--domain_adversarial', type=bool, default=True, help='whether use domain_adversarial')
     parser.add_argument('--adversarial_loss', type=str, choices=['DA', 'CDA', 'CDA+E'], default='CDA+E', help='which adversarial loss you use')
@@ -66,11 +68,11 @@ def parse_args():
 
     # save, load and display information
     parser.add_argument('--middle_epoch', type=int, default=50, help='max number of epoch')
-    parser.add_argument('--max_epoch', type=int, default=129, help='max number of epoch')
+    parser.add_argument('--max_epoch', type=int, default=100, help='max number of epoch')
     parser.add_argument('--print_step', type=int, default=600, help='the interval of log training information')
 
-    args = parser.parse_args()
-    return args
+    args_s = parser.parse_args()
+    return args_s
 
 
 if __name__ == '__main__':
@@ -79,7 +81,8 @@ if __name__ == '__main__':
 
     # Prepare the saving path for the model
     sub_dir = args.model_name + '_' + datetime.strftime(datetime.now(), '%m%d-%H%M%S')
-    save_dir = os.path.join(args.checkpoint_dir, sub_dir)
+    task = str(args.transfer_task[0]) + '-' + str(args.transfer_task[1])
+    save_dir = os.path.join(args.checkpoint_dir, task, sub_dir)
     if not os.path.exists(save_dir):
         os.makedirs(save_dir)
 

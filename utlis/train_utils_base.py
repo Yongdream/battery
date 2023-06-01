@@ -23,6 +23,11 @@ from loss.CORAL import CORAL
 from utlis.entropy_CDA import Entropy
 from utlis.entropy_CDA import calc_coeff
 from utlis.entropy_CDA import grl_hook
+from utlis.plot_sne import plot_2D
+from utlis.plot_3dsne import plot_3D
+
+
+classes = ['Cor', 'Isc', 'Noi', 'Nor', 'Sti']
 
 
 def apply_dropout(m):
@@ -224,8 +229,8 @@ class TrainUtils(object):
         else:
             raise Exception("Criterion not implement")
 
-        print('Model build successfully')
-        summary(self.model, input_size=(args.batch_size, 23, 225))
+        logging.info(summary(self.model, input_size=(args.batch_size, 16, 256)))
+        print('Model build successfully!')
 
     def train(self):
         """
@@ -252,7 +257,10 @@ class TrainUtils(object):
         # writer = SummaryWriter(f'./logs/to_{sub_dir}')
         if isinstance(args.transfer_task[0], str):
            args.transfer_task = eval("".join(args.transfer_task))
-        writer = SummaryWriter(f'./logs/{args.transfer_task[0]}-{args.transfer_task[1]}{sub_dir}')
+        task = str(args.transfer_task[0]) + '-' + str(args.transfer_task[1])
+        writer = SummaryWriter(f'./logs/{task}/{task}{sub_dir}')
+
+        arr_middle_epoch = False
 
         for epoch in range(self.start_epoch, args.max_epoch):
 
@@ -274,8 +282,10 @@ class TrainUtils(object):
                 epoch_loss = 0.0
                 epoch_length = 0
 
-                all_pred_labels = []
-                all_true_labels = []
+                all_pred_labels_list = []
+                all_true_labels_list = []
+
+                feature_prep = torch.empty(0, 256, device=self.device)
 
                 # Set model to train mode or test mode
                 if phase == 'source_train':
@@ -381,8 +391,11 @@ class TrainUtils(object):
                                     op_out = torch.bmm(softmax_out.unsqueeze(2), features.unsqueeze(1))
                                     adversarial_out = self.AdversarialNet(
                                         op_out.view(-1, softmax_out.size(1) * features.size(1)))
+
+                                    # 源域标签
                                     domain_label_source = torch.ones(labels.size(0)).float().to(
                                         self.device)
+                                    # 目标域标签
                                     domain_label_target = torch.zeros(inputs.size(0) - labels.size(0)).float().to(
                                         self.device)
                                     adversarial_label = torch.cat((domain_label_source, domain_label_target), dim=0).to(
@@ -390,6 +403,7 @@ class TrainUtils(object):
                                     weight = torch.cat((entropy_source / torch.sum(entropy_source).detach().item(),
                                                         entropy_target / torch.sum(entropy_target).detach().item()), dim=0)
 
+                                    # adversarial_out 和 adversarial_label 中获取输入数据和标签
                                     adversarial_loss = torch.sum(weight.view(-1, 1) * self.adversarial_loss(adversarial_out.squeeze(), adversarial_label)) / torch.sum(weight).detach().item()
                                     iter_num += 1
 
@@ -407,6 +421,7 @@ class TrainUtils(object):
                             else:
                                 raise Exception("trade_off_distance not implement")
 
+                            # 总损失
                             loss = classifier_loss + lam_distance * distance_loss + adversarial_loss
 
                         pred = logits.argmax(dim=1)
@@ -416,8 +431,23 @@ class TrainUtils(object):
                         epoch_acc += correct
                         epoch_length += labels.size(0)
 
-                        all_true_labels.append(labels)
-                        all_pred_labels.append(pred)
+                        all_true_labels_list.append(labels)
+                        all_pred_labels_list.append(pred)
+
+                        result_true = torch.cat(all_true_labels_list).view(-1)
+                        result_prep = torch.cat(all_pred_labels_list).view(-1)
+                        feature_prep = torch.cat((feature_prep, features), dim=0)
+
+                        if phase == 'source_train':
+                            # source_data = feature_prep
+                            # source_label = result_true
+                            source_data = features
+                            source_label = labels
+                        elif phase == 'target_val':
+                            # target_data = feature_prep
+                            # target_label = result_prep
+                            target_data = features
+                            target_label = labels
 
                         # Calculate the training information
                         if phase == 'source_train':
@@ -470,14 +500,19 @@ class TrainUtils(object):
                     model_state_dic = self.model_all.state_dict()
                     # save the best model according to the val accuracy
                     # if (epoch_acc > best_acc or epoch > args.max_epoch - 2) and (epoch > args.middle_epoch - 1):
-                    if epoch_acc > best_acc or epoch > args.max_epoch - 2:
+                    if epoch_acc > best_acc:
                         best_acc = epoch_acc
                         logging.info("save best model epoch {}, acc {:.4f}".format(epoch, epoch_acc))
                         torch.save(model_state_dic,
                                    os.path.join(self.save_dir, '{}-{:.4f}-best_model.pth'.format(epoch, best_acc)))
 
                         current_patience = 0  # 重置耐心计数器
-                        best_confusion_matrix_val = (all_true_labels, all_pred_labels)
+                        best_confusion_matrix_val = (all_true_labels_list, all_pred_labels_list)
+
+                        source_data_best = source_data
+                        source_label_best = source_label
+                        target_data_best = target_data
+                        target_label_best = target_label
                     else:
                         current_patience += 1  # 验证损失没有改善，耐心计数器加1
             
@@ -493,6 +528,7 @@ class TrainUtils(object):
                                                         best_confusion_matrix_val[1], 5,
                                                         ['Cor', 'Isc', 'Noi', 'Nor', 'Sti'],
                                                         title='Target_Valid')
+        plot_3D(source_data_best, source_label_best, target_data_best, target_label_best, classes)
         logging.info(summary_confusion)
         writer.close()
 

@@ -18,6 +18,13 @@ def grl_hook(coeff):
 class AdversarialNet(nn.Module):
     def __init__(self, in_feature, hidden_size, max_iter=10000.0, trade_off_adversarial='Step', lam_adversarial=1.0):
         super(AdversarialNet, self).__init__()
+
+        # in_feature: 输入特征的维度
+        # hidden_size: 隐藏层的大小
+        # max_iter: 最大迭代次数，默认为10000.0
+        # trade_off_adversarial: 对抗损失权重的计算方式，默认为'Step'
+        # lam_adversarial: 对抗损失的权重，默认为1.0
+
         self.ad_layer1 = nn.Sequential(
             nn.Linear(in_feature, hidden_size),
             nn.ReLU(inplace=True),
@@ -32,8 +39,8 @@ class AdversarialNet(nn.Module):
         self.sigmoid = nn.Sigmoid()
         # parameters
         self.iter_num = 0
-        self.alpha = 10
-        self.low = 0.0
+        self.alpha = 10         # 梯度反转层系数
+        self.low = 0.0          # 梯度反转层系数下限
         self.high = 1.0
         self.max_iter = max_iter
         self.trade_off_adversarial = trade_off_adversarial
