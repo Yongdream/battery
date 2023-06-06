@@ -151,7 +151,6 @@ class TrainUtils(object):
                 parameter_list = [{"params": self.model.parameters(), "lr": args.lr},
                                   {"params": self.classifier_layer.parameters(), "lr": args.lr}]
 
-
         # Define the optimizer
         if args.opt == 'sgd':
             self.optimizer = optim.SGD(parameter_list, lr=args.lr,
@@ -161,7 +160,6 @@ class TrainUtils(object):
                                         weight_decay=args.weight_decay)
         else:
             raise Exception("optimizer not implement")
-
 
         # Define the learning rate decay
         if args.lr_scheduler == 'step':
@@ -229,7 +227,7 @@ class TrainUtils(object):
         else:
             raise Exception("Criterion not implement")
 
-        logging.info(summary(self.model, input_size=(args.batch_size, 16, 256)))
+        logging.info(summary(self.model_all, input_size=(args.batch_size, 16, 256)))
         print('Model build successfully!')
 
     def train(self):
@@ -524,12 +522,13 @@ class TrainUtils(object):
                 writer.close()
                 break
 
-        summary_confusion = summarize_confusion_matrix(best_confusion_matrix_val[0],
-                                                        best_confusion_matrix_val[1], 5,
-                                                        ['Cor', 'Isc', 'Noi', 'Nor', 'Sti'],
-                                                        title='Target_Valid')
-        plot_2D(source_data_best, source_label_best, target_data_best, target_label_best, classes)
+        summary_confusion = summarize_confusion_matrix(best_confusion_matrix_val[0], best_confusion_matrix_val[1], 5,
+                                                       ['Cor', 'Isc', 'Noi', 'Nor', 'Sti'],
+                                                       title='Target_Valid')
+        sne = plot_2D(source_data_best, source_label_best, target_data_best, target_label_best, classes)
         logging.info(summary_confusion)
+        writer.add_figure('Source and Target Domains', sne)
+        # writer.add_figure('Confusion_matrix', conf_plt)
         writer.close()
 
 

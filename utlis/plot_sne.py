@@ -51,7 +51,7 @@ def plot_2D(source_data, source_label, target_data, target_label, classes):
     target_result = tsne.fit_transform(target_data.cpu().detach().numpy())
     target_label = target_label.cpu().detach().numpy()
 
-    fig, ax = plt.subplots(figsize=(8, 6))
+    fig, ax = plt.subplots(figsize=(12, 9))
     ax.set_title('Source and Target Domains')
 
     plot_embedding(source_result, source_label, classes, ax=ax)
