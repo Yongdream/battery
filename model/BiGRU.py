@@ -5,7 +5,7 @@ from torch.nn import init
 
 
 class BiGruAd(nn.Module):
-    def __init__(self, hidden_size=32, out_size=128, pretrained=False, n_layers=5, batch_size=1):
+    def __init__(self, hidden_size=8, out_size=128, pretrained=False, n_layers=5, batch_size=1):
         super(BiGruAd, self).__init__()
 
         if pretrained:
@@ -16,15 +16,13 @@ class BiGruAd(nn.Module):
         self.n_layers = n_layers
         self.out_size = out_size
 
-        self.conv1 = nn.Conv1d(16, 128, kernel_size=10, stride=2, padding=4)
+        self.conv1 = nn.Conv1d(16, 32, kernel_size=6, stride=2, padding=2)
         self.act1 = nn.ReLU()
-        self.AvgPooling_1 = nn.AvgPool1d(kernel_size=3, stride=1, padding=1)
+        self.AvgPooling_1 = nn.AvgPool1d(kernel_size=3, stride=2, padding=1)
 
-        self.conv2 = nn.Conv1d(128, 64, kernel_size=3, stride=1, padding=1)
+        self.conv2 = nn.Conv1d(32, 64, kernel_size=3, stride=1, padding=1)
         self.act2 = nn.ReLU()
-
-        # self.conv3 = nn.Conv1d(256, 64, kernel_size=3, stride=1, padding=1)
-        # self.act3 = nn.ReLU()
+        # self.AvgPooling_2 = nn.AvgPool1d(kernel_size=3, stride=1, padding=1)
 
         self.gru_1 = torch.nn.GRU(64, hidden_size, 5, batch_first=True, bidirectional=True)
         # outputs:(b, 128, 64=hidden_dim*2)    hidden:(n_layers*2, b, 32=hidden_dim)
@@ -33,36 +31,36 @@ class BiGruAd(nn.Module):
 
         # 这里指定了BATCH FIRST,所以输入时BATCH应该在第一维度
         # num_directions 是GRU模型中的方向数（单向或双向)
-        self.gru_2 = torch.nn.GRU(64, 16, 2, batch_first=True, bidirectional=True)
+        self.gru_2 = torch.nn.GRU(32, 8, 3, batch_first=True, bidirectional=True)
 
-        self.fc1 = torch.nn.Linear(128, 512)
+        self.fc1 = torch.nn.Linear(1024, 512)
         self.fc2 = torch.nn.Linear(512, 256)
         self.fc3 = torch.nn.Linear(256, 128)
 
     def forward(self, inputs):
         # (b, 16, 256)
 
-        outputs = self.conv1(inputs)     # (b, 64, 256)
+        outputs = self.conv1(inputs)     # (b, 32, 128)
         outputs = self.act1(outputs)
-        outputs = self.AvgPooling_1(outputs)    # (b, 64, 256)
-        outputs = self.conv2(outputs)
+        outputs = self.AvgPooling_1(outputs)    # (b, 32, 64)
+        outputs = self.conv2(outputs)           # (b, 64, 64)
         outputs = self.act2(outputs)
+        # outputs = self.AvgPooling_2(outputs)    # (b, 64, 64)
         # outputs = self.conv3(outputs)
         # outputs = self.act3(outputs)
 
-        outputs = outputs.permute(0, 2, 1)
+        outputs = outputs.permute(0, 2, 1)      # (b, 64, 64)
 
-        outputs, _ = self.gru_1(outputs)
-        outputs, _ = self.gru_2(outputs)
+        outputs, _ = self.gru_1(outputs)        # (b, 64, *32)
+        # outputs, _ = self.gru_2(outputs)
 
-        outputs = outputs.permute(0, 2, 1)
+        outputs = outputs.permute(0, 2, 1)      # (b, 16, 64)
 
-        flatten_outputs = outputs.flatten(start_dim=1)
+        outputs = outputs.flatten(start_dim=1)
 
-        outputs = self.fc1(outputs)           # (b, 128, 256)
-        outputs = self.fc2(outputs)           # (b, 128, 512)
-        outputs = self.fc3(outputs)
-        outputs = outputs[:, -1, :]           # (b, 128)
+        outputs = self.fc1(outputs)           # (b,
+        outputs = self.fc2(outputs)           # (b,
+        outputs = self.fc3(outputs)           # (b,
 
         return outputs
 

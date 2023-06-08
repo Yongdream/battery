@@ -24,7 +24,7 @@ def plot_embedding(data, label, classes, alpha=1.0, ax=None, target_marker='o', 
     cmap = plt.cm.get_cmap(cmap)
     unique_labels = np.unique(label)
     num_labels = len(unique_labels)
-    colors = cmap(np.linspace(0, 1, num_labels))
+    colors = cmap(np.linspace(0, 0.5, num_labels))
 
     for i, c in zip(unique_labels, colors):
         indices = np.where(label == i)

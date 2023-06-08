@@ -228,9 +228,9 @@ def summarize_confusion_matrix(all_labels, all_predicted_labels, num_classes, cl
     print('sk_confusion_matrix:\n', sk_confusion_matrix)
 
     # 绘制混淆矩阵
-    summary = confusion_matrix_obj.plot()
+    summary, _, matrix_plt = confusion_matrix_obj.plot()
 
-    return summary
+    return summary, matrix_plt
 
 
 class ResultLogger:

@@ -68,3 +68,51 @@ class AdversarialNet(nn.Module):
 
     def output_num(self):
         return self.__in_features
+
+
+class AdversarialNet_multi(nn.Module):
+    def __init__(self, in_feature, output_size,
+                 hidden_size,max_iter=10000.0,
+                 trade_off_adversarial='Step',
+                 lam_adversarial=1.0
+                 ):
+        super(AdversarialNet_multi, self).__init__()
+        self.ad_layer1 = nn.Sequential(
+            nn.Linear(in_feature, hidden_size),
+            nn.ReLU(inplace=True),
+            nn.Dropout(),
+        )
+        self.ad_layer2 = nn.Sequential(
+            nn.Linear(hidden_size, hidden_size),
+            nn.ReLU(inplace=True),
+            nn.Dropout(),
+        )
+        self.ad_layer3 = nn.Linear(hidden_size, output_size)
+        # parameters
+        self.iter_num = 0
+        self.alpha = 10
+        self.low = 0.0
+        self.high = 1.0
+        self.max_iter = max_iter
+        self.trade_off_adversarial = trade_off_adversarial
+        self.lam_adversarial = lam_adversarial
+        self.__in_features = 1
+
+    def forward(self, x):
+        if self.training:
+            self.iter_num += 1
+        if self.trade_off_adversarial == 'Cons':
+            coeff = self.lam_adversarial
+        elif self.trade_off_adversarial == 'Step':
+            coeff = calc_coeff(self.iter_num, self.high, self.low, self.alpha, self.max_iter)
+        else:
+            raise Exception("loss not implement")
+        x = x * 1.0
+        x.register_hook(grl_hook(coeff))
+        x = self.ad_layer1(x)
+        x = self.ad_layer2(x)
+        y = self.ad_layer3(x)
+        return y
+
+    def output_num(self):
+        return self.__in_features

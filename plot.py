@@ -1,8 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib import rcParams
 from prettytable import PrettyTable
-from sklearn.metrics import confusion_matrix
 
 
 class ConfusionMatrix(object):
@@ -28,6 +26,8 @@ class ConfusionMatrix(object):
         # kappa
         sum_po = 0
         sum_pe = 0
+
+        recall_isc = 0
         for i in range(len(self.matrix[0])):
             sum_po += self.matrix[i][i]
             row = np.sum(self.matrix[i, :])
@@ -51,33 +51,43 @@ class ConfusionMatrix(object):
             Specificity = round(TN / (TN + FP), 3) if TN + FP != 0 else 0.
             F1 = round(2 * Precision * Recall / (Precision + Recall), 3) if Precision + Recall != 0 else 0.
 
+            if i == 2:
+                recall_isc = Recall
+
             table.add_row([self.labels[i], Precision, Recall, Specificity, F1])
         summary_str = f"The model accuracy is {acc}\n"
         summary_str += f"The model kappa is {kappa}\n"
         summary_str += str(table) + '\n'
         if show:
             print(summary_str)
-        return str(acc), summary_str
+        return str(acc), summary_str, recall_isc
 
     def plot(self):  # 绘制混淆矩阵
+        # 创建一个图形对象
+        fig = plt.figure(figsize=(8, 6))
+        # 在图形对象中创建一个Axes对象并获取它
+        ax = fig.add_subplot(111)  # 注意这里的参数是子图的编号
+
         matrix = self.matrix
         # print(matrix)
         # 计算每一类的比率
         class_ratios = matrix / matrix.sum(axis=0, keepdims=True)
-        acc, summary = self.summary()
+        acc, summary, recall_isc = self.summary()
         summary += "confusion_matrix:" + "\n" + str(matrix)
 
-        plt.imshow(class_ratios, cmap=plt.cm.Purples)
+        ax.imshow(class_ratios, cmap=plt.cm.Purples)
 
         # 设置x轴坐标label
-        plt.xticks(range(self.num_classes), self.labels, rotation=45)
+        ax.set_xticks(range(self.num_classes))
+        ax.set_xticklabels(self.labels, rotation=45)
         # 设置y轴坐标label
-        plt.yticks(range(self.num_classes), self.labels)
+        ax.set_yticks(range(self.num_classes))
+        ax.set_yticklabels(self.labels)
         # 显示colorbar
-        plt.colorbar()
-        plt.xlabel('True Labels')
-        plt.ylabel('Predicted Labels')
-        plt.title(self.title + ' Confusion matrix (acc=' + acc + ')')
+        fig.colorbar(ax.imshow(class_ratios, cmap=plt.cm.Purples))
+        ax.set_xlabel('True Labels')
+        ax.set_ylabel('Predicted Labels')
+        ax.set_title(self.title + ' Confusion matrix (acc=' + acc + ')')
 
         # 在图中标注数量/概率信息
         thresh = class_ratios.max() / 2
@@ -87,17 +97,17 @@ class ConfusionMatrix(object):
                 info = int(matrix[y, x])
                 ratio = class_ratios[y, x]
                 if ratio > 0:
-                    plt.text(x, y, f"{info}\n({ratio:.2%})",
+                    ax.texts.append(ax.text(x, y, f"{info}\n({ratio:.2%})",
                              verticalalignment='center',
                              horizontalalignment='center',
                              color="white" if ratio > thresh else "black",
-                             fontsize=8)  # 标注文字大小为8
+                             fontsize=8))  # 标注文字大小为8
                 else:
-                    plt.text(x, y, f"{info}",
+                    ax.texts.append(ax.text(x, y, f"{info}",
                              verticalalignment='center',
                              horizontalalignment='center',
                              color="white" if ratio > thresh else "black",
-                             fontsize=8)  # 标注文字大小为8
-        plt.tight_layout()
-        plt.show()
-        return summary
+                             fontsize=8))  # 标注文字大小为8
+        fig.tight_layout()
+        fig.show()
+        return summary, recall_isc, fig

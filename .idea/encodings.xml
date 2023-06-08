@@ -3,7 +3,7 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/checkpoint" charset="GBK" />
     <file url="file://$PROJECT_DIR$/checkpoint/BiGruAdFeatures_0531-133550/train.log" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/checkpoint/[0]-[2]/netFeatures_0-2baseline/train.log" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/checkpoint/DA/s_0_t2/netFeatures_0-2baseline/train.log" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/checkpoint/netFeatures_0529-154834/train.log" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
