@@ -5,7 +5,7 @@ import torch
 
 from matplotlib import pyplot as plt
 from sklearn.manifold import TSNE
-# from sklearn import confusion_matrix
+from prettytable import PrettyTable
 import numpy as np
 from warnings import simplefilter
 import torch.nn as nn
@@ -176,48 +176,12 @@ def get_parameter_number(model):
     return {'Total': total_num, 'Trainable': trainable_num}
 
 
-def tsne_visualization(output, labels, perplexity=30, early_exaggeration=12.0, learning_rate=0.1, n_iter=1000, verbose=0):
-    """
-    使用 t-SNE 对模型输出的结果进行可视化
-
-    Args:
-        output: 模型输出的结果，一个大小为 (b, 2) 的 PyTorch 张量，其中 b 表示样本数，2 表示每个样本对应的两个维度上的数值
-        labels: 样本的标签，一个大小为 b 的 NumPy 数组，其中 b 表示样本数，每个元素表示该样本的类别
-        perplexity: 困惑度，用于控制局部与全局之间的权衡，默认值为 30
-        early_exaggeration: 早期 exaggeration 值，用于控制 t-SNE 转换的速度，默认值为 12.0
-        learning_rate: 学习率，用于控制梯度下降的速度，默认值为 200.0
-        n_iter: 迭代次数，默认值为 1000
-        verbose: 是否输出详细信息，0 表示不输出，1 表示输出，默认值为 1
-
-    Returns:
-        output_tsne: 经过 t-SNE 转换后的结果，一个大小为 (b, 2) 的 NumPy 数组，其中 b 表示样本数，2 表示每个样本对应的两个维度上的数值
-    """
-    # 将 PyTorch 张量转换为 NumPy 数组
-    # output = torch.cat(output, dim=0)
-    output_np = output.detach().cpu().numpy()
-    # labels = torch.cat(labels, dim=0)
-    labels = labels.detach().cpu().numpy()
-
-    simplefilter(action='ignore', category=FutureWarning)
-
-    # 使用 t-SNE 进行降维
-    tsne = TSNE(n_components=2, random_state=0)
-    output_tsne = tsne.fit_transform(output_np)
-
-    # 将不同类别的样本用不同的颜色表示
-    unique_labels = np.unique(labels)
-    for label in unique_labels:
-        mask = labels == label
-        plt.scatter(output_tsne[mask, 0], output_tsne[mask, 1], label=str(label))
-    plt.legend()
-    plt.show()
-
-    return output_tsne
-
-
 def summarize_confusion_matrix(all_labels, all_predicted_labels, num_classes, class_names, title):
     labels_n = np.concatenate([t.cpu().numpy() for t in all_labels])
     predicted_labels_n = np.concatenate([t.cpu().numpy() for t in all_predicted_labels])
+
+    # labels_n = np.concatenate([t.cpu().numpy().reshape(1,) for t in all_labels])
+    # predicted_labels_n = np.concatenate([t.cpu().numpy().reshape(1,) for t in all_predicted_labels])
 
     # 计算混淆矩阵
     confusion_matrix_obj = ConfusionMatrix(num_classes, class_names, title)
@@ -231,6 +195,40 @@ def summarize_confusion_matrix(all_labels, all_predicted_labels, num_classes, cl
     summary, _, matrix_plt = confusion_matrix_obj.plot()
 
     return summary, matrix_plt
+
+
+def calculate_summary(matrix, labels):
+    n = np.sum(matrix)
+    sum_tp = np.sum(np.diag(matrix))
+    acc = sum_tp / n
+
+    sum_po = np.sum(np.diag(matrix))
+    sum_pe = np.sum(np.sum(matrix, axis=0) * np.sum(matrix, axis=1))
+    po = sum_po / n
+    pe = sum_pe / (n * n)
+    kappa = round((po - pe) / (1 - pe), 3)
+
+    table = PrettyTable()
+    table.field_names = ["", "Precision", "Recall", "Specificity", "F1 Score"]
+    num_classes = len(labels)
+    for i in range(num_classes):
+        tp = matrix[i, i]
+        fp = np.sum(matrix[i, :]) - tp
+        fn = np.sum(matrix[:, i]) - tp
+        tn = np.sum(matrix) - tp - fp - fn
+
+        Precision = round(tp / (tp + fp), 3) if tp + fp != 0 else 0.
+        Recall = round(tp / (tp + fn), 3) if tp + fn != 0 else 0.
+        Specificity = round(tn / (tn + fp), 3) if tn + fp != 0 else 0.
+        F1 = round(2 * Precision * Recall / (Precision + Recall), 3) if Precision + Recall != 0 else 0.
+
+        table.add_row([labels[i], Precision, Recall, Specificity, F1])
+
+    summary_str = f"The model accuracy is {acc}\n"
+    summary_str += f"The model kappa is {kappa}\n"
+    summary_str += str(table) + '\n'
+
+    return str(acc), summary_str, Recall
 
 
 class ResultLogger:
@@ -267,6 +265,47 @@ class ResultLogger:
 
         print(self.op_mode + " success!")
 
+
+def calculate_label_recall(confMatrix, labelidx):
+    '''
+    计算某一个类标的召回率：
+    '''
+    label_total_sum = confMatrix.sum(axis=1)[labelidx]
+    label_correct_sum = confMatrix[labelidx][labelidx]
+    recall = 0
+    if label_total_sum != 0:
+        recall = round(100*float(label_correct_sum)/float(label_total_sum),2)
+    return recall
+
+
+def generate_confusion_matrix(actual_labels, predicted_labels):
+    unique_labels = sorted(list(set(actual_labels) | set(predicted_labels)))
+    num_labels = len(unique_labels)
+
+    label_to_index = {label: index for index, label in enumerate(unique_labels)}
+
+    confusion_matrix = np.zeros((num_labels, num_labels), dtype=int)
+
+    for actual, predicted in zip(actual_labels, predicted_labels):
+        actual_index = label_to_index[actual]
+        predicted_index = label_to_index[predicted]
+        confusion_matrix[actual_index][predicted_index] += 1
+
+    return confusion_matrix
+
+
+# # 测试示例
+# labels = ['A', 'B', 'C', 'D']
+# matrix = np.array([[10, 2, 3, 0],
+#                    [1, 12, 0, 1],
+#                    [2, 1, 8, 0],
+#                    [0, 3, 1, 7]])
+#
+# acc, summary, recall = calculate_summary(matrix, labels)
+#
+# print(f"Accuracy: {acc}")
+# print(f"Summary:\n{summary}")
+# print(f"Recall for class C: {recall[2]}")
 
 
 

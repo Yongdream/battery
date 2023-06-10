@@ -220,7 +220,7 @@ class TrainUtilsDG(object):
                 all_pred_labels_list = []
                 all_true_labels_list = []
 
-                feature_prep = torch.empty(0, 256, device=self.device)
+                feature_prep = torch.empty(0, args.bottleneck_num, device=self.device)
 
                 # Set model to train mode or test mode
                 if phase == 'source_train':
@@ -278,6 +278,7 @@ class TrainUtilsDG(object):
 
                         all_true_labels_list.append(labels)
                         all_pred_labels_list.append(pred)
+                        confusion_matrix_val = (all_true_labels_list, all_pred_labels_list)
 
                         result_true = torch.cat(all_true_labels_list).view(-1)
                         result_prep = torch.cat(all_pred_labels_list).view(-1)
@@ -352,7 +353,7 @@ class TrainUtilsDG(object):
                                    os.path.join(self.save_dir, '{}-{:.4f}-best_model.pth'.format(epoch, best_acc)))
 
                         current_patience = 0  # 重置耐心计数器
-                        best_confusion_matrix_val = (all_true_labels_list, all_pred_labels_list)
+                        best_confusion_matrix_val = confusion_matrix_val
 
                         source_data_best = source_data
                         source_label_best = source_label
@@ -369,13 +370,14 @@ class TrainUtilsDG(object):
                 writer.close()
                 break
 
-        summary_confusion = summarize_confusion_matrix(best_confusion_matrix_val[0], best_confusion_matrix_val[1], 5,
-                                                       ['Cor', 'Isc', 'Noi', 'Nor', 'Sti'],
-                                                       title='Target_Valid')
+        summary_confusion, matrix_plt = summarize_confusion_matrix(best_confusion_matrix_val[0],
+                                                                   best_confusion_matrix_val[1], 5,
+                                                                   ['Cor', 'Isc', 'Noi', 'Nor', 'Sti'],
+                                                                   title='Target_Valid')
         sne = plot_2D(source_data_best, source_label_best, target_data_best, target_label_best, classes)
         logging.info(summary_confusion)
         writer.add_figure('Source and Target Domains', sne)
-        # writer.add_figure('Confusion_matrix', conf_plt)
+        writer.add_figure('Confusion Matrix', matrix_plt)
         writer.close()
 
 

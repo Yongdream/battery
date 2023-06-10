@@ -1,16 +1,57 @@
 import numpy as np
-from torch.utils.tensorboard import SummaryWriter
 
-writer = SummaryWriter(comment='test_tensorboard')
 
-for x in range(100):
-    writer.add_scalar('y=2x', x * 2, x)
-    writer.add_scalar('y=pow(2, x)', 2 ** x, x)
+# def calculate_label_recall(confMatrix, labelidx):
+#     '''
+#     计算某一个类标的召回率：
+#     '''
+#     label_total_sum = confMatrix.sum(axis=1)[labelidx]
+#     label_correct_sum = confMatrix[labelidx][labelidx]
+#     recall = 0
+#     if label_total_sum != 0:
+#         recall = round(100*float(label_correct_sum)/float(label_total_sum),2)
+#     return recall
+#
+#
+# def generate_confusion_matrix(actual_labels, predicted_labels):
+#     unique_labels = sorted(list(set(actual_labels) | set(predicted_labels)))
+#     num_labels = len(unique_labels)
+#
+#     label_to_index = {label: index for index, label in enumerate(unique_labels)}
+#
+#     confusion_matrix = np.zeros((num_labels, num_labels), dtype=int)
+#
+#     for actual, predicted in zip(actual_labels, predicted_labels):
+#         actual_index = label_to_index[actual]
+#         predicted_index = label_to_index[predicted]
+#         confusion_matrix[actual_index][predicted_index] += 1
+#
+#     return confusion_matrix
 
-    writer.add_scalars('data/scalar_group', {"xsinx": x * np.sin(x),
-                                             "xcosx": x * np.cos(x),
-                                             "arctanx": np.arctan(x)}, x)
-writer.close()
+
+actual_labels = [1, 0, 2, 1, 0, 2]
+predicted_labels = [1, 0, 1, 2, 0, 1]
+
+confMatrix = generate_confusion_matrix(actual_labels, predicted_labels)
+print(confMatrix)
+# 测试计算标签召回率
+labelidx = 1
+recall = calculate_label_recall(confMatrix, labelidx)
+print(recall)
+
+# import numpy as np
+# from torch.utils.tensorboard import SummaryWriter
+#
+# writer = SummaryWriter(comment='test_tensorboard')
+#
+# for x in range(100):
+#     writer.add_scalar('y=2x', x * 2, x)
+#     writer.add_scalar('y=pow(2, x)', 2 ** x, x)
+#
+#     writer.add_scalars('data/scalar_group', {"xsinx": x * np.sin(x),
+#                                              "xcosx": x * np.cos(x),
+#                                              "arctanx": np.arctan(x)}, x)
+# writer.close()
 
 
 # import numpy as np

@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from utlis import utils
 from prettytable import PrettyTable
 
 
@@ -12,55 +13,14 @@ class ConfusionMatrix(object):
         self.title = title
 
     def update(self, preds, labels):
-        for p, t in zip(preds, labels):  # pred为预测结果，labels为真实标签
-            self.matrix[p, t] += 1  # 根据预测结果和真实标签的值统计数量，在混淆矩阵相应位置+1
+        for p, t in zip(preds, labels):     # pred为预测结果，labels为真实标签
+            self.matrix[p, t] += 1          # 根据预测结果和真实标签的值统计数量，在混淆矩阵相应位置+1
 
     def summary(self, show=True):
-        # calculate accuracy
-        sum_TP = 0
-        n = np.sum(self.matrix)
-        for i in range(self.num_classes):
-            sum_TP += self.matrix[i, i]  # 混淆矩阵对角线的元素之和，也就是分类正确的数量
-        acc = sum_TP / n  # 总体准确率
-
-        # kappa
-        sum_po = 0
-        sum_pe = 0
-
-        recall_isc = 0
-        for i in range(len(self.matrix[0])):
-            sum_po += self.matrix[i][i]
-            row = np.sum(self.matrix[i, :])
-            col = np.sum(self.matrix[:, i])
-            sum_pe += row * col
-        po = sum_po / n
-        pe = sum_pe / (n * n)
-        kappa = round((po - pe) / (1 - pe), 3)
-
-        # precision, recall, specificity, F1 score
-        table = PrettyTable()
-        table.field_names = ["", "Precision", "Recall", "Specificity", "F1 Score"]
-        for i in range(self.num_classes):
-            TP = self.matrix[i, i]
-            FP = np.sum(self.matrix[i, :]) - TP
-            FN = np.sum(self.matrix[:, i]) - TP
-            TN = np.sum(self.matrix) - TP - FP - FN
-
-            Precision = round(TP / (TP + FP), 3) if TP + FP != 0 else 0.
-            Recall = round(TP / (TP + FN), 3) if TP + FN != 0 else 0.
-            Specificity = round(TN / (TN + FP), 3) if TN + FP != 0 else 0.
-            F1 = round(2 * Precision * Recall / (Precision + Recall), 3) if Precision + Recall != 0 else 0.
-
-            if i == 2:
-                recall_isc = Recall
-
-            table.add_row([self.labels[i], Precision, Recall, Specificity, F1])
-        summary_str = f"The model accuracy is {acc}\n"
-        summary_str += f"The model kappa is {kappa}\n"
-        summary_str += str(table) + '\n'
+        acc, summary_str, recall = utils.calculate_summary(self.matrix, self.labels)
         if show:
             print(summary_str)
-        return str(acc), summary_str, recall_isc
+        return str(acc), summary_str, recall
 
     def plot(self):  # 绘制混淆矩阵
         # 创建一个图形对象

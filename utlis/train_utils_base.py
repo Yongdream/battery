@@ -6,7 +6,6 @@ import math
 import torch
 from torch import nn
 from torch import optim
-import numpy as np
 from datetime import datetime
 from torch.utils.tensorboard import SummaryWriter
 
@@ -14,8 +13,9 @@ import datasets
 import model
 from torchinfo import summary
 
-from utlis.utils import CELoss
+from utlis.utils import CELoss, generate_confusion_matrix, calculate_label_recall
 from utlis.utils import summarize_confusion_matrix
+from utlis.utils import calculate_summary
 
 from loss.DAN import DAN
 from loss.JAN import JAN
@@ -35,12 +35,11 @@ def apply_dropout(m):
         m.eval()
 
 
-class TrainUtils(object):
+class TrainUtilsDA(object):
     def __init__(self, args, save_dir):
         self.args = args
         self.save_dir = save_dir
 
-        # print(torch.cuda.is_available())
         # Consider the gpu or cpu condition
         if torch.cuda.is_available():
             self.device = torch.device("cuda")
@@ -94,24 +93,27 @@ class TrainUtils(object):
                     self.AdversarialNet = getattr(model, 'AdversarialNet')(in_feature=args.bottleneck_num * Dataset.num_classes,
                                                                             hidden_size=args.hidden_size, max_iter=self.max_iter,
                                                                             trade_off_adversarial=args.trade_off_adversarial,
-                                                                            lam_adversarial=args.lam_adversarial
-                                                                            )
+                                                                            lam_adversarial=args.lam_adversarial)
                 else:
-                    self.AdversarialNet = getattr(model, 'AdversarialNet')(in_feature=self.model.output_num() * Dataset.num_classes,
-                                                                            hidden_size=args.hidden_size, max_iter=self.max_iter,
+                    self.AdversarialNet = getattr(model, 'AdversarialNet')(
+                                                                            in_feature=self.model.output_num() * Dataset.num_classes,
+                                                                            hidden_size=args.hidden_size,
+                                                                            max_iter=self.max_iter,
                                                                             trade_off_adversarial=args.trade_off_adversarial,
                                                                             lam_adversarial=args.lam_adversarial
                                                                             )
             else:
                 if args.bottleneck_num:
                     self.AdversarialNet = getattr(model, 'AdversarialNet')(in_feature=args.bottleneck_num,
-                                                                            hidden_size=args.hidden_size, max_iter=self.max_iter,
+                                                                            hidden_size=args.hidden_size, 
+                                                                            max_iter=self.max_iter,
                                                                             trade_off_adversarial=args.trade_off_adversarial,
                                                                             lam_adversarial=args.lam_adversarial
                                                                             )
                 else:
                     self.AdversarialNet = getattr(model, 'AdversarialNet')(in_feature=self.model.output_num(),
-                                                                            hidden_size=args.hidden_size, max_iter=self.max_iter,
+                                                                            hidden_size=args.hidden_size, 
+                                                                            max_iter=self.max_iter,
                                                                             trade_off_adversarial=args.trade_off_adversarial,
                                                                             lam_adversarial=args.lam_adversarial
                                                                             )
@@ -230,7 +232,7 @@ class TrainUtils(object):
         logging.info(summary(self.model_all, input_size=(args.batch_size, 16, 256)))
         print('Model build successfully!')
 
-    def train(self):
+    def train(self, cond):
         """
         Training process
         :return:
@@ -245,6 +247,7 @@ class TrainUtils(object):
 
         step = 0
         best_acc = 0.0
+        best_recall = 0
         batch_count = 0
         batch_loss = 0.0
         batch_acc = 0
@@ -252,11 +255,8 @@ class TrainUtils(object):
 
         iter_num = 0
         sub_dir = datetime.strftime(datetime.now(), '%m%d-%H%M%S')
-        # writer = SummaryWriter(f'./logs/to_{sub_dir}')
-        if isinstance(args.transfer_task[0], str):
-           args.transfer_task = eval("".join(args.transfer_task))
-        task = str(args.transfer_task[0]) + '-' + str(args.transfer_task[1])
-        writer = SummaryWriter(f'./logs/{task}/{task}{sub_dir}')
+
+        writer = SummaryWriter(f'./logs/{args.method}/{cond}/{cond}{sub_dir}')
 
         arr_middle_epoch = False
 
@@ -275,6 +275,7 @@ class TrainUtils(object):
 
             # Each epoch has a training and val phase
             for phase in ['source_train', 'source_val', 'target_val']:
+                # Define the temp variable
                 epoch_start = time.time()
                 epoch_acc = 0
                 epoch_loss = 0.0
@@ -282,8 +283,9 @@ class TrainUtils(object):
 
                 all_pred_labels_list = []
                 all_true_labels_list = []
+                best_recall_epoch = 0
 
-                feature_prep = torch.empty(0, 256, device=self.device)
+                feature_prep = torch.empty(0, args.bottleneck_num, device=self.device)
 
                 # Set model to train mode or test mode
                 if phase == 'source_train':
@@ -307,7 +309,11 @@ class TrainUtils(object):
                         labels = labels.to(self.device)
                     else:
                         source_inputs = inputs
-                        target_inputs, _ = iter_target.next()
+                        target_inputs, target_labels = iter_target.next()
+
+                        # target_domain的域标签需要+源域标签数目
+                        dt_labels = ((target_labels.long())//100).to(self.device)+len(args.transfer_task[0])
+
                         inputs = torch.cat((source_inputs, target_inputs), dim=0)
                         inputs = inputs.to(self.device)
                         labels = labels.to(self.device)
@@ -392,14 +398,15 @@ class TrainUtils(object):
 
                                     # 源域标签
                                     domain_label_source = torch.ones(labels.size(0)).float().to(
-                                        self.device)
+                                        self.device)    # (b,)
                                     # 目标域标签
                                     domain_label_target = torch.zeros(inputs.size(0) - labels.size(0)).float().to(
-                                        self.device)
+                                        self.device)    # (b,)
                                     adversarial_label = torch.cat((domain_label_source, domain_label_target), dim=0).to(
-                                        self.device)
+                                        self.device)    # (b*2,)
                                     weight = torch.cat((entropy_source / torch.sum(entropy_source).detach().item(),
                                                         entropy_target / torch.sum(entropy_target).detach().item()), dim=0)
+                                    # (b*2,)
 
                                     # adversarial_out 和 adversarial_label 中获取输入数据和标签
                                     adversarial_loss = torch.sum(weight.view(-1, 1) * self.adversarial_loss(adversarial_out.squeeze(), adversarial_label)) / torch.sum(weight).detach().item()
@@ -431,6 +438,15 @@ class TrainUtils(object):
 
                         all_true_labels_list.append(labels)
                         all_pred_labels_list.append(pred)
+                        confusion_matrix_val = (all_true_labels_list, all_pred_labels_list)
+
+                        matrix = generate_confusion_matrix(all_true_labels_list[-1].cpu().numpy(), all_pred_labels_list[-1].cpu().numpy())
+                        recall = calculate_label_recall(matrix, 1)
+                        if recall > best_recall_epoch:
+                            best_recall_epoch = recall
+                            # best_matrix = (all_true_labels_list[-1], all_pred_labels_list[-1])
+
+                        # confMatrix = generate_confusion_matrix(all_true_labels_list, all_pred_labels_list)
 
                         result_true = torch.cat(all_true_labels_list).view(-1)
                         result_prep = torch.cat(all_pred_labels_list).view(-1)
@@ -472,10 +488,10 @@ class TrainUtils(object):
                                 sample_per_sec = 1.0 * batch_count / train_time
 
                                 logging.info('Epoch: {} [{}/{}], Train Loss: {:.4f} Train Acc: {:.4f},'
-                                            '{:.1f} examples/sec {:.2f} sec/batch'.format(
-                                    epoch, batch_idx * len(inputs), len(self.dataloaders[phase].dataset),
-                                    batch_loss, batch_acc, sample_per_sec, batch_time
-                                ))
+                                             '{:.1f} examples/sec {:.2f} sec/batch'.format(
+                                              epoch, batch_idx * len(inputs), len(self.dataloaders[phase].dataset),
+                                              batch_loss, batch_acc, sample_per_sec, batch_time
+                                              ))
                                 batch_acc = 0
                                 batch_loss = 0.0
                                 batch_count = 0
@@ -485,6 +501,7 @@ class TrainUtils(object):
 
                 epoch_loss = epoch_loss / epoch_length
                 epoch_acc = epoch_acc / epoch_length
+
                 logging.info('Epoch: {} {}-Loss: {:.4f} {}-Acc: {:.4f}, Cost {:.1f} sec'.format(
                     epoch, phase, epoch_loss, phase, epoch_acc, time.time() - epoch_start
                 ))
@@ -496,24 +513,27 @@ class TrainUtils(object):
                 if phase == 'target_val':
                     # save the checkpoint for other learning
                     model_state_dic = self.model_all.state_dict()
+
                     # save the best model according to the val accuracy
-                    # if (epoch_acc > best_acc or epoch > args.max_epoch - 2) and (epoch > args.middle_epoch - 1):
+                    print(f"Isc recall:{best_recall_epoch}")
                     if epoch_acc > best_acc and epoch > args.middle_epoch/2:
-                        best_acc = epoch_acc
-                        logging.info("save best model epoch {}, acc {:.4f}".format(epoch, epoch_acc))
-                        torch.save(model_state_dic,
-                                   os.path.join(self.save_dir, '{}-{:.4f}-best_model.pth'.format(epoch, best_acc)))
+                        if best_recall_epoch > 75:
+                            best_acc = epoch_acc
+                            logging.info("save best model epoch {}, acc {:.4f}".format(epoch, epoch_acc))
+                            print("save best model epoch {}, acc {:.4f}".format(epoch, epoch_acc))
+                            torch.save(model_state_dic,
+                                       os.path.join(self.save_dir, '{}-{:.4f}-best_model.pth'.format(epoch, best_acc)))
 
-                        current_patience = 0  # 重置耐心计数器
-                        best_confusion_matrix_val = (all_true_labels_list, all_pred_labels_list)
+                            current_patience = 0  # 重置耐心计数器
+                            best_confusion_matrix_val = (all_true_labels_list, all_pred_labels_list)
 
-                        source_data_best = source_data
-                        source_label_best = source_label
-                        target_data_best = target_data
-                        target_label_best = target_label
+                            source_data_best = source_data
+                            source_label_best = source_label
+                            target_data_best = target_data
+                            target_label_best = target_label
                     else:
                         current_patience += 1  # 验证损失没有改善，耐心计数器加1
-            
+
             if self.lr_scheduler is not None:
                 self.lr_scheduler.step()
             # 判断是否达到耐心值，如果达到则停止训练
@@ -522,13 +542,14 @@ class TrainUtils(object):
                 writer.close()
                 break
 
-        summary_confusion = summarize_confusion_matrix(best_confusion_matrix_val[0], best_confusion_matrix_val[1], 5,
-                                                       ['Cor', 'Isc', 'Noi', 'Nor', 'Sti'],
-                                                       title='Target_Valid')
+        summary_confusion, matrix_plt = summarize_confusion_matrix(best_confusion_matrix_val[0],
+                                                                   best_confusion_matrix_val[1], 5,
+                                                                   ['Cor', 'Isc', 'Noi', 'Nor', 'Sti'],
+                                                                   title='Target_Valid')
         sne = plot_2D(source_data_best, source_label_best, target_data_best, target_label_best, classes)
         logging.info(summary_confusion)
         writer.add_figure('Source and Target Domains', sne)
-        # writer.add_figure('Confusion_matrix', conf_plt)
+        writer.add_figure('Confusion Matrix', matrix_plt)
         writer.close()
 
 
