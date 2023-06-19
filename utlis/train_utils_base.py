@@ -283,6 +283,7 @@ class TrainUtilsDA(object):
 
                 all_pred_labels_list = []
                 all_true_labels_list = []
+                total_recall = 0
                 best_recall_epoch = 0
 
                 feature_prep = torch.empty(0, args.bottleneck_num, device=self.device)
@@ -442,8 +443,11 @@ class TrainUtilsDA(object):
 
                         matrix = generate_confusion_matrix(all_true_labels_list[-1].cpu().numpy(), all_pred_labels_list[-1].cpu().numpy())
                         recall = calculate_label_recall(matrix, 1)
-                        if recall > best_recall_epoch:
-                            best_recall_epoch = recall
+                        total_recall += recall
+                        average_recall = total_recall/(batch_idx+1)
+
+                        if average_recall > best_recall_epoch:
+                            best_recall_epoch = average_recall
                             # best_matrix = (all_true_labels_list[-1], all_pred_labels_list[-1])
 
                         # confMatrix = generate_confusion_matrix(all_true_labels_list, all_pred_labels_list)
@@ -515,7 +519,7 @@ class TrainUtilsDA(object):
                     model_state_dic = self.model_all.state_dict()
 
                     # save the best model according to the val accuracy
-                    print(f"Isc recall:{best_recall_epoch}")
+                    print(f"Isc recall: {best_recall_epoch}")
                     if epoch_acc > best_acc and epoch > args.middle_epoch/2:
                         if best_recall_epoch > 75:
                             best_acc = epoch_acc

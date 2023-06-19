@@ -63,14 +63,14 @@ class Battery(object):
             # get source train and val
             list_data = get_files(self.source_N)  # 传入了源域和目标域
             data_pd = pd.DataFrame({"data": list_data[0], "label": list_data[1]})
-            train_pd, val_pd = train_test_split(data_pd, test_size=0.2, random_state=40, stratify=data_pd["label"])
+            train_pd, val_pd = train_test_split(data_pd, test_size=0.3, random_state=40, stratify=data_pd["label"])
             source_train = dataset(list_data=train_pd, transform=self.data_transforms['train'])
             source_val = dataset(list_data=val_pd, transform=self.data_transforms['val'])
 
             # get target train and val
             list_data = get_files(self.target_N)
             data_pd = pd.DataFrame({"data": list_data[0], "label": list_data[1]})
-            train_pd, val_pd = train_test_split(data_pd, test_size=0.2, random_state=40, stratify=data_pd["label"])
+            train_pd, val_pd = train_test_split(data_pd, test_size=0.3, random_state=40, stratify=data_pd["label"])
             target_train = dataset(list_data=train_pd, transform=self.data_transforms['train'])
             target_val = dataset(list_data=val_pd, transform=self.data_transforms['val'])
             return source_train, source_val, target_train, target_val

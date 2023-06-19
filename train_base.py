@@ -63,7 +63,7 @@ def parse_args():
     parser.add_argument('--weight-decay', type=float, default=1e-5, help='the weight decay')
     parser.add_argument('--lr_scheduler', type=str, choices=['step', 'exp', 'stepLR', 'fix'], default='step', help='the learning rate schedule')
     parser.add_argument('--gamma', type=float, default=0.8, help='learning rate scheduler parameter for step and exp')
-    parser.add_argument('--steps', type=str, default='80, 95, 100', help='the learning rate decay for step and stepLR')
+    parser.add_argument('--steps', type=str, default='80, 95, 105', help='the learning rate decay for step and stepLR')
 
     parser.add_argument('--criterion', type=str, choices=['Entropy', 'CeLoss'], default='CeLoss', help='')
 
