@@ -4,6 +4,7 @@ from model.models_yz import transformer
 from model.BiLSTM import BiLSTMAdFeatures
 
 from model.BiGRU import BiGruAdFeatures
+from model.ALstm import ALSTMAdFeatures
 
 from model.Resnet1d import resnet18_features as resnet_features_1d
 

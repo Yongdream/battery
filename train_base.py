@@ -19,11 +19,11 @@ def parse_args():
 
     # model and data parameters
     parser.add_argument('--method', type=str, default='DA', choices=['DG', 'DA'], help='the name of the method')
-    parser.add_argument('--model_name', type=str, default='BiGruAdFeatures', help='the name of the model')
+    parser.add_argument('--model_name', type=str, default='ALSTMAdFeatures', help='the name of the model')
     parser.add_argument('--data_name', type=str, default='Battery', help='the name of the data')
     parser.add_argument('--data_dir', type=str, default='../processed', help='the directory of the data')
 
-    parser.add_argument('--transfer_task', type=list, default=[[0], [2]], help='transfer learning tasks')
+    parser.add_argument('--transfer_task', type=list, default=[[0], [1]], help='transfer learning tasks')
     parser.add_argument('--normlizetype', type=str, default='mean-std', help='nomalization type')
 
     # adabn parameters
