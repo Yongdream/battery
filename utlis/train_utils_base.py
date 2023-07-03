@@ -310,12 +310,14 @@ class TrainUtilsDA(object):
                         labels = labels.to(self.device)
                     else:
                         source_inputs = inputs
+                        source_label = labels
                         target_inputs, target_labels = iter_target.next()
 
                         # target_domain的域标签需要+源域标签数目
                         dt_labels = ((target_labels.long())//100).to(self.device)+len(args.transfer_task[0])
 
                         inputs = torch.cat((source_inputs, target_inputs), dim=0)
+                        # labels = torch.cat((labels, target_labels))
                         inputs = inputs.to(self.device)
                         labels = labels.to(self.device)
                     if (step + 1) % len_target_loader == 0:

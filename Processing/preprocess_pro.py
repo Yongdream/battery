@@ -30,7 +30,7 @@ def sliding_window(data, window_size, stride):
 
 def extract_features(data):
     """
-    提取时间序列数据的均值、方差。
+    提取时间序列数据的均值、方差、最大变化率。
     :param data: 时间序列数据。
     :return: 提取的特征矩阵。
     """

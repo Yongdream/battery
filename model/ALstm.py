@@ -32,7 +32,7 @@ class ALSTMAdFeatures(nn.Module):
         self.conv_net = nn.Sequential()
         self.conv_net.add_module('conv1', nn.Conv1d(16, 32, kernel_size=6, stride=2, padding=2))
         self.conv_net.add_module('conv1_act1', nn.ReLU())
-        self.conv_net.add_module('avg', nn.AvgPool1d(kernel_size=3, stride=2, padding=1))
+        # self.conv_net.add_module('avg', nn.AvgPool1d(kernel_size=3, stride=2, padding=1))
         self.conv_net.add_module('conv2', nn.Conv1d(32, 64, kernel_size=3, stride=1, padding=1))
         self.conv_net.add_module('conv2_act2', nn.ReLU())
 
@@ -42,22 +42,23 @@ class ALSTMAdFeatures(nn.Module):
             num_layers=self.rnn_layer,
             batch_first=True,
             dropout=self.dropout,
+            bidirectional=True
         )
-
-        self.fc_out = nn.Linear(in_features=self.hid_size * 2, out_features=128)
 
         self.att_net = nn.Sequential()
         self.att_net.add_module(
             "att_fc_in",
-            nn.Linear(in_features=self.hid_size, out_features=int(self.hid_size / 2)),
+            nn.Linear(in_features=self.hid_size * 2, out_features=int(self.hid_size * 4)),
         )
         self.att_net.add_module("att_dropout", torch.nn.Dropout(self.dropout))
         self.att_net.add_module("att_act", nn.ReLU())
         self.att_net.add_module(
             "att_fc_out",
-            nn.Linear(in_features=int(self.hid_size / 2), out_features=64, bias=False),
+            nn.Linear(in_features=int(self.hid_size * 4), out_features=128, bias=False),
         )
         self.att_net.add_module("att_softmax", nn.Softmax(dim=1))
+
+        self.fc_out = nn.Linear(in_features=256, out_features=128)
 
     def forward(self, inputs):
         # inputs: [batch_size, input_size*input_day]
