@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.gridspec as gridspec
 import torch
 from torch import nn
 from sklearn.manifold import TSNE
@@ -9,7 +10,7 @@ import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
 
-def plot_embedding(data, label, classes, alpha=1.0, ax=None, target_marker='o', target_size=80, cmap='tab10'):
+def plot_embedding(data, label, classes, alpha=1.0, ax=None, target_marker='o', target_size=40, cmap='tab20'):
     """
     data为n * 2矩阵
     label为n * 1向量，对应着data的标签
@@ -40,53 +41,102 @@ def plot_embedding(data, label, classes, alpha=1.0, ax=None, target_marker='o', 
     ax.spines['top'].set_visible(False)
 
 
-def plot_2D(source_data, source_label, target_data, target_label, classes):
-    print('Computing t-SNE embedding for source domain')
-    tsne = TSNE(n_components=2, init='pca', random_state=0, n_jobs=-1)
-
-    source_result = tsne.fit_transform(source_data.cpu().detach().numpy())
-    source_label = source_label.cpu().detach().numpy()
-
-    print('Computing t-SNE embedding for target domain')
-    target_result = tsne.fit_transform(target_data.cpu().detach().numpy())
-    target_label = target_label.cpu().detach().numpy()
+def plot_label_2D(source_data, source_label, target_data, target_label, classes):
+    tsne = TSNE(n_components=2, random_state=0, n_jobs=-1)
+    plot_only = 3000
 
     fig, ax = plt.subplots(figsize=(12, 9))
-    ax.set_title('Source and Target Domains')
+    ax.set_title('Source and Target Label')
 
-    plot_embedding(source_result, source_label, classes, ax=ax)
+    print('Computing t-SNE embedding for source domain')
+    source_result = tsne.fit_transform(source_data[:plot_only, :].cpu().detach().numpy())
+    source_label = source_label[:plot_only].cpu().detach().numpy()
+    plot_embedding(source_result, source_label, classes, ax=ax, alpha=0.7)
+
     source_legend = ax.legend(classes, loc='center left', bbox_to_anchor=(0.95, 1))
-
-    plot_embedding(target_result, target_label, classes, alpha=0.3, ax=ax, target_marker='*')
-    # target_legend = ax.legend(classes, loc='center left', bbox_to_anchor=(0.95, 0.7))
-
     ax.add_artist(source_legend)
-    # ax.add_artist(target_legend)
+
+    print('Computing t-SNE embedding for target domain')
+    target_result = tsne.fit_transform(target_data[:plot_only, :].cpu().detach().numpy())
+    target_label = target_label[:plot_only].cpu().detach().numpy()
+    plot_embedding(target_result, target_label, classes, ax=ax, alpha=0.7)
 
     ax.spines['right'].set_visible(False)
     ax.spines['top'].set_visible(False)
-
     plt.show()
 
     return fig
 
-# data = (b, feature)       label = (b, )
-# num_samples = 128
-# feature = 128
+
+def plot_domain_2D(source_data, source_label, target_data, target_label, classes):
+    tsne = TSNE(n_components=2, random_state=0, n_jobs=-1)
+    plot_only = 3000
+
+    fig, ax = plt.subplots(figsize=(12, 9))
+    ax.set_title('Source and Target Domain')
+
+    print('Computing t-SNE embedding for source domain')
+    source_domain_result = tsne.fit_transform(source_data[:plot_only, :].cpu().detach().numpy())
+    source_domain_label = source_label[:plot_only].cpu().detach().numpy()
+    plot_embedding(source_domain_result, source_domain_label, classes, ax=ax, cmap='Accent')
+
+    print('Computing t-SNE embedding for target domain')
+    target_result = tsne.fit_transform(target_data[:plot_only, :].cpu().detach().numpy())
+    target_label = target_label[:plot_only].cpu().detach().numpy()
+    plot_embedding(target_result, target_label, classes, ax=ax, cmap='Dark2')
+
+    target_legend = ax.legend(classes, loc='center left', bbox_to_anchor=(0.95, 1))
+    ax.add_artist(target_legend)
+
+    ax.spines['right'].set_visible(False)
+    ax.spines['top'].set_visible(False)
+    plt.show()
+
+    return fig
+
+# def plot_label_2D(source_data, source_label, target_data, target_label, classes):
+#     tsne = TSNE(n_components=2, random_state=0, n_jobs=-1)
+#     plot_only = 3000
 #
-# # 生成源域数据和标签
-# source_data = np.random.randn(num_samples, 128)
-# source_label = np.random.randint(0, 5, size=num_samples)
-# # source_data, source_label = make_blobs(n_samples=num_samples, centers=5, n_features=256, random_state=0)
+#     fig = plt.figure(figsize=(15, 5))
+#     gs = gridspec.GridSpec(1, 3, width_ratios=[1, 1, 1])
 #
-# # 生成目标域数据和标签
-# target_data = np.random.randn(num_samples, 128)
-# target_label = np.random.randint(0, 5, size=num_samples)
-# # target_data, target_label = make_blobs(n_samples=num_samples, centers=5, n_features=256, random_state=1)
+#     ax0 = plt.subplot(gs[0])
+#     ax1 = plt.subplot(gs[1])
+#     ax2 = plt.subplot(gs[2])
 #
-# # 定义类别列表
-# classes = ['Class 0', 'Class 1', 'Class 2', 'Class 3', 'Class 4']
+#     ax0.set_title('Source Label')
+#     ax1.set_title('Target Label')
+#     ax2.set_title('Combined Label')
 #
-# # 绘制源域和目标域的二维表示
-# fig = plot_2D(source_data, source_label, target_data, target_label, classes)
-# # plt.show()
+#     print('Computing t-SNE embedding for source domain')
+#     source_result = tsne.fit_transform(source_data[:plot_only, :].cpu().detach().numpy())
+#     source_label = source_label[:plot_only].cpu().detach().numpy()
+#     plot_embedding(source_result, source_label, classes, ax=ax0)
+#
+#     print('Computing t-SNE embedding for target domain')
+#     target_result = tsne.fit_transform(target_data[:plot_only, :].cpu().detach().numpy())
+#     target_label = target_label[:plot_only].cpu().detach().numpy()
+#     plot_embedding(target_result, target_label, classes, ax=ax1)
+#
+#     combined_result = np.vstack((source_result, target_result))
+#     combined_label = np.hstack((source_label, target_label))
+#     plot_embedding(combined_result, combined_label, classes, ax=ax2)
+#
+#     source_legend = ax2.legend(classes, loc='center left', bbox_to_anchor=(0.95, 1))
+#     ax2.add_artist(source_legend)
+#
+#     for ax in [ax0, ax1, ax2]:
+#         ax.spines['right'].set_visible(False)
+#         ax.spines['top'].set_visible(False)
+#         ax.set_aspect('equal')
+#         ax.set_xticks([])
+#         ax.set_yticks([])
+#
+#     plt.subplots_adjust(wspace=0.3)
+#     plt.show()
+#
+#     return fig
+
+
+

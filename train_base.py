@@ -19,11 +19,11 @@ def parse_args():
 
     # model and data parameters
     parser.add_argument('--method', type=str, default='DA', choices=['DG', 'DA'], help='the name of the method')
-    parser.add_argument('--model_name', type=str, default='ALSTMAdFeatures', help='the name of the model')
+    parser.add_argument('--model_name', type=str, default='Res_AltsmFeatures', help='the name of the model')
     parser.add_argument('--data_name', type=str, default='Battery', help='the name of the data')
     parser.add_argument('--data_dir', type=str, default='../processed', help='the directory of the data')
 
-    parser.add_argument('--transfer_task', type=list, default=[[0], [1]], help='transfer learning tasks')
+    parser.add_argument('--transfer_task', type=list, default=[[1], [2]], help='transfer learning tasks')
     parser.add_argument('--normlizetype', type=str, default='mean-std', help='nomalization type')
 
     # adabn parameters
@@ -41,7 +41,7 @@ def parse_args():
     parser.add_argument('--patience', type=int, default=50, help='Early Stopping')
 
     parser.add_argument('--bottleneck', type=bool, default=True, help='whether using the bottleneck layer')
-    parser.add_argument('--bottleneck_num', type=int, default=256, help='whether using the bottleneck layer')
+    parser.add_argument('--bottleneck_num', type=int, default=128, help='whether using the bottleneck layer')
     parser.add_argument('--last_batch', type=bool, default=False, help='whether using the last batch')
 
     #
@@ -51,7 +51,7 @@ def parse_args():
     parser.add_argument('--lam_distance', type=float, default=1.2, help='this is used for Cons')
     #
     parser.add_argument('--domain_adversarial', type=bool, default=True, help='whether use domain_adversarial')
-    parser.add_argument('--adversarial_loss', type=str, choices=['DA', 'CDA', 'CDA+E'], default='CDA+E', help='which adversarial loss you use')
+    parser.add_argument('--adversarial_loss', type=str, choices=['DA', 'CDA', 'CDA+E'], default='CDA', help='which adversarial loss you use')
     parser.add_argument('--hidden_size', type=int, default=1024, help='whether using the last batch')
     parser.add_argument('--trade_off_adversarial', type=str, default='Step', help='')
     parser.add_argument('--lam_adversarial', type=float, default=2, help='this is used for Cons')

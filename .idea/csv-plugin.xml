@@ -66,6 +66,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\data\fuds\FUDS_Isc_5ohm_0714_copy.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\data\fuds\FUDS_Nor_0711.csv">
           <value>
             <Attribute>
@@ -171,6 +178,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\data\udds\UDDS_Isc_5ohm_0629_copy.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\data\udds\UDDS_Nor_0706.csv">
           <value>
             <Attribute>
@@ -193,6 +207,13 @@
           </value>
         </entry>
         <entry key="\data\us06\US06_Isc_1ohm_0907_copy.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\data\us06\US06_Isc_5ohm_1008_copy.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />

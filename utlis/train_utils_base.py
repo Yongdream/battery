@@ -3,6 +3,8 @@ import os
 import time
 import warnings
 import math
+
+import numpy as np
 import torch
 from torch import nn
 from torch import optim
@@ -23,11 +25,12 @@ from loss.CORAL import CORAL
 from utlis.entropy_CDA import Entropy
 from utlis.entropy_CDA import calc_coeff
 from utlis.entropy_CDA import grl_hook
-from utlis.plot_sne import plot_2D
+from utlis.plot_sne import plot_label_2D, plot_domain_2D
 from utlis.plot_3dsne import plot_3D
 
 
-classes = ['Cor', 'Isc', 'Noi', 'Nor', 'Sti']
+lab_classes = ['Cor', 'Isc', 'Noi', 'Nor', 'Sti']
+dom_classes = ['source', 'target']
 
 
 def apply_dropout(m):
@@ -81,10 +84,10 @@ class TrainUtilsDA(object):
             self.bottleneck_layer = nn.Sequential(nn.Linear(self.model.output_num(), args.bottleneck_num),
                                                   nn.ReLU(inplace=True), nn.Dropout())
             self.classifier_layer = nn.Linear(args.bottleneck_num, Dataset.num_classes)
+            self.model_all = nn.Sequential(self.model, self.bottleneck_layer, self.classifier_layer)
         else:
             self.classifier_layer = nn.Linear(self.model.output_num(), Dataset.num_classes)
-
-        self.model_all = nn.Sequential(self.model, self.bottleneck_layer, self.classifier_layer)
+            self.model_all = nn.Sequential(self.model, self.classifier_layer)
 
         if args.domain_adversarial:
             self.max_iter = len(self.dataloaders['source_train']) * (args.max_epoch - args.middle_epoch)
@@ -255,7 +258,6 @@ class TrainUtilsDA(object):
 
         iter_num = 0
         sub_dir = datetime.strftime(datetime.now(), '%m%d-%H%M%S')
-
         writer = SummaryWriter(f'./logs/{args.method}/{cond}/{cond}{sub_dir}')
 
         arr_middle_epoch = False
@@ -286,7 +288,7 @@ class TrainUtilsDA(object):
                 total_recall = 0
                 best_recall_epoch = 0
 
-                feature_prep = torch.empty(0, args.bottleneck_num, device=self.device)
+                feature_all = torch.empty(0, args.bottleneck_num, device=self.device)
 
                 # Set model to train mode or test mode
                 if phase == 'source_train':
@@ -336,7 +338,7 @@ class TrainUtilsDA(object):
                             loss = self.criterion(logits, labels)
                         else:
                             # 如果阶段是'source_train'并且当前轮次大于等于args.middle_epoch
-                            logits = outputs.narrow(0, 0, labels.size(0))
+                            logits = outputs.narrow(0, 0, labels.size(0))   # 虽然引入了目标域 但是并不预测其的label，只是以此来对源域算loss
                             classifier_loss = self.criterion(logits, labels)
 
                             # Calculate the distance metric
@@ -456,18 +458,41 @@ class TrainUtilsDA(object):
 
                         result_true = torch.cat(all_true_labels_list).view(-1)
                         result_prep = torch.cat(all_pred_labels_list).view(-1)
-                        feature_prep = torch.cat((feature_prep, features), dim=0)
 
                         if phase == 'source_train':
-                            # source_data = feature_prep
-                            # source_label = result_true
-                            source_data = features
-                            source_label = labels
+                            if epoch >= args.middle_epoch:
+                                source_feature_num = len(features) // 2
+                                feature_all = torch.cat((feature_all, features[:source_feature_num, :]), dim=0)
+                                source_data = feature_all
+                                source_label = result_prep
+                            else:
+                                feature_all = torch.cat((feature_all, features), dim=0)
+                                source_data = feature_all
+                                source_label = result_prep
                         elif phase == 'target_val':
-                            # target_data = feature_prep
-                            # target_label = result_prep
-                            target_data = features
-                            target_label = labels
+                            feature_all = torch.cat((feature_all, features), dim=0)
+                            target_data = feature_all
+                            target_label = result_prep
+
+                        # if epoch < args.middle_epoch:
+                        #     feature_all = torch.cat((feature_all, features), dim=0)
+                        #     if phase == 'source_train':
+                        #         source_data = feature_all
+                        #         source_label = result_prep
+                        #     elif phase == 'target_val':
+                        #         target_data = feature_all
+                        #         target_label = result_prep
+                        # else:
+                        #     if phase == 'source_train':
+                        #         source_feature_num = len(features) // 2
+                        #         feature_all = torch.cat((feature_all, features[:source_feature_num, :]), dim=0)
+                        #
+                        #         source_data = feature_all
+                        #         source_label = result_prep
+                        #     elif phase == 'target_val':
+                        #         feature_all = torch.cat((feature_all, features), dim=0)
+                        #         target_data = feature_all
+                        #         target_label = result_prep
 
                         # Calculate the training information
                         if phase == 'source_train':
@@ -537,6 +562,9 @@ class TrainUtilsDA(object):
                             source_label_best = source_label
                             target_data_best = target_data
                             target_label_best = target_label
+
+                            source_domain_label = torch.from_numpy(np.zeros(source_data_best.shape[0])).to(self.device)
+                            target_domain_label = torch.from_numpy(np.ones(target_data_best.shape[0])).to(self.device)
                     else:
                         current_patience += 1  # 验证损失没有改善，耐心计数器加1
 
@@ -552,10 +580,14 @@ class TrainUtilsDA(object):
                                                                    best_confusion_matrix_val[1], 5,
                                                                    ['Cor', 'Isc', 'Noi', 'Nor', 'Sti'],
                                                                    title='Target_Valid')
-        sne = plot_2D(source_data_best, source_label_best, target_data_best, target_label_best, classes)
+        sne = plot_label_2D(source_data_best, source_label_best, target_data_best, target_label_best, lab_classes)
+        sne_domain = plot_domain_2D(source_data_best, source_domain_label, target_data_best, target_domain_label,
+                                   dom_classes)
         logging.info(summary_confusion)
-        writer.add_figure('Source and Target Domains', sne)
+        writer.add_figure('Source and Target Labels ', sne)
+        writer.add_figure('Source and Target Domains ', sne_domain)
         writer.add_figure('Confusion Matrix', matrix_plt)
+
         writer.close()
 
 

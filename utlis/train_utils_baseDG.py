@@ -23,7 +23,7 @@ from loss.CORAL import CORAL
 from utlis.entropy_CDA import Entropy
 from utlis.entropy_CDA import calc_coeff
 from utlis.entropy_CDA import grl_hook
-from utlis.plot_sne import plot_2D
+from utlis.plot_sne import plot_label_2D
 from utlis.plot_3dsne import plot_3D
 
 
@@ -374,7 +374,7 @@ class TrainUtilsDG(object):
                                                                    best_confusion_matrix_val[1], 5,
                                                                    ['Cor', 'Isc', 'Noi', 'Nor', 'Sti'],
                                                                    title='Target_Valid')
-        sne = plot_2D(source_data_best, source_label_best, target_data_best, target_label_best, classes)
+        sne = plot_label_2D(source_data_best, source_label_best, target_data_best, target_label_best, classes)
         logging.info(summary_confusion)
         writer.add_figure('Source and Target Domains', sne)
         writer.add_figure('Confusion Matrix', matrix_plt)
