@@ -4,18 +4,13 @@ import random
 import torch
 
 from matplotlib import pyplot as plt
-from sklearn.manifold import TSNE
 from prettytable import PrettyTable
 import numpy as np
-from warnings import simplefilter
 import torch.nn as nn
 import torch.nn.functional as F
 
-from plot import ConfusionMatrix
+from utlis.plotCFM import ConfusionMatrix
 from sklearn.metrics import confusion_matrix
-
-
-from datetime import datetime
 
 
 # Label Smoothing 标签平滑

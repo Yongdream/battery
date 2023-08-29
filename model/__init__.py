@@ -12,3 +12,7 @@ from model.AdversarialNet import AdversarialNet
 from model.AdversarialNet import AdversarialNet_multi
 from model.BiGRU_psa import BiGruAdPSAFeatures
 from model.VAE_ALSTM import Res_AltsmFeatures
+
+import model.VARE as VareFea
+
+import model.ATTFE as ATTFE

@@ -69,7 +69,7 @@ def preprocess_dataset(dataset_folder, Classification, folder):
         values = filename.split('_')[1]
         data = pd.read_csv(file_path, header=0)
 
-        win_data_list = sliding_window(data, 256, 5)
+        win_data_list = sliding_window(data, 256, 5)    # 滑窗获得数据
 
         for i, win_data in enumerate(win_data_list, start=1):
             features = normalize_matrix(win_data).astype('float')

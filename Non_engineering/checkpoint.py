@@ -1,7 +1,7 @@
 import os
 
 # 指定文件夹路径和目标文件夹路径
-folder_path = 'checkpoint/'
+folder_path = '../checkpoint/'
 destination_path = 'checkpoint/[0]-[1]'
 
 # 遍历文件夹中的子文件夹

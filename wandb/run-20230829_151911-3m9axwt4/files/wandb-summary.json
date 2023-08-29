@@ -1,0 +1,1 @@
+{"Epoch": 0, "source_train-Loss": 1.2834225777994122, "source_train-Acc": 0.38192160087719296, "Cost": 0.7430682182312012, "_timestamp": 1693293582.1920722, "_runtime": 30.9028902053833, "_step": 2, "source_val-Loss": 1.051544332990841, "source_val-Acc": 0.5014349489795918, "target_val-Loss": 1.5118516377500586, "target_val-Acc": 0.34184966216216217, "_wandb": {"runtime": 16}}

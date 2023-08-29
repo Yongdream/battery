@@ -16,10 +16,9 @@ class Encoder(nn.Module):
     :param hidden_size: hidden size of the RNN
     :param hidden_layer_depth: number of layers in RNN
     :param latent_length: latent vector length
-    :param dropout: percentage of nodes to dropout
     :param block: LSTM/GRU block
     """
-    def __init__(self, number_of_features, hidden_size, hidden_layer_depth, latent_length, dropout, block = 'LSTM'):
+    def __init__(self, number_of_features, hidden_size, hidden_layer_depth, latent_length, block = 'LSTM'):
 
         super(Encoder, self).__init__()
 
@@ -29,16 +28,16 @@ class Encoder(nn.Module):
         self.latent_length = latent_length
 
         if block == 'LSTM':
-            self.model = nn.LSTM(self.number_of_features, self.hidden_size, self.hidden_layer_depth, dropout = dropout)
+            self.model = nn.LSTM(self.number_of_features, self.hidden_size, self.hidden_layer_depth, bidirectional=True)
         elif block == 'GRU':
-            self.model = nn.GRU(self.number_of_features, self.hidden_size, self.hidden_layer_depth, dropout = dropout, bidirectional=True)
+            self.model = nn.GRU(self.number_of_features, self.hidden_size, self.hidden_layer_depth, bidirectional=True)
         else:
             raise NotImplementedError
 
         self.att_net = nn.Sequential()
         self.att_net.add_module(
             "att_fc_in",
-            nn.Linear(in_features=90, out_features=180),
+            nn.Linear(in_features=hidden_size, out_features=180),
         )
         self.att_net.add_module("att_act", nn.ReLU())
         self.att_net.add_module(
@@ -51,14 +50,13 @@ class Encoder(nn.Module):
         """
         Forward propagation of encoder. Given input, outputs the last hidden state of encoder
         """
+        x = x.permute(2, 0, 1)
         # torch.Size([256, 128, 16])
         _, h = self.model(x)
-        # torch.Size([1, 128, 90])
+        # torch.Size([1, 128, 32])
 
-        h_end = h[-1, :, :]     # torch.Size([128, 90])
-
+        h_end = h[-1, :, :]     # torch.Size([128, 32])
         attention_score = self.att_net(h_end)           # torch.Size([128, 1])
-        print(attention_score.shape)
         h_out_att = torch.mul(h_end, attention_score)   # 使用注意力分数加权 torch.Size([128, 90])
         # h_cat = torch.sum(h_out_att, dim=1)
         return h_out_att
@@ -89,7 +87,7 @@ class Lambda(nn.Module):
         :return: latent vector
         """
 
-        # torch.Size([128, 90])
+        # torch.Size([128, 32])
         self.latent_mean = self.hidden_to_mean(cell_output)
         # torch.Size([128, 20])
         self.latent_logvar = self.hidden_to_logvar(cell_output)
@@ -130,7 +128,7 @@ class Decoder(nn.Module):
         if block == 'LSTM':
             self.model = nn.LSTM(1, self.hidden_size, self.hidden_layer_depth)
         elif block == 'GRU':
-            self.model = nn.GRU(1, self.hidden_size, self.hidden_layer_depth)
+            self.model = nn.GRU(1, self.hidden_size, self.hidden_layer_depth)       # 后期看能不能改为双向！
         else:
             raise NotImplementedError
 
@@ -149,19 +147,34 @@ class Decoder(nn.Module):
         :param latent: latent vector
         :return: outputs consisting of mean and std dev of vector
         """
-        h_state = self.latent_to_hidden(latent)
+        h_state = self.latent_to_hidden(latent)  # torch.Size([128, 32])
+        device = h_state.device  # 获取h_state所在的设备
 
         if isinstance(self.model, nn.LSTM):
-            h_0 = torch.stack([h_state for _ in range(self.hidden_layer_depth)])
-            decoder_output, _ = self.model(self.decoder_inputs, (h_0, self.c_0))
+            h_0 = torch.stack([h_state.to(device) for _ in range(self.hidden_layer_depth)])
+            decoder_output, _ = self.model(self.decoder_inputs.to(device), (h_0, self.c_0))
         elif isinstance(self.model, nn.GRU):
-            h_0 = torch.stack([h_state for _ in range(self.hidden_layer_depth)])
-            decoder_output, _ = self.model(self.decoder_inputs, h_0)
+            h_0 = torch.stack([h_state.to(device) for _ in range(self.hidden_layer_depth)])  # torch.Size([5, 128, 32])
+            decoder_output, _ = self.model(self.decoder_inputs.to(device), h_0)  # torch.Size([256, 128, 32])
         else:
             raise NotImplementedError
 
-        out = self.hidden_to_output(decoder_output)
+        out = self.hidden_to_output(decoder_output)         # torch.Size([256, 128, 16])
+        out = out.permute(1, 2, 0)                          # torch.Size([128, 16, 256])
         return out
+
+
+class Linear(nn.Module):
+    def __init__(self, latent_length):
+        super(Linear, self).__init__()
+        self.fc1 = nn.Linear(latent_length, 64)
+        self.fc2 = nn.Linear(64, 128)
+
+    def forward(self, latent):
+        x = self.fc1(latent)  # 第一层前向传播
+        x = torch.relu(x)  # 使用ReLU激活函数
+        x = self.fc2(x)  # 第二层前向传播
+        return x
 
 
 def _assert_no_grad(tensor):
@@ -170,7 +183,7 @@ def _assert_no_grad(tensor):
         "mark these tensors as not requiring gradients"
 
 
-class VRAE(nn.Module):
+class VAREAdFeatures(nn.Module):
     """Variational recurrent auto-encoder. This module is used for dimensionality reduction of timeseries
 
     :param sequence_length: length of the input sequence
@@ -192,26 +205,16 @@ class VRAE(nn.Module):
     :param dload: Download directory where models are to be dumped
     """
     def __init__(self, sequence_length, number_of_features, hidden_size=90, hidden_layer_depth=5, latent_length=20,
-                 batch_size=32, learning_rate=0.005, block='GRU',
-                 n_epochs=5, dropout_rate=0., optimizer='Adam', loss='MSELoss',
-                 cuda=False, print_every=100, clip=True, max_grad_norm=5, dload='.'):
+                 block='GRU', clip=True, max_grad_norm=5, dload='.'):
 
-        super(VRAE, self).__init__()
+        super(VAREAdFeatures, self).__init__()
 
         self.dtype = torch.FloatTensor
-        self.use_cuda = cuda
-
-        if not torch.cuda.is_available() and self.use_cuda:
-            self.use_cuda = False
-
-        if self.use_cuda:
-            self.dtype = torch.cuda.FloatTensor
 
         self.encoder = Encoder(number_of_features = number_of_features,
                                hidden_size=hidden_size,
                                hidden_layer_depth=hidden_layer_depth,
                                latent_length=latent_length,
-                               dropout=dropout_rate,
                                block=block)
 
         self.lmbd = Lambda(hidden_size=hidden_size,
@@ -226,42 +229,20 @@ class VRAE(nn.Module):
                                block=block,
                                dtype=self.dtype)
 
+        self.fc = Linear(latent_length=latent_length,
+                         )
+
         self.sequence_length = sequence_length
         self.hidden_size = hidden_size
         self.hidden_layer_depth = hidden_layer_depth
         self.latent_length = latent_length
-        self.batch_size = batch_size
-        self.learning_rate = learning_rate
-        self.n_epochs = n_epochs
 
-        self.print_every = print_every
         self.clip = clip
         self.max_grad_norm = max_grad_norm
         self.is_fitted = False
         self.dload = dload
 
-        if self.use_cuda:
-            self.cuda()
-
-        if optimizer == 'Adam':
-            self.optimizer = optim.Adam(self.parameters(), lr=learning_rate)
-        elif optimizer == 'SGD':
-            self.optimizer = optim.SGD(self.parameters(), lr=learning_rate)
-        else:
-            raise ValueError('Not a recognized optimizer')
-
-        if loss == 'SmoothL1Loss':
-            self.loss_fn = nn.SmoothL1Loss(size_average=False)
-        elif loss == 'MSELoss':
-            self.loss_fn = nn.MSELoss(size_average=False)
-
         self.__in_features = 128
-
-    def __repr__(self):
-        return """VRAE(n_epochs={n_epochs},batch_size={batch_size},cuda={cuda})""".format(
-                n_epochs=self.n_epochs,
-                batch_size=self.batch_size,
-                cuda=self.use_cuda)
 
     def forward(self, x):
         """
@@ -272,9 +253,10 @@ class VRAE(nn.Module):
         """
         cell_output = self.encoder(x)       # torch.Size([B, 90])
         latent = self.lmbd(cell_output)     # torch.Size([B, 20])
-        x_decoded = self.decoder(latent)    # torch.Size([256, B, 16])
+        features = self.fc(latent)
+        decoded = self.decoder(latent)      # torch.Size([256, B, 16])
 
-        return x_decoded, latent
+        return features
 
     def _rec(self, x_decoded, x, loss_fn):
         """
@@ -303,7 +285,7 @@ class VRAE(nn.Module):
         x = Variable(X[:,:,:].type(self.dtype), requires_grad = True)
 
         x_decoded, _ = self(x)
-        loss, recon_loss, kl_loss = self._rec(x_decoded, x.detach(), self.loss_fn)
+        
 
         return loss, recon_loss, kl_loss, x
 
@@ -344,29 +326,6 @@ class VRAE(nn.Module):
                                                                                     recon_loss.item(), kl_loss.item()))
 
         print('Average loss: {:.4f}'.format(epoch_loss / t))
-
-    def fit(self, dataset, save = False):
-        """
-        Calls `_train` function over a fixed number of epochs, specified by `n_epochs`
-
-        :param dataset: `Dataset` object
-        :param bool save: If true, dumps the trained model parameters as pickle file at `dload` directory
-        :return:
-        """
-
-        train_loader = DataLoader(dataset = dataset,
-                                  batch_size = self.batch_size,
-                                  shuffle = True,
-                                  drop_last=True)
-
-        for i in range(self.n_epochs):
-            print('Epoch: %s' % i)
-
-            self._train(train_loader)
-
-        self.is_fitted = True
-        if save:
-            self.save('model.pth')
 
     def _batch_transform(self, x):
         """
@@ -471,57 +430,25 @@ class VRAE(nn.Module):
 
         raise RuntimeError('Model needs to be fit')
 
-    def fit_transform(self, dataset, save = False):
-        """
-        Combines the `fit` and `transform` functions above
+class VAREAPar(nn.Module):
+    def __init__(self):
+        super(VAREAPar, self).__init__()
 
-        :param dataset: Dataset on which fit and transform have to be performed
-        :param bool save: If true, dumps the model and latent vectors as pickle file
-        :return: latent vectors for input dataset
-        """
-        self.fit(dataset, save = save)
-        return self.transform(dataset, save = save)
-
-    def save(self, file_name):
-        """
-        Pickles the model parameters to be retrieved later
-
-        :param file_name: the filename to be saved as,`dload` serves as the download directory
-        :return: None
-        """
-        PATH = self.dload + '/' + file_name
-        if os.path.exists(self.dload):
-            pass
-        else:
-            os.mkdir(self.dload)
-        torch.save(self.state_dict(), PATH)
-
-    def load(self, PATH):
-        """
-        Loads the model's parameters from the path mentioned
-
-        :param PATH: Should contain pickle file
-        :return: None
-        """
-        self.is_fitted = True
-        self.load_state_dict(torch.load(PATH))
-
+        self.__in_features = 128
+        
     def output_num(self):
         return self.__in_features
 
 
-hidden_size = 90
-hidden_layer_depth = 5
-latent_length = 20
-learning_rate = 0.0005
-n_epochs = 40
-dropout_rate = 0.2
-optimizer = 'Adam'  # options: ADAM, SGD
-cuda = True     # options: True, False
+
 print_every = 30
 clip = True     # options: True, False
 max_grad_norm = 5
 loss = 'MSELoss'    # options: SmoothL1Loss, MSELoss
+
+hidden_size = 32
+hidden_layer_depth = 5
+latent_length = 20
 block = 'GRU'  # options: LSTM, GRU
 
 batch_size = 128
@@ -529,38 +456,24 @@ number_of_features = 16
 sequence_length = 256
 
 # (sequence_length, batch_size, number_of_features)
-input_tensor = torch.randn(sequence_length, batch_size, number_of_features)
-test_tensor = torch.randn(sequence_length, batch_size, number_of_features)
-
-# Check if CUDA is available
-if torch.cuda.is_available():
-    # Move the input tensor to CUDA device
-    input_tensor = input_tensor.to('cuda')
+# (batch_size, number_of_features, sequence_length)
+input_tensor = torch.randn(batch_size, number_of_features, sequence_length)
 
 # 创建模型实例
-model = VRAE(sequence_length=sequence_length,
-            number_of_features=number_of_features,
-            hidden_size=hidden_size,
-            hidden_layer_depth=hidden_layer_depth,
-            latent_length = latent_length,
-            batch_size = batch_size,
-            learning_rate = learning_rate,
-            n_epochs = n_epochs,
-            dropout_rate = dropout_rate,
-            optimizer = optimizer,
-            cuda = cuda,
-            print_every=print_every,
-            clip=clip,
-            max_grad_norm=max_grad_norm,
-            loss = loss,
-            block = block)
+model = VAREAdFeatures(sequence_length=sequence_length,
+                        number_of_features=number_of_features,
+                        hidden_size=hidden_size,
+                        hidden_layer_depth=hidden_layer_depth,
+                        latent_length=latent_length,
+                        clip=clip,
+                        max_grad_norm=max_grad_norm,
+                        block=block)
 
 
-x_decoded, latent = model(input_tensor)
+features = model(input_tensor)
 
-summary(model, input_size=(256, batch_size, 16))
-
+# summary(model, input_size=(256, batch_size, 16))
 
 # 打印输出张量的形状
-print("x_decoded shape:", x_decoded.shape)
-print("latent shape:", latent.shape)
+print("features shape:", features.shape)
+

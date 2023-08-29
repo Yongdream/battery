@@ -1,0 +1,833 @@
+07-25 19:31:58 -----Epoch 0/127-----
+07-25 19:31:58 current lr: [0.001, 0.001, 0.001, 0.001]
+07-25 19:31:59 Epoch: 0 [0/14701], Train Loss: 1.6151 Train Acc: 0.1797,10.6 examples/sec 12.09 sec/batch
+07-25 19:32:04 Epoch: 0 source_train-Loss: 1.2162 source_train-Acc: 0.3978, Cost 5.7 sec
+07-25 19:32:04 Epoch: 0 source_val-Loss: 1.0684 source_val-Acc: 0.4864, Cost 0.3 sec
+07-25 19:32:04 Epoch: 0 target_val-Loss: 1.1046 target_val-Acc: 0.5221, Cost 0.3 sec
+07-25 19:32:04 -----Epoch 1/127-----
+07-25 19:32:04 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 22.22
+07-25 19:32:09 Epoch: 1 source_train-Loss: 1.0763 source_train-Acc: 0.5095, Cost 4.5 sec
+07-25 19:32:09 Epoch: 1 source_val-Loss: 0.9978 source_val-Acc: 0.6062, Cost 0.3 sec
+07-25 19:32:09 Epoch: 1 target_val-Loss: 1.0689 target_val-Acc: 0.5143, Cost 0.4 sec
+07-25 19:32:09 -----Epoch 2/127-----
+07-25 19:32:09 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0
+07-25 19:32:15 Epoch: 2 source_train-Loss: 0.8211 source_train-Acc: 0.6581, Cost 5.2 sec
+07-25 19:32:15 Epoch: 2 source_val-Loss: 0.6718 source_val-Acc: 0.7634, Cost 0.2 sec
+07-25 19:32:15 Epoch: 2 target_val-Loss: 0.7814 target_val-Acc: 0.6749, Cost 0.3 sec
+07-25 19:32:15 -----Epoch 3/127-----
+07-25 19:32:15 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 9.183333333333332
+07-25 19:32:19 Epoch: 3 source_train-Loss: 0.6374 source_train-Acc: 0.8091, Cost 4.1 sec
+07-25 19:32:20 Epoch: 3 source_val-Loss: 0.5075 source_val-Acc: 0.8530, Cost 0.3 sec
+07-25 19:32:20 Epoch: 3 target_val-Loss: 0.8803 target_val-Acc: 0.6953, Cost 0.3 sec
+07-25 19:32:20 -----Epoch 4/127-----
+07-25 19:32:20 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0
+07-25 19:32:24 Epoch: 4 source_train-Loss: 0.7105 source_train-Acc: 0.7685, Cost 3.9 sec
+07-25 19:32:24 Epoch: 4 source_val-Loss: 0.7411 source_val-Acc: 0.7125, Cost 0.2 sec
+07-25 19:32:24 Epoch: 4 target_val-Loss: 1.1371 target_val-Acc: 0.5207, Cost 0.4 sec
+07-25 19:32:24 -----Epoch 5/127-----
+07-25 19:32:24 current lr: [0.001, 0.001, 0.001, 0.001]
+07-25 19:32:25 Epoch: 5 [3840/14701], Train Loss: 0.8815 Train Acc: 0.6352,2885.4 examples/sec 0.04 sec/batch
+Isc recall: 0
+07-25 19:32:29 Epoch: 5 source_train-Loss: 0.6129 source_train-Acc: 0.8178, Cost 4.2 sec
+07-25 19:32:29 Epoch: 5 source_val-Loss: 0.4940 source_val-Acc: 0.8686, Cost 0.2 sec
+07-25 19:32:29 Epoch: 5 target_val-Loss: 1.0133 target_val-Acc: 0.7019, Cost 0.3 sec
+07-25 19:32:29 -----Epoch 6/127-----
+07-25 19:32:29 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0
+07-25 19:32:33 Epoch: 6 source_train-Loss: 0.4614 source_train-Acc: 0.8959, Cost 4.2 sec
+07-25 19:32:34 Epoch: 6 source_val-Loss: 0.4114 source_val-Acc: 0.9144, Cost 0.3 sec
+07-25 19:32:34 Epoch: 6 target_val-Loss: 0.9084 target_val-Acc: 0.7496, Cost 0.4 sec
+07-25 19:32:34 -----Epoch 7/127-----
+07-25 19:32:34 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0
+07-25 19:32:38 Epoch: 7 source_train-Loss: 0.4339 source_train-Acc: 0.9189, Cost 4.3 sec
+07-25 19:32:39 Epoch: 7 source_val-Loss: 0.4218 source_val-Acc: 0.9286, Cost 0.2 sec
+07-25 19:32:39 Epoch: 7 target_val-Loss: 0.8750 target_val-Acc: 0.7711, Cost 0.4 sec
+07-25 19:32:39 -----Epoch 8/127-----
+07-25 19:32:39 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0
+07-25 19:32:44 Epoch: 8 source_train-Loss: 0.4058 source_train-Acc: 0.9395, Cost 5.1 sec
+07-25 19:32:44 Epoch: 8 source_val-Loss: 0.3595 source_val-Acc: 0.9533, Cost 0.4 sec
+07-25 19:32:45 Epoch: 8 target_val-Loss: 1.0786 target_val-Acc: 0.7395, Cost 0.5 sec
+07-25 19:32:45 -----Epoch 9/127-----
+07-25 19:32:45 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0
+Isc recall: 0
+07-25 19:32:49 Epoch: 9 source_train-Loss: 0.3861 source_train-Acc: 0.9500, Cost 4.3 sec
+07-25 19:32:49 Epoch: 9 source_val-Loss: 0.3398 source_val-Acc: 0.9598, Cost 0.2 sec
+07-25 19:32:50 Epoch: 9 target_val-Loss: 1.0497 target_val-Acc: 0.7448, Cost 0.3 sec
+07-25 19:32:50 -----Epoch 10/127-----
+07-25 19:32:50 current lr: [0.001, 0.001, 0.001, 0.001]
+07-25 19:32:52 Epoch: 10 [7680/14701], Train Loss: 0.4388 Train Acc: 0.9183,2910.9 examples/sec 0.04 sec/batch
+07-25 19:32:54 Epoch: 10 source_train-Loss: 0.4374 source_train-Acc: 0.9305, Cost 4.2 sec
+07-25 19:32:54 Epoch: 10 source_val-Loss: 0.4047 source_val-Acc: 0.9192, Cost 0.2 sec
+Isc recall: 3.57
+07-25 19:32:54 Epoch: 10 target_val-Loss: 0.8500 target_val-Acc: 0.7447, Cost 0.3 sec
+07-25 19:32:54 -----Epoch 11/127-----
+07-25 19:32:54 current lr: [0.001, 0.001, 0.001, 0.001]
+07-25 19:32:58 Epoch: 11 source_train-Loss: 0.3770 source_train-Acc: 0.9568, Cost 4.0 sec
+Isc recall: 0
+07-25 19:32:59 Epoch: 11 source_val-Loss: 0.3393 source_val-Acc: 0.9664, Cost 0.2 sec
+07-25 19:32:59 Epoch: 11 target_val-Loss: 0.9583 target_val-Acc: 0.7653, Cost 0.4 sec
+07-25 19:32:59 -----Epoch 12/127-----
+07-25 19:32:59 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0
+07-25 19:33:03 Epoch: 12 source_train-Loss: 0.3722 source_train-Acc: 0.9573, Cost 4.2 sec
+07-25 19:33:03 Epoch: 12 source_val-Loss: 0.3316 source_val-Acc: 0.9643, Cost 0.2 sec
+07-25 19:33:04 Epoch: 12 target_val-Loss: 1.0967 target_val-Acc: 0.7174, Cost 0.3 sec
+07-25 19:33:04 -----Epoch 13/127-----
+07-25 19:33:04 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0
+07-25 19:33:08 Epoch: 13 source_train-Loss: 0.3476 source_train-Acc: 0.9713, Cost 4.4 sec
+07-25 19:33:08 Epoch: 13 source_val-Loss: 0.3177 source_val-Acc: 0.9847, Cost 0.2 sec
+07-25 19:33:09 Epoch: 13 target_val-Loss: 1.1407 target_val-Acc: 0.7237, Cost 0.4 sec
+07-25 19:33:09 -----Epoch 14/127-----
+07-25 19:33:09 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 16.67
+07-25 19:33:13 Epoch: 14 source_train-Loss: 0.3574 source_train-Acc: 0.9666, Cost 4.5 sec
+07-25 19:33:13 Epoch: 14 source_val-Loss: 0.3258 source_val-Acc: 0.9721, Cost 0.2 sec
+07-25 19:33:14 Epoch: 14 target_val-Loss: 1.1663 target_val-Acc: 0.7141, Cost 0.3 sec
+07-25 19:33:14 -----Epoch 15/127-----
+07-25 19:33:14 current lr: [0.001, 0.001, 0.001, 0.001]
+07-25 19:33:17 Epoch: 15 [11520/14701], Train Loss: 0.3749 Train Acc: 0.9579,3043.3 examples/sec 0.04 sec/batch
+07-25 19:33:18 Epoch: 15 source_train-Loss: 0.3624 source_train-Acc: 0.9613, Cost 4.2 sec
+07-25 19:33:18 Epoch: 15 source_val-Loss: 0.3677 source_val-Acc: 0.9579, Cost 0.2 sec
+Isc recall: 3.5700000000000003
+07-25 19:33:19 Epoch: 15 target_val-Loss: 0.9781 target_val-Acc: 0.7393, Cost 0.4 sec
+07-25 19:33:19 -----Epoch 16/127-----
+07-25 19:33:19 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0.4353731343283582
+07-25 19:33:23 Epoch: 16 source_train-Loss: 0.4347 source_train-Acc: 0.9344, Cost 4.1 sec
+07-25 19:33:23 Epoch: 16 source_val-Loss: 0.3625 source_val-Acc: 0.9495, Cost 0.2 sec
+07-25 19:33:23 Epoch: 16 target_val-Loss: 1.3200 target_val-Acc: 0.6919, Cost 0.3 sec
+07-25 19:33:23 -----Epoch 17/127-----
+07-25 19:33:23 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0
+07-25 19:33:27 Epoch: 17 source_train-Loss: 0.3510 source_train-Acc: 0.9703, Cost 4.0 sec
+07-25 19:33:27 Epoch: 17 source_val-Loss: 0.3342 source_val-Acc: 0.9729, Cost 0.2 sec
+07-25 19:33:28 Epoch: 17 target_val-Loss: 1.1599 target_val-Acc: 0.7579, Cost 0.4 sec
+07-25 19:33:28 -----Epoch 18/127-----
+07-25 19:33:28 current lr: [0.001, 0.001, 0.001, 0.001]
+07-25 19:33:32 Epoch: 18 source_train-Loss: 0.3600 source_train-Acc: 0.9631, Cost 4.2 sec
+07-25 19:33:32 Epoch: 18 source_val-Loss: 0.3295 source_val-Acc: 0.9727, Cost 0.2 sec
+07-25 19:33:33 Epoch: 18 target_val-Loss: 1.3103 target_val-Acc: 0.7089, Cost 0.3 sec
+07-25 19:33:33 -----Epoch 19/127-----
+07-25 19:33:33 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0.38478873239436623
+Isc recall: 0
+07-25 19:33:37 Epoch: 19 source_train-Loss: 0.3416 source_train-Acc: 0.9737, Cost 3.9 sec
+07-25 19:33:37 Epoch: 19 source_val-Loss: 0.3332 source_val-Acc: 0.9719, Cost 0.2 sec
+07-25 19:33:37 Epoch: 19 target_val-Loss: 1.1636 target_val-Acc: 0.7497, Cost 0.3 sec
+07-25 19:33:37 -----Epoch 20/127-----
+07-25 19:33:37 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0
+07-25 19:33:41 Epoch: 20 source_train-Loss: 0.3529 source_train-Acc: 0.9696, Cost 4.1 sec
+07-25 19:33:41 Epoch: 20 source_val-Loss: 0.3160 source_val-Acc: 0.9769, Cost 0.3 sec
+07-25 19:33:42 Epoch: 20 target_val-Loss: 1.1745 target_val-Acc: 0.7549, Cost 0.3 sec
+07-25 19:33:42 -----Epoch 21/127-----
+07-25 19:33:42 current lr: [0.001, 0.001, 0.001, 0.001]
+07-25 19:33:42 Epoch: 21 [768/14701], Train Loss: 0.3685 Train Acc: 0.9615,3078.1 examples/sec 0.04 sec/batch
+Isc recall: 0
+07-25 19:33:46 Epoch: 21 source_train-Loss: 0.3507 source_train-Acc: 0.9683, Cost 3.8 sec
+07-25 19:33:46 Epoch: 21 source_val-Loss: 0.3528 source_val-Acc: 0.9442, Cost 0.2 sec
+07-25 19:33:46 Epoch: 21 target_val-Loss: 1.0212 target_val-Acc: 0.7559, Cost 0.3 sec
+07-25 19:33:46 -----Epoch 22/127-----
+07-25 19:33:46 current lr: [0.001, 0.001, 0.001, 0.001]
+07-25 19:33:50 Epoch: 22 source_train-Loss: 0.3365 source_train-Acc: 0.9771, Cost 4.2 sec
+Isc recall: 0
+07-25 19:33:51 Epoch: 22 source_val-Loss: 0.3176 source_val-Acc: 0.9826, Cost 0.3 sec
+07-25 19:33:51 Epoch: 22 target_val-Loss: 1.1679 target_val-Acc: 0.7367, Cost 0.4 sec
+07-25 19:33:51 -----Epoch 23/127-----
+07-25 19:33:51 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0.40099999999999997
+07-25 19:33:56 Epoch: 23 source_train-Loss: 0.3374 source_train-Acc: 0.9750, Cost 4.5 sec
+07-25 19:33:56 Epoch: 23 source_val-Loss: 0.3180 source_val-Acc: 0.9723, Cost 0.2 sec
+07-25 19:33:56 Epoch: 23 target_val-Loss: 1.1638 target_val-Acc: 0.7504, Cost 0.3 sec
+07-25 19:33:56 -----Epoch 24/127-----
+07-25 19:33:56 current lr: [0.001, 0.001, 0.001, 0.001]
+07-25 19:34:00 Epoch: 24 source_train-Loss: 0.3297 source_train-Acc: 0.9783, Cost 4.0 sec
+Isc recall: 0.9694117647058824
+07-25 19:34:00 Epoch: 24 source_val-Loss: 0.3031 source_val-Acc: 0.9884, Cost 0.2 sec
+07-25 19:34:01 Epoch: 24 target_val-Loss: 1.1108 target_val-Acc: 0.7583, Cost 0.3 sec
+07-25 19:34:01 -----Epoch 25/127-----
+07-25 19:34:01 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 1.5056250000000002
+07-25 19:34:05 Epoch: 25 source_train-Loss: 0.3186 source_train-Acc: 0.9852, Cost 4.0 sec
+07-25 19:34:05 Epoch: 25 source_val-Loss: 0.3105 source_val-Acc: 0.9775, Cost 0.2 sec
+07-25 19:34:05 Epoch: 25 target_val-Loss: 1.1405 target_val-Acc: 0.7473, Cost 0.3 sec
+07-25 19:34:05 -----Epoch 26/127-----
+07-25 19:34:05 current lr: [0.001, 0.001, 0.001, 0.001]
+07-25 19:34:07 Epoch: 26 [4608/14701], Train Loss: 0.3345 Train Acc: 0.9769,3118.1 examples/sec 0.04 sec/batch
+Isc recall: 0
+07-25 19:34:10 Epoch: 26 source_train-Loss: 0.3310 source_train-Acc: 0.9776, Cost 4.4 sec
+07-25 19:34:10 Epoch: 26 source_val-Loss: 0.3048 source_val-Acc: 0.9879, Cost 0.2 sec
+07-25 19:34:10 Epoch: 26 target_val-Loss: 1.2272 target_val-Acc: 0.7369, Cost 0.3 sec
+07-25 19:34:10 -----Epoch 27/127-----
+07-25 19:34:10 current lr: [0.001, 0.001, 0.001, 0.001]
+07-25 19:34:14 Epoch: 27 source_train-Loss: 0.3107 source_train-Acc: 0.9903, Cost 3.8 sec
+07-25 19:34:14 Epoch: 27 source_val-Loss: 0.2823 source_val-Acc: 0.9957, Cost 0.2 sec
+07-25 19:34:15 Epoch: 27 target_val-Loss: 1.1743 target_val-Acc: 0.7554, Cost 0.3 sec
+07-25 19:34:15 -----Epoch 28/127-----
+07-25 19:34:15 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0
+07-25 19:34:18 Epoch: 28 source_train-Loss: 0.3383 source_train-Acc: 0.9780, Cost 3.9 sec
+07-25 19:34:19 Epoch: 28 source_val-Loss: 0.4130 source_val-Acc: 0.9394, Cost 0.2 sec
+Isc recall: 0
+07-25 19:34:19 Epoch: 28 target_val-Loss: 1.4868 target_val-Acc: 0.6344, Cost 0.3 sec
+07-25 19:34:19 -----Epoch 29/127-----
+07-25 19:34:19 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0
+07-25 19:34:23 Epoch: 29 source_train-Loss: 0.3331 source_train-Acc: 0.9793, Cost 4.1 sec
+07-25 19:34:23 Epoch: 29 source_val-Loss: 0.2895 source_val-Acc: 0.9912, Cost 0.2 sec
+07-25 19:34:24 Epoch: 29 target_val-Loss: 1.2096 target_val-Acc: 0.7302, Cost 0.3 sec
+07-25 19:34:24 -----Epoch 30/127-----
+07-25 19:34:24 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0
+07-25 19:34:28 Epoch: 30 source_train-Loss: 0.3341 source_train-Acc: 0.9777, Cost 3.9 sec
+07-25 19:34:28 Epoch: 30 source_val-Loss: 0.2963 source_val-Acc: 0.9887, Cost 0.2 sec
+07-25 19:34:28 Epoch: 30 target_val-Loss: 1.2423 target_val-Acc: 0.7698, Cost 0.3 sec
+07-25 19:34:28 -----Epoch 31/127-----
+07-25 19:34:28 current lr: [0.001, 0.001, 0.001, 0.001]
+07-25 19:34:31 Epoch: 31 [8448/14701], Train Loss: 0.3273 Train Acc: 0.9816,3219.6 examples/sec 0.04 sec/batch
+07-25 19:34:32 Epoch: 31 source_train-Loss: 0.3088 source_train-Acc: 0.9897, Cost 4.1 sec
+07-25 19:34:32 Epoch: 31 source_val-Loss: 0.3040 source_val-Acc: 0.9813, Cost 0.2 sec
+Isc recall: 0
+07-25 19:34:33 Epoch: 31 target_val-Loss: 1.1072 target_val-Acc: 0.7622, Cost 0.3 sec
+07-25 19:34:33 -----Epoch 32/127-----
+07-25 19:34:33 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0
+07-25 19:34:38 Epoch: 32 source_train-Loss: 0.3161 source_train-Acc: 0.9863, Cost 4.8 sec
+07-25 19:34:38 Epoch: 32 source_val-Loss: 0.2949 source_val-Acc: 0.9893, Cost 0.3 sec
+07-25 19:34:38 Epoch: 32 target_val-Loss: 1.2300 target_val-Acc: 0.7468, Cost 0.4 sec
+07-25 19:34:38 -----Epoch 33/127-----
+07-25 19:34:38 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0
+07-25 19:34:42 Epoch: 33 source_train-Loss: 0.3162 source_train-Acc: 0.9866, Cost 4.0 sec
+07-25 19:34:42 Epoch: 33 source_val-Loss: 0.3397 source_val-Acc: 0.9608, Cost 0.2 sec
+07-25 19:34:43 Epoch: 33 target_val-Loss: 1.2145 target_val-Acc: 0.7079, Cost 0.3 sec
+07-25 19:34:43 -----Epoch 34/127-----
+07-25 19:34:43 current lr: [0.001, 0.001, 0.001, 0.001]
+07-25 19:34:47 Epoch: 34 source_train-Loss: 0.3087 source_train-Acc: 0.9900, Cost 4.0 sec
+Isc recall: 0
+07-25 19:34:47 Epoch: 34 source_val-Loss: 0.2846 source_val-Acc: 0.9946, Cost 0.2 sec
+07-25 19:34:47 Epoch: 34 target_val-Loss: 1.1877 target_val-Acc: 0.7527, Cost 0.3 sec
+07-25 19:34:47 -----Epoch 35/127-----
+07-25 19:34:47 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0
+07-25 19:34:51 Epoch: 35 source_train-Loss: 0.3061 source_train-Acc: 0.9906, Cost 4.1 sec
+07-25 19:34:52 Epoch: 35 source_val-Loss: 0.2866 source_val-Acc: 0.9920, Cost 0.3 sec
+07-25 19:34:52 Epoch: 35 target_val-Loss: 1.1832 target_val-Acc: 0.7608, Cost 0.5 sec
+07-25 19:34:52 -----Epoch 36/127-----
+07-25 19:34:52 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0
+07-25 19:34:57 Epoch: 36 [12288/14701], Train Loss: 0.3089 Train Acc: 0.9896,2947.6 examples/sec 0.04 sec/batch
+07-25 19:34:57 Epoch: 36 source_train-Loss: 0.2964 source_train-Acc: 0.9952, Cost 5.3 sec
+07-25 19:34:58 Epoch: 36 source_val-Loss: 0.2757 source_val-Acc: 0.9976, Cost 0.2 sec
+07-25 19:34:58 Epoch: 36 target_val-Loss: 1.2299 target_val-Acc: 0.7471, Cost 0.3 sec
+07-25 19:34:58 -----Epoch 37/127-----
+07-25 19:34:58 current lr: [0.001, 0.001, 0.001, 0.001]
+07-25 19:35:02 Epoch: 37 source_train-Loss: 0.2950 source_train-Acc: 0.9962, Cost 4.3 sec
+07-25 19:35:02 Epoch: 37 source_val-Loss: 0.2819 source_val-Acc: 0.9959, Cost 0.2 sec
+Isc recall: 0
+07-25 19:35:03 Epoch: 37 target_val-Loss: 1.2633 target_val-Acc: 0.7304, Cost 0.3 sec
+07-25 19:35:03 -----Epoch 38/127-----
+07-25 19:35:03 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0
+07-25 19:35:07 Epoch: 38 source_train-Loss: 0.3355 source_train-Acc: 0.9833, Cost 4.2 sec
+07-25 19:35:07 Epoch: 38 source_val-Loss: 0.2755 source_val-Acc: 0.9981, Cost 0.3 sec
+07-25 19:35:08 Epoch: 38 target_val-Loss: 1.3209 target_val-Acc: 0.7088, Cost 0.3 sec
+07-25 19:35:08 -----Epoch 39/127-----
+07-25 19:35:08 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0
+07-25 19:35:12 Epoch: 39 source_train-Loss: 0.3004 source_train-Acc: 0.9935, Cost 4.2 sec
+07-25 19:35:12 Epoch: 39 source_val-Loss: 0.4273 source_val-Acc: 0.9302, Cost 0.3 sec
+07-25 19:35:12 Epoch: 39 target_val-Loss: 1.3783 target_val-Acc: 0.6745, Cost 0.4 sec
+07-25 19:35:12 -----Epoch 40/127-----
+07-25 19:35:12 current lr: [0.001, 0.001, 0.001, 0.001]
+07-25 19:35:17 Epoch: 40 source_train-Loss: 0.3212 source_train-Acc: 0.9844, Cost 4.2 sec
+07-25 19:35:17 Epoch: 40 source_val-Loss: 0.2773 source_val-Acc: 0.9978, Cost 0.2 sec
+Isc recall: 0
+07-25 19:35:17 Epoch: 40 target_val-Loss: 1.1973 target_val-Acc: 0.7501, Cost 0.3 sec
+07-25 19:35:17 -----Epoch 41/127-----
+07-25 19:35:17 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0
+07-25 19:35:21 Epoch: 41 source_train-Loss: 0.2990 source_train-Acc: 0.9944, Cost 4.1 sec
+07-25 19:35:21 Epoch: 41 source_val-Loss: 0.2745 source_val-Acc: 0.9982, Cost 0.2 sec
+07-25 19:35:22 Epoch: 41 target_val-Loss: 1.1746 target_val-Acc: 0.7692, Cost 0.3 sec
+07-25 19:35:22 -----Epoch 42/127-----
+07-25 19:35:22 current lr: [0.001, 0.001, 0.001, 0.001]
+07-25 19:35:22 Epoch: 42 [1536/14701], Train Loss: 0.3093 Train Acc: 0.9907,2985.6 examples/sec 0.04 sec/batch
+Isc recall: 0
+07-25 19:35:26 Epoch: 42 source_train-Loss: 0.2951 source_train-Acc: 0.9955, Cost 4.2 sec
+07-25 19:35:26 Epoch: 42 source_val-Loss: 0.2745 source_val-Acc: 0.9974, Cost 0.2 sec
+07-25 19:35:27 Epoch: 42 target_val-Loss: 1.1812 target_val-Acc: 0.7652, Cost 0.3 sec
+07-25 19:35:27 -----Epoch 43/127-----
+07-25 19:35:27 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0
+07-25 19:35:31 Epoch: 43 source_train-Loss: 0.2866 source_train-Acc: 0.9992, Cost 4.2 sec
+07-25 19:35:31 Epoch: 43 source_val-Loss: 0.2720 source_val-Acc: 0.9987, Cost 0.2 sec
+07-25 19:35:31 Epoch: 43 target_val-Loss: 1.1632 target_val-Acc: 0.7643, Cost 0.3 sec
+07-25 19:35:31 -----Epoch 44/127-----
+07-25 19:35:31 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0
+07-25 19:35:36 Epoch: 44 source_train-Loss: 0.2875 source_train-Acc: 0.9986, Cost 4.2 sec
+07-25 19:35:36 Epoch: 44 source_val-Loss: 0.2764 source_val-Acc: 0.9970, Cost 0.2 sec
+07-25 19:35:36 Epoch: 44 target_val-Loss: 1.1567 target_val-Acc: 0.7605, Cost 0.3 sec
+07-25 19:35:36 -----Epoch 45/127-----
+07-25 19:35:36 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0
+07-25 19:35:40 Epoch: 45 source_train-Loss: 0.3006 source_train-Acc: 0.9925, Cost 4.3 sec
+07-25 19:35:41 Epoch: 45 source_val-Loss: 0.2742 source_val-Acc: 0.9982, Cost 0.2 sec
+07-25 19:35:41 Epoch: 45 target_val-Loss: 1.2191 target_val-Acc: 0.7538, Cost 0.3 sec
+07-25 19:35:41 -----Epoch 46/127-----
+07-25 19:35:41 current lr: [0.001, 0.001, 0.001, 0.001]
+07-25 19:35:45 Epoch: 46 source_train-Loss: 0.2985 source_train-Acc: 0.9945, Cost 4.0 sec
+Isc recall: 0
+07-25 19:35:45 Epoch: 46 source_val-Loss: 0.2924 source_val-Acc: 0.9895, Cost 0.2 sec
+07-25 19:35:45 Epoch: 46 target_val-Loss: 1.3074 target_val-Acc: 0.6975, Cost 0.3 sec
+07-25 19:35:45 -----Epoch 47/127-----
+07-25 19:35:45 current lr: [0.001, 0.001, 0.001, 0.001]
+07-25 19:35:47 Epoch: 47 [5376/14701], Train Loss: 0.2951 Train Acc: 0.9957,3113.1 examples/sec 0.04 sec/batch
+Isc recall: 0
+07-25 19:35:50 Epoch: 47 source_train-Loss: 0.3003 source_train-Acc: 0.9951, Cost 4.1 sec
+07-25 19:35:50 Epoch: 47 source_val-Loss: 0.2710 source_val-Acc: 0.9992, Cost 0.3 sec
+07-25 19:35:50 Epoch: 47 target_val-Loss: 1.1929 target_val-Acc: 0.7452, Cost 0.3 sec
+07-25 19:35:50 -----Epoch 48/127-----
+07-25 19:35:50 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0
+07-25 19:35:54 Epoch: 48 source_train-Loss: 0.2970 source_train-Acc: 0.9944, Cost 3.8 sec
+07-25 19:35:54 Epoch: 48 source_val-Loss: 0.3256 source_val-Acc: 0.9743, Cost 0.2 sec
+07-25 19:35:54 Epoch: 48 target_val-Loss: 1.3870 target_val-Acc: 0.7057, Cost 0.3 sec
+07-25 19:35:54 -----Epoch 49/127-----
+07-25 19:35:54 current lr: [0.001, 0.001, 0.001, 0.001]
+07-25 19:35:59 Epoch: 49 source_train-Loss: 0.2905 source_train-Acc: 0.9977, Cost 4.2 sec
+07-25 19:35:59 Epoch: 49 source_val-Loss: 0.2722 source_val-Acc: 0.9990, Cost 0.2 sec
+Isc recall: 0
+07-25 19:35:59 Epoch: 49 target_val-Loss: 1.2355 target_val-Acc: 0.7335, Cost 0.3 sec
+07-25 19:35:59 -----Epoch 50/127-----
+07-25 19:35:59 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0
+07-25 19:36:03 Epoch: 50 source_train-Loss: 0.2953 source_train-Acc: 0.9955, Cost 3.9 sec
+07-25 19:36:03 Epoch: 50 source_val-Loss: 0.2741 source_val-Acc: 0.9981, Cost 0.3 sec
+07-25 19:36:04 Epoch: 50 target_val-Loss: 1.2434 target_val-Acc: 0.7283, Cost 0.4 sec
+07-25 19:36:04 -----Epoch 51/127-----
+07-25 19:36:04 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0
+07-25 19:36:08 Epoch: 51 source_train-Loss: 0.3975 source_train-Acc: 0.9548, Cost 4.0 sec
+07-25 19:36:08 Epoch: 51 source_val-Loss: 0.2796 source_val-Acc: 0.9962, Cost 0.2 sec
+07-25 19:36:08 Epoch: 51 target_val-Loss: 1.3098 target_val-Acc: 0.7226, Cost 0.3 sec
+07-25 19:36:08 -----Epoch 52/127-----
+07-25 19:36:08 current lr: [0.001, 0.001, 0.001, 0.001]
+07-25 19:36:11 Epoch: 52 [9216/14701], Train Loss: 0.3146 Train Acc: 0.9880,3239.5 examples/sec 0.04 sec/batch
+Isc recall: 0
+07-25 19:36:12 Epoch: 52 source_train-Loss: 0.2986 source_train-Acc: 0.9952, Cost 3.7 sec
+07-25 19:36:12 Epoch: 52 source_val-Loss: 0.2839 source_val-Acc: 0.9938, Cost 0.2 sec
+07-25 19:36:12 Epoch: 52 target_val-Loss: 1.3926 target_val-Acc: 0.7025, Cost 0.3 sec
+07-25 19:36:12 -----Epoch 53/127-----
+07-25 19:36:12 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0
+07-25 19:36:16 Epoch: 53 source_train-Loss: 0.2944 source_train-Acc: 0.9966, Cost 3.9 sec
+07-25 19:36:17 Epoch: 53 source_val-Loss: 0.2751 source_val-Acc: 0.9968, Cost 0.2 sec
+07-25 19:36:17 Epoch: 53 target_val-Loss: 1.4397 target_val-Acc: 0.6925, Cost 0.3 sec
+07-25 19:36:17 -----Epoch 54/127-----
+07-25 19:36:17 current lr: [0.001, 0.001, 0.001, 0.001]
+07-25 19:36:21 Epoch: 54 source_train-Loss: 0.2898 source_train-Acc: 0.9983, Cost 3.9 sec
+07-25 19:36:21 Epoch: 54 source_val-Loss: 0.2712 source_val-Acc: 0.9995, Cost 0.2 sec
+07-25 19:36:21 Epoch: 54 target_val-Loss: 1.5089 target_val-Acc: 0.6776, Cost 0.3 sec
+07-25 19:36:21 -----Epoch 55/127-----
+07-25 19:36:21 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0
+Isc recall: 0
+07-25 19:36:25 Epoch: 55 source_train-Loss: 0.2902 source_train-Acc: 0.9980, Cost 3.9 sec
+07-25 19:36:25 Epoch: 55 source_val-Loss: 0.2814 source_val-Acc: 0.9943, Cost 0.2 sec
+07-25 19:36:26 Epoch: 55 target_val-Loss: 1.4083 target_val-Acc: 0.6794, Cost 0.3 sec
+07-25 19:36:26 -----Epoch 56/127-----
+07-25 19:36:26 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0
+07-25 19:36:30 Epoch: 56 source_train-Loss: 0.3000 source_train-Acc: 0.9936, Cost 4.3 sec
+07-25 19:36:30 Epoch: 56 source_val-Loss: 0.2726 source_val-Acc: 0.9990, Cost 0.2 sec
+07-25 19:36:31 Epoch: 56 target_val-Loss: 1.4177 target_val-Acc: 0.7041, Cost 0.3 sec
+07-25 19:36:31 -----Epoch 57/127-----
+07-25 19:36:31 current lr: [0.001, 0.001, 0.001, 0.001]
+07-25 19:36:34 Epoch: 57 [13056/14701], Train Loss: 0.2932 Train Acc: 0.9967,3267.5 examples/sec 0.04 sec/batch
+07-25 19:36:35 Epoch: 57 source_train-Loss: 0.2919 source_train-Acc: 0.9972, Cost 4.0 sec
+07-25 19:36:35 Epoch: 57 source_val-Loss: 0.2725 source_val-Acc: 0.9989, Cost 0.2 sec
+07-25 19:36:35 Epoch: 57 target_val-Loss: 1.4412 target_val-Acc: 0.6920, Cost 0.3 sec
+07-25 19:36:35 -----Epoch 58/127-----
+07-25 19:36:35 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0
+07-25 19:36:39 Epoch: 58 source_train-Loss: 0.2905 source_train-Acc: 0.9979, Cost 3.9 sec
+07-25 19:36:39 Epoch: 58 source_val-Loss: 0.2817 source_val-Acc: 0.9957, Cost 0.2 sec
+Isc recall: 0
+07-25 19:36:40 Epoch: 58 target_val-Loss: 1.3244 target_val-Acc: 0.7004, Cost 0.3 sec
+07-25 19:36:40 -----Epoch 59/127-----
+07-25 19:36:40 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0
+07-25 19:36:44 Epoch: 59 source_train-Loss: 0.2988 source_train-Acc: 0.9941, Cost 4.0 sec
+07-25 19:36:44 Epoch: 59 source_val-Loss: 0.2693 source_val-Acc: 0.9998, Cost 0.2 sec
+07-25 19:36:44 Epoch: 59 target_val-Loss: 1.4192 target_val-Acc: 0.6870, Cost 0.3 sec
+07-25 19:36:44 -----Epoch 60/127-----
+07-25 19:36:44 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0
+07-25 19:36:48 Epoch: 60 source_train-Loss: 0.2861 source_train-Acc: 0.9994, Cost 3.8 sec
+07-25 19:36:48 Epoch: 60 source_val-Loss: 0.2743 source_val-Acc: 0.9973, Cost 0.2 sec
+07-25 19:36:48 Epoch: 60 target_val-Loss: 1.4737 target_val-Acc: 0.6904, Cost 0.3 sec
+07-25 19:36:48 -----Epoch 61/127-----
+07-25 19:36:48 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0
+07-25 19:36:53 Epoch: 61 source_train-Loss: 0.3046 source_train-Acc: 0.9929, Cost 4.1 sec
+07-25 19:36:53 Epoch: 61 source_val-Loss: 0.2713 source_val-Acc: 0.9990, Cost 0.2 sec
+07-25 19:36:53 Epoch: 61 target_val-Loss: 1.4055 target_val-Acc: 0.7056, Cost 0.3 sec
+07-25 19:36:53 -----Epoch 62/127-----
+07-25 19:36:53 current lr: [0.001, 0.001, 0.001, 0.001]
+07-25 19:36:57 Epoch: 62 source_train-Loss: 0.2871 source_train-Acc: 0.9988, Cost 3.9 sec
+07-25 19:36:57 Epoch: 62 source_val-Loss: 0.2703 source_val-Acc: 0.9997, Cost 0.2 sec
+07-25 19:36:58 Epoch: 62 target_val-Loss: 1.4592 target_val-Acc: 0.6854, Cost 0.3 sec
+07-25 19:36:58 -----Epoch 63/127-----
+07-25 19:36:58 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0
+07-25 19:36:58 Epoch: 63 [2304/14701], Train Loss: 0.2931 Train Acc: 0.9967,3193.3 examples/sec 0.04 sec/batch
+07-25 19:37:01 Epoch: 63 source_train-Loss: 0.2854 source_train-Acc: 0.9996, Cost 3.9 sec
+07-25 19:37:02 Epoch: 63 source_val-Loss: 0.2699 source_val-Acc: 0.9995, Cost 0.2 sec
+Isc recall: 0
+07-25 19:37:02 Epoch: 63 target_val-Loss: 1.4558 target_val-Acc: 0.6780, Cost 0.3 sec
+07-25 19:37:02 -----Epoch 64/127-----
+07-25 19:37:02 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0
+07-25 19:37:06 Epoch: 64 source_train-Loss: 0.3717 source_train-Acc: 0.9650, Cost 3.8 sec
+07-25 19:37:06 Epoch: 64 source_val-Loss: 0.4460 source_val-Acc: 0.9182, Cost 0.2 sec
+07-25 19:37:06 Epoch: 64 target_val-Loss: 1.8889 target_val-Acc: 0.5690, Cost 0.3 sec
+07-25 19:37:06 -----Epoch 65/127-----
+07-25 19:37:06 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0
+07-25 19:37:10 Epoch: 65 source_train-Loss: 0.3164 source_train-Acc: 0.9916, Cost 3.8 sec
+07-25 19:37:10 Epoch: 65 source_val-Loss: 0.2708 source_val-Acc: 0.9997, Cost 0.2 sec
+07-25 19:37:11 Epoch: 65 target_val-Loss: 1.3346 target_val-Acc: 0.7041, Cost 0.3 sec
+07-25 19:37:11 -----Epoch 66/127-----
+07-25 19:37:11 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0
+07-25 19:37:15 Epoch: 66 source_train-Loss: 0.2897 source_train-Acc: 0.9992, Cost 4.0 sec
+07-25 19:37:15 Epoch: 66 source_val-Loss: 0.2722 source_val-Acc: 0.9992, Cost 0.2 sec
+07-25 19:37:15 Epoch: 66 target_val-Loss: 1.4358 target_val-Acc: 0.6908, Cost 0.3 sec
+07-25 19:37:15 -----Epoch 67/127-----
+07-25 19:37:15 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0
+07-25 19:37:19 Epoch: 67 source_train-Loss: 0.2875 source_train-Acc: 0.9997, Cost 3.7 sec
+07-25 19:37:19 Epoch: 67 source_val-Loss: 0.2700 source_val-Acc: 0.9997, Cost 0.2 sec
+07-25 19:37:20 Epoch: 67 target_val-Loss: 1.3717 target_val-Acc: 0.6964, Cost 0.3 sec
+07-25 19:37:20 -----Epoch 68/127-----
+07-25 19:37:20 current lr: [0.001, 0.001, 0.001, 0.001]
+07-25 19:37:21 Epoch: 68 [6144/14701], Train Loss: 0.3091 Train Acc: 0.9915,3353.2 examples/sec 0.04 sec/batch
+07-25 19:37:23 Epoch: 68 source_train-Loss: 0.2955 source_train-Acc: 0.9965, Cost 3.9 sec
+07-25 19:37:24 Epoch: 68 source_val-Loss: 0.2803 source_val-Acc: 0.9955, Cost 0.2 sec
+Isc recall: 0
+07-25 19:37:24 Epoch: 68 target_val-Loss: 1.3899 target_val-Acc: 0.7029, Cost 0.3 sec
+07-25 19:37:24 -----Epoch 69/127-----
+07-25 19:37:24 current lr: [0.001, 0.001, 0.001, 0.001]
+07-25 19:37:28 Epoch: 69 source_train-Loss: 0.2915 source_train-Acc: 0.9977, Cost 3.9 sec
+Isc recall: 0
+07-25 19:37:28 Epoch: 69 source_val-Loss: 0.2702 source_val-Acc: 0.9995, Cost 0.3 sec
+07-25 19:37:29 Epoch: 69 target_val-Loss: 1.3594 target_val-Acc: 0.7033, Cost 0.4 sec
+07-25 19:37:29 -----Epoch 70/127-----
+07-25 19:37:29 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0
+07-25 19:37:34 Epoch: 70 source_train-Loss: 1.6715 source_train-Acc: 0.9996, Cost 5.9 sec
+07-25 19:37:35 Epoch: 70 source_val-Loss: 0.2702 source_val-Acc: 0.9997, Cost 0.2 sec
+07-25 19:37:35 Epoch: 70 target_val-Loss: 1.3527 target_val-Acc: 0.7166, Cost 0.3 sec
+07-25 19:37:35 -----Epoch 71/127-----
+07-25 19:37:35 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0
+07-25 19:37:41 Epoch: 71 source_train-Loss: 1.6605 source_train-Acc: 0.9996, Cost 5.7 sec
+07-25 19:37:41 Epoch: 71 source_val-Loss: 0.2706 source_val-Acc: 0.9994, Cost 0.2 sec
+07-25 19:37:41 Epoch: 71 target_val-Loss: 1.4147 target_val-Acc: 0.6980, Cost 0.3 sec
+07-25 19:37:41 -----Epoch 72/127-----
+07-25 19:37:41 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0
+07-25 19:37:47 Epoch: 72 source_train-Loss: 1.6843 source_train-Acc: 0.9986, Cost 5.5 sec
+07-25 19:37:47 Epoch: 72 source_val-Loss: 0.2726 source_val-Acc: 0.9987, Cost 0.2 sec
+07-25 19:37:47 Epoch: 72 target_val-Loss: 1.3194 target_val-Acc: 0.7324, Cost 0.3 sec
+07-25 19:37:47 -----Epoch 73/127-----
+07-25 19:37:47 current lr: [0.001, 0.001, 0.001, 0.001]
+07-25 19:37:51 Epoch: 73 [19968/14701], Train Loss: 1.2819 Train Acc: 0.9953,2564.4 examples/sec 0.05 sec/batch
+Isc recall: 0
+07-25 19:37:53 Epoch: 73 source_train-Loss: 1.8368 source_train-Acc: 0.9757, Cost 5.6 sec
+07-25 19:37:53 Epoch: 73 source_val-Loss: 0.2907 source_val-Acc: 0.9941, Cost 0.2 sec
+07-25 19:37:53 Epoch: 73 target_val-Loss: 1.4700 target_val-Acc: 0.6840, Cost 0.3 sec
+07-25 19:37:53 -----Epoch 74/127-----
+07-25 19:37:53 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0
+07-25 19:37:59 Epoch: 74 source_train-Loss: 1.9690 source_train-Acc: 0.9686, Cost 5.6 sec
+07-25 19:37:59 Epoch: 74 source_val-Loss: 0.2896 source_val-Acc: 0.9931, Cost 0.2 sec
+07-25 19:37:59 Epoch: 74 target_val-Loss: 1.2225 target_val-Acc: 0.7039, Cost 0.3 sec
+07-25 19:37:59 -----Epoch 75/127-----
+07-25 19:37:59 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0
+07-25 19:38:05 Epoch: 75 source_train-Loss: 1.8496 source_train-Acc: 0.9967, Cost 5.6 sec
+07-25 19:38:05 Epoch: 75 source_val-Loss: 0.2763 source_val-Acc: 0.9978, Cost 0.2 sec
+07-25 19:38:06 Epoch: 75 target_val-Loss: 1.3130 target_val-Acc: 0.7082, Cost 0.3 sec
+07-25 19:38:06 -----Epoch 76/127-----
+07-25 19:38:06 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0
+07-25 19:38:11 Epoch: 76 source_train-Loss: 2.0539 source_train-Acc: 0.9651, Cost 5.6 sec
+07-25 19:38:11 Epoch: 76 source_val-Loss: 0.3132 source_val-Acc: 0.9903, Cost 0.2 sec
+07-25 19:38:12 Epoch: 76 target_val-Loss: 1.2603 target_val-Acc: 0.6910, Cost 0.3 sec
+07-25 19:38:12 -----Epoch 77/127-----
+07-25 19:38:12 current lr: [0.001, 0.001, 0.001, 0.001]
+07-25 19:38:17 Epoch: 77 source_train-Loss: 1.8890 source_train-Acc: 0.9948, Cost 5.7 sec
+07-25 19:38:18 Epoch: 77 source_val-Loss: 0.2784 source_val-Acc: 0.9976, Cost 0.2 sec
+07-25 19:38:18 Epoch: 77 target_val-Loss: 1.3143 target_val-Acc: 0.6970, Cost 0.3 sec
+07-25 19:38:18 -----Epoch 78/127-----
+07-25 19:38:18 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0
+07-25 19:38:24 Epoch: 78 [27648/14701], Train Loss: 1.9339 Train Acc: 0.9837,2367.0 examples/sec 0.05 sec/batch
+Isc recall: 0
+07-25 19:38:24 Epoch: 78 source_train-Loss: 1.9331 source_train-Acc: 0.9961, Cost 5.8 sec
+07-25 19:38:24 Epoch: 78 source_val-Loss: 0.2762 source_val-Acc: 0.9979, Cost 0.2 sec
+07-25 19:38:24 Epoch: 78 target_val-Loss: 1.3103 target_val-Acc: 0.7117, Cost 0.3 sec
+07-25 19:38:24 -----Epoch 79/127-----
+07-25 19:38:24 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0
+07-25 19:38:30 Epoch: 79 source_train-Loss: 1.9279 source_train-Acc: 0.9975, Cost 5.7 sec
+07-25 19:38:30 Epoch: 79 source_val-Loss: 0.2772 source_val-Acc: 0.9973, Cost 0.2 sec
+07-25 19:38:31 Epoch: 79 target_val-Loss: 1.3071 target_val-Acc: 0.7250, Cost 0.3 sec
+07-25 19:38:31 -----Epoch 80/127-----
+07-25 19:38:31 current lr: [0.00064, 0.00064, 0.00064, 0.00064]
+Isc recall: 0
+07-25 19:38:36 Epoch: 80 source_train-Loss: 1.9419 source_train-Acc: 0.9963, Cost 5.7 sec
+07-25 19:38:37 Epoch: 80 source_val-Loss: 0.2801 source_val-Acc: 0.9946, Cost 0.2 sec
+07-25 19:38:37 Epoch: 80 target_val-Loss: 1.8289 target_val-Acc: 0.5777, Cost 0.4 sec
+07-25 19:38:37 -----Epoch 81/127-----
+07-25 19:38:37 current lr: [0.0008, 0.0008, 0.0008, 0.0008]
+Isc recall: 0
+07-25 19:38:43 Epoch: 81 source_train-Loss: 1.9502 source_train-Acc: 0.9972, Cost 5.8 sec
+07-25 19:38:43 Epoch: 81 source_val-Loss: 0.2730 source_val-Acc: 0.9997, Cost 0.2 sec
+07-25 19:38:43 Epoch: 81 target_val-Loss: 1.5118 target_val-Acc: 0.7037, Cost 0.3 sec
+07-25 19:38:43 -----Epoch 82/127-----
+07-25 19:38:43 current lr: [0.0008, 0.0008, 0.0008, 0.0008]
+Isc recall: 0
+07-25 19:38:49 Epoch: 82 source_train-Loss: 1.9355 source_train-Acc: 0.9976, Cost 5.6 sec
+07-25 19:38:49 Epoch: 82 source_val-Loss: 0.2806 source_val-Acc: 0.9952, Cost 0.3 sec
+07-25 19:38:49 Epoch: 82 target_val-Loss: 1.4973 target_val-Acc: 0.6936, Cost 0.3 sec
+07-25 19:38:49 -----Epoch 83/127-----
+07-25 19:38:49 current lr: [0.0008, 0.0008, 0.0008, 0.0008]
+Isc recall: 2.38
+07-25 19:38:55 Epoch: 83 source_train-Loss: 1.9445 source_train-Acc: 0.9974, Cost 5.6 sec
+07-25 19:38:55 Epoch: 83 source_val-Loss: 0.2757 source_val-Acc: 0.9978, Cost 0.2 sec
+07-25 19:38:56 Epoch: 83 target_val-Loss: 1.4263 target_val-Acc: 0.7033, Cost 0.3 sec
+07-25 19:38:56 -----Epoch 84/127-----
+07-25 19:38:56 current lr: [0.0008, 0.0008, 0.0008, 0.0008]
+07-25 19:38:57 Epoch: 84 [6144/14701], Train Loss: 1.9412 Train Acc: 0.9969,2300.6 examples/sec 0.06 sec/batch
+Isc recall: 0
+07-25 19:39:01 Epoch: 84 source_train-Loss: 1.9445 source_train-Acc: 0.9960, Cost 5.6 sec
+07-25 19:39:01 Epoch: 84 source_val-Loss: 0.2762 source_val-Acc: 0.9978, Cost 0.2 sec
+07-25 19:39:02 Epoch: 84 target_val-Loss: 1.4895 target_val-Acc: 0.6904, Cost 0.3 sec
+07-25 19:39:02 -----Epoch 85/127-----
+07-25 19:39:02 current lr: [0.0008, 0.0008, 0.0008, 0.0008]
+07-25 19:39:07 Epoch: 85 source_train-Loss: 1.9364 source_train-Acc: 0.9966, Cost 5.6 sec
+07-25 19:39:08 Epoch: 85 source_val-Loss: 0.2794 source_val-Acc: 0.9968, Cost 0.2 sec
+07-25 19:39:08 Epoch: 85 target_val-Loss: 1.6608 target_val-Acc: 0.6477, Cost 0.3 sec
+07-25 19:39:08 -----Epoch 86/127-----
+07-25 19:39:08 current lr: [0.0008, 0.0008, 0.0008, 0.0008]
+Isc recall: 0
+07-25 19:39:14 Epoch: 86 source_train-Loss: 1.9788 source_train-Acc: 0.9916, Cost 5.6 sec
+07-25 19:39:14 Epoch: 86 source_val-Loss: 0.2737 source_val-Acc: 0.9979, Cost 0.2 sec
+Isc recall: 4.76
+07-25 19:39:14 Epoch: 86 target_val-Loss: 1.5419 target_val-Acc: 0.6831, Cost 0.3 sec
+07-25 19:39:14 -----Epoch 87/127-----
+07-25 19:39:14 current lr: [0.0008, 0.0008, 0.0008, 0.0008]
+07-25 19:39:20 Epoch: 87 source_train-Loss: 1.9441 source_train-Acc: 0.9975, Cost 5.7 sec
+07-25 19:39:20 Epoch: 87 source_val-Loss: 0.2737 source_val-Acc: 0.9974, Cost 0.2 sec
+Isc recall: 0
+07-25 19:39:20 Epoch: 87 target_val-Loss: 1.8271 target_val-Acc: 0.6175, Cost 0.3 sec
+07-25 19:39:20 -----Epoch 88/127-----
+07-25 19:39:20 current lr: [0.0008, 0.0008, 0.0008, 0.0008]
+07-25 19:39:26 Epoch: 88 source_train-Loss: 1.9251 source_train-Acc: 0.9978, Cost 5.5 sec
+07-25 19:39:26 Epoch: 88 source_val-Loss: 0.2773 source_val-Acc: 0.9968, Cost 0.2 sec
+Isc recall: 0
+07-25 19:39:26 Epoch: 88 target_val-Loss: 1.5858 target_val-Acc: 0.7015, Cost 0.3 sec
+07-25 19:39:26 -----Epoch 89/127-----
+07-25 19:39:26 current lr: [0.0008, 0.0008, 0.0008, 0.0008]
+07-25 19:39:29 Epoch: 89 [13824/14701], Train Loss: 1.9424 Train Acc: 0.9964,2397.8 examples/sec 0.05 sec/batch
+07-25 19:39:32 Epoch: 89 source_train-Loss: 1.9338 source_train-Acc: 0.9976, Cost 5.5 sec
+07-25 19:39:32 Epoch: 89 source_val-Loss: 0.2739 source_val-Acc: 0.9987, Cost 0.2 sec
+07-25 19:39:32 Epoch: 89 target_val-Loss: 1.2180 target_val-Acc: 0.7266, Cost 0.3 sec
+07-25 19:39:32 -----Epoch 90/127-----
+07-25 19:39:32 current lr: [0.0008, 0.0008, 0.0008, 0.0008]
+Isc recall: 26.09
+07-25 19:39:38 Epoch: 90 source_train-Loss: 1.9419 source_train-Acc: 0.9984, Cost 5.5 sec
+07-25 19:39:38 Epoch: 90 source_val-Loss: 0.2879 source_val-Acc: 0.9927, Cost 0.2 sec
+07-25 19:39:38 Epoch: 90 target_val-Loss: 1.4559 target_val-Acc: 0.7258, Cost 0.3 sec
+07-25 19:39:38 -----Epoch 91/127-----
+07-25 19:39:38 current lr: [0.0008, 0.0008, 0.0008, 0.0008]
+Isc recall: 0.16352941176470587
+07-25 19:39:44 Epoch: 91 source_train-Loss: 1.9509 source_train-Acc: 0.9951, Cost 5.5 sec
+07-25 19:39:44 Epoch: 91 source_val-Loss: 0.2721 source_val-Acc: 0.9990, Cost 0.2 sec
+Isc recall: 54.55
+07-25 19:39:44 Epoch: 91 target_val-Loss: 1.2846 target_val-Acc: 0.7233, Cost 0.3 sec
+07-25 19:39:44 -----Epoch 92/127-----
+07-25 19:39:44 current lr: [0.0008, 0.0008, 0.0008, 0.0008]
+07-25 19:39:50 Epoch: 92 source_train-Loss: 1.9100 source_train-Acc: 0.9988, Cost 5.4 sec
+07-25 19:39:50 Epoch: 92 source_val-Loss: 0.2942 source_val-Acc: 0.9903, Cost 0.2 sec
+07-25 19:39:50 Epoch: 92 target_val-Loss: 1.3513 target_val-Acc: 0.7238, Cost 0.3 sec
+Isc recall: 0
+07-25 19:39:50 -----Epoch 93/127-----
+07-25 19:39:50 current lr: [0.0008, 0.0008, 0.0008, 0.0008]
+07-25 19:39:56 Epoch: 93 source_train-Loss: 1.9278 source_train-Acc: 0.9979, Cost 5.5 sec
+07-25 19:39:56 Epoch: 93 source_val-Loss: 0.2791 source_val-Acc: 0.9974, Cost 0.2 sec
+07-25 19:39:56 Epoch: 93 target_val-Loss: 1.4633 target_val-Acc: 0.6832, Cost 0.3 sec
+07-25 19:39:56 -----Epoch 94/127-----
+07-25 19:39:56 current lr: [0.0008, 0.0008, 0.0008, 0.0008]
+Isc recall: 0
+07-25 19:40:00 Epoch: 94 [21504/14701], Train Loss: 1.9357 Train Acc: 0.9971,2445.8 examples/sec 0.05 sec/batch
+07-25 19:40:02 Epoch: 94 source_train-Loss: 1.9985 source_train-Acc: 0.9881, Cost 5.6 sec
+07-25 19:40:02 Epoch: 94 source_val-Loss: 0.3029 source_val-Acc: 0.9960, Cost 0.3 sec
+07-25 19:40:02 Epoch: 94 target_val-Loss: 1.2643 target_val-Acc: 0.7051, Cost 0.3 sec
+07-25 19:40:02 -----Epoch 95/127-----
+07-25 19:40:02 current lr: [0.0005120000000000001, 0.0005120000000000001, 0.0005120000000000001, 0.0005120000000000001]
+Isc recall: 45.72777777777778
+07-25 19:40:08 Epoch: 95 source_train-Loss: 1.9326 source_train-Acc: 0.9970, Cost 5.7 sec
+Isc recall: 19.402200000000004
+07-25 19:40:08 Epoch: 95 source_val-Loss: 0.2731 source_val-Acc: 0.9981, Cost 0.2 sec
+07-25 19:40:09 Epoch: 95 target_val-Loss: 1.2980 target_val-Acc: 0.6902, Cost 0.3 sec
+07-25 19:40:09 -----Epoch 96/127-----
+07-25 19:40:09 current lr: [0.00064, 0.00064, 0.00064, 0.00064]
+Isc recall: 41.12599999999998
+07-25 19:40:14 Epoch: 96 source_train-Loss: 1.8996 source_train-Acc: 0.9990, Cost 5.7 sec
+07-25 19:40:15 Epoch: 96 source_val-Loss: 0.2815 source_val-Acc: 0.9959, Cost 0.2 sec
+07-25 19:40:15 Epoch: 96 target_val-Loss: 1.2365 target_val-Acc: 0.7616, Cost 0.3 sec
+07-25 19:40:15 -----Epoch 97/127-----
+07-25 19:40:15 current lr: [0.00064, 0.00064, 0.00064, 0.00064]
+Isc recall: 0
+07-25 19:40:20 Epoch: 97 source_train-Loss: 1.9323 source_train-Acc: 0.9973, Cost 5.6 sec
+07-25 19:40:21 Epoch: 97 source_val-Loss: 0.2763 source_val-Acc: 0.9981, Cost 0.2 sec
+07-25 19:40:21 Epoch: 97 target_val-Loss: 1.4578 target_val-Acc: 0.7190, Cost 0.3 sec
+07-25 19:40:21 -----Epoch 98/127-----
+07-25 19:40:21 current lr: [0.00064, 0.00064, 0.00064, 0.00064]
+Isc recall: 1.1099999999999999
+07-25 19:40:27 Epoch: 98 source_train-Loss: 1.9201 source_train-Acc: 0.9988, Cost 5.7 sec
+07-25 19:40:27 Epoch: 98 source_val-Loss: 0.2693 source_val-Acc: 0.9998, Cost 0.2 sec
+07-25 19:40:27 Epoch: 98 target_val-Loss: 1.4800 target_val-Acc: 0.7170, Cost 0.3 sec
+07-25 19:40:27 -----Epoch 99/127-----
+07-25 19:40:27 current lr: [0.00064, 0.00064, 0.00064, 0.00064]
+Isc recall: 77.876
+save best model epoch 99, acc 0.7164
+07-25 19:40:33 Epoch: 99 source_train-Loss: 1.9273 source_train-Acc: 0.9981, Cost 5.6 sec
+07-25 19:40:33 Epoch: 99 source_val-Loss: 0.2833 source_val-Acc: 0.9954, Cost 0.2 sec
+07-25 19:40:33 Epoch: 99 target_val-Loss: 1.4320 target_val-Acc: 0.7164, Cost 0.3 sec
+07-25 19:40:33 save best model epoch 99, acc 0.7164
+07-25 19:40:33 -----Epoch 100/127-----
+07-25 19:40:33 current lr: [0.00064, 0.00064, 0.00064, 0.00064]
+07-25 19:40:33 Epoch: 100 [0/14701], Train Loss: 1.9340 Train Acc: 0.9965,2317.5 examples/sec 0.06 sec/batch
+Isc recall: 71.88722222222222
+07-25 19:40:39 Epoch: 100 source_train-Loss: 1.9451 source_train-Acc: 0.9944, Cost 5.6 sec
+07-25 19:40:39 Epoch: 100 source_val-Loss: 0.2737 source_val-Acc: 0.9979, Cost 0.2 sec
+07-25 19:40:40 Epoch: 100 target_val-Loss: 1.1015 target_val-Acc: 0.7664, Cost 0.3 sec
+07-25 19:40:40 -----Epoch 101/127-----
+07-25 19:40:40 current lr: [0.00064, 0.00064, 0.00064, 0.00064]
+Isc recall: 5.573571428571428
+07-25 19:40:45 Epoch: 101 source_train-Loss: 1.9166 source_train-Acc: 0.9983, Cost 5.6 sec
+07-25 19:40:45 Epoch: 101 source_val-Loss: 0.2807 source_val-Acc: 0.9963, Cost 0.2 sec
+07-25 19:40:46 Epoch: 101 target_val-Loss: 1.2626 target_val-Acc: 0.7460, Cost 0.3 sec
+07-25 19:40:46 -----Epoch 102/127-----
+07-25 19:40:46 current lr: [0.00064, 0.00064, 0.00064, 0.00064]
+Isc recall: 26.400000000000002
+07-25 19:40:51 Epoch: 102 source_train-Loss: 1.9310 source_train-Acc: 0.9981, Cost 5.5 sec
+07-25 19:40:52 Epoch: 102 source_val-Loss: 0.2810 source_val-Acc: 0.9967, Cost 0.2 sec
+07-25 19:40:52 Epoch: 102 target_val-Loss: 1.4425 target_val-Acc: 0.7217, Cost 0.3 sec
+07-25 19:40:52 -----Epoch 103/127-----
+07-25 19:40:52 current lr: [0.00064, 0.00064, 0.00064, 0.00064]
+Isc recall: 22.799
+07-25 19:40:58 Epoch: 103 source_train-Loss: 1.9408 source_train-Acc: 0.9977, Cost 5.7 sec
+07-25 19:40:58 Epoch: 103 source_val-Loss: 0.2726 source_val-Acc: 0.9990, Cost 0.2 sec
+07-25 19:40:58 Epoch: 103 target_val-Loss: 1.2482 target_val-Acc: 0.7246, Cost 0.3 sec
+07-25 19:40:58 -----Epoch 104/127-----
+07-25 19:40:58 current lr: [0.00064, 0.00064, 0.00064, 0.00064]
+Isc recall: 2.5
+07-25 19:41:04 Epoch: 104 source_train-Loss: 1.9495 source_train-Acc: 0.9979, Cost 5.5 sec
+07-25 19:41:04 Epoch: 104 source_val-Loss: 0.3042 source_val-Acc: 0.9871, Cost 0.2 sec
+07-25 19:41:04 Epoch: 104 target_val-Loss: 1.3380 target_val-Acc: 0.7265, Cost 0.3 sec
+07-25 19:41:04 -----Epoch 105/127-----
+07-25 19:41:04 current lr: [0.0004096000000000001, 0.0004096000000000001, 0.0004096000000000001, 0.0004096000000000001]
+07-25 19:41:06 Epoch: 105 [7680/14701], Train Loss: 1.9359 Train Acc: 0.9973,2388.3 examples/sec 0.05 sec/batch
+Isc recall: 33.36
+07-25 19:41:10 Epoch: 105 source_train-Loss: 1.9306 source_train-Acc: 0.9989, Cost 5.6 sec
+07-25 19:41:10 Epoch: 105 source_val-Loss: 0.2706 source_val-Acc: 0.9998, Cost 0.2 sec
+07-25 19:41:10 Epoch: 105 target_val-Loss: 1.2974 target_val-Acc: 0.7442, Cost 0.3 sec
+07-25 19:41:10 -----Epoch 106/127-----
+07-25 19:41:10 current lr: [0.0005120000000000001, 0.0005120000000000001, 0.0005120000000000001, 0.0005120000000000001]
+07-25 19:41:16 Epoch: 106 source_train-Loss: 1.9327 source_train-Acc: 0.9992, Cost 5.6 sec
+07-25 19:41:16 Epoch: 106 source_val-Loss: 0.2766 source_val-Acc: 0.9974, Cost 0.2 sec
+07-25 19:41:16 Epoch: 106 target_val-Loss: 1.2487 target_val-Acc: 0.7548, Cost 0.3 sec
+07-25 19:41:16 -----Epoch 107/127-----
+07-25 19:41:16 current lr: [0.0005120000000000001, 0.0005120000000000001, 0.0005120000000000001, 0.0005120000000000001]
+Isc recall: 43.48
+07-25 19:41:22 Epoch: 107 source_train-Loss: 1.9410 source_train-Acc: 0.9997, Cost 5.8 sec
+Isc recall: 47.83
+07-25 19:41:22 Epoch: 107 source_val-Loss: 0.2796 source_val-Acc: 0.9965, Cost 0.2 sec
+07-25 19:41:23 Epoch: 107 target_val-Loss: 1.4349 target_val-Acc: 0.6800, Cost 0.3 sec
+07-25 19:41:23 -----Epoch 108/127-----
+07-25 19:41:23 current lr: [0.0005120000000000001, 0.0005120000000000001, 0.0005120000000000001, 0.0005120000000000001]
+07-25 19:41:29 Epoch: 108 source_train-Loss: 1.9183 source_train-Acc: 0.9981, Cost 5.7 sec
+Isc recall: 52.08041666666668
+07-25 19:41:29 Epoch: 108 source_val-Loss: 0.2761 source_val-Acc: 0.9976, Cost 0.2 sec
+07-25 19:41:29 Epoch: 108 target_val-Loss: 1.2396 target_val-Acc: 0.7596, Cost 0.4 sec
+07-25 19:41:29 -----Epoch 109/127-----
+07-25 19:41:29 current lr: [0.0005120000000000001, 0.0005120000000000001, 0.0005120000000000001, 0.0005120000000000001]
+Isc recall: 62.5
+07-25 19:41:35 Epoch: 109 source_train-Loss: 1.9303 source_train-Acc: 0.9991, Cost 6.0 sec
+07-25 19:41:35 Epoch: 109 source_val-Loss: 0.2721 source_val-Acc: 0.9987, Cost 0.3 sec
+07-25 19:41:36 Epoch: 109 target_val-Loss: 1.2709 target_val-Acc: 0.7141, Cost 0.3 sec
+07-25 19:41:36 -----Epoch 110/127-----
+07-25 19:41:36 current lr: [0.0005120000000000001, 0.0005120000000000001, 0.0005120000000000001, 0.0005120000000000001]
+07-25 19:41:39 Epoch: 110 [15360/14701], Train Loss: 1.9305 Train Acc: 0.9990,2314.3 examples/sec 0.06 sec/batch
+07-25 19:41:42 Epoch: 110 source_train-Loss: 1.9351 source_train-Acc: 0.9988, Cost 5.9 sec
+07-25 19:41:42 Epoch: 110 source_val-Loss: 0.2718 source_val-Acc: 0.9992, Cost 0.2 sec
+07-25 19:41:42 Epoch: 110 target_val-Loss: 1.2623 target_val-Acc: 0.7471, Cost 0.4 sec
+07-25 19:41:42 -----Epoch 111/127-----
+07-25 19:41:42 current lr: [0.0005120000000000001, 0.0005120000000000001, 0.0005120000000000001, 0.0005120000000000001]
+Isc recall: 38.631794871794874
+07-25 19:41:48 Epoch: 111 source_train-Loss: 1.9337 source_train-Acc: 0.9997, Cost 5.8 sec
+07-25 19:41:48 Epoch: 111 source_val-Loss: 0.2698 source_val-Acc: 0.9994, Cost 0.2 sec
+07-25 19:41:49 Epoch: 111 target_val-Loss: 1.2388 target_val-Acc: 0.7570, Cost 0.3 sec
+07-25 19:41:49 -----Epoch 112/127-----
+07-25 19:41:49 current lr: [0.0005120000000000001, 0.0005120000000000001, 0.0005120000000000001, 0.0005120000000000001]
+Isc recall: 41.30083333333334
+07-25 19:41:55 Epoch: 112 source_train-Loss: 1.9414 source_train-Acc: 0.9992, Cost 5.9 sec
+Isc recall: 12.612
+07-25 19:41:55 Epoch: 112 source_val-Loss: 0.2711 source_val-Acc: 0.9994, Cost 0.3 sec
+07-25 19:41:55 Epoch: 112 target_val-Loss: 1.3343 target_val-Acc: 0.7495, Cost 0.3 sec
+07-25 19:41:55 -----Epoch 113/127-----
+07-25 19:41:55 current lr: [0.0005120000000000001, 0.0005120000000000001, 0.0005120000000000001, 0.0005120000000000001]
+Isc recall: 21.947499999999998
+07-25 19:42:01 Epoch: 113 source_train-Loss: 1.9362 source_train-Acc: 0.9997, Cost 6.2 sec
+07-25 19:42:02 Epoch: 113 source_val-Loss: 0.2698 source_val-Acc: 0.9997, Cost 0.2 sec
+07-25 19:42:02 Epoch: 113 target_val-Loss: 1.2474 target_val-Acc: 0.7557, Cost 0.3 sec
+07-25 19:42:02 -----Epoch 114/127-----
+07-25 19:42:02 current lr: [0.0005120000000000001, 0.0005120000000000001, 0.0005120000000000001, 0.0005120000000000001]
+Isc recall: 57.14
+07-25 19:42:07 Epoch: 114 source_train-Loss: 1.9330 source_train-Acc: 0.9999, Cost 5.6 sec
+07-25 19:42:08 Epoch: 114 source_val-Loss: 0.2724 source_val-Acc: 0.9992, Cost 0.2 sec
+07-25 19:42:08 Epoch: 114 target_val-Loss: 1.6439 target_val-Acc: 0.6966, Cost 0.3 sec
+07-25 19:42:08 -----Epoch 115/127-----
+07-25 19:42:08 current lr: [0.0005120000000000001, 0.0005120000000000001, 0.0005120000000000001, 0.0005120000000000001]
+07-25 19:42:14 Epoch: 115 [23040/14701], Train Loss: 1.9395 Train Acc: 0.9992,2201.9 examples/sec 0.06 sec/batch
+07-25 19:42:15 Epoch: 115 source_train-Loss: 1.9529 source_train-Acc: 0.9977, Cost 7.0 sec
+Isc recall: 0.2471153846153846
+07-25 19:42:15 Epoch: 115 source_val-Loss: 0.2724 source_val-Acc: 0.9992, Cost 0.2 sec
+07-25 19:42:15 Epoch: 115 target_val-Loss: 1.4431 target_val-Acc: 0.7262, Cost 0.3 sec
+07-25 19:42:15 -----Epoch 116/127-----
+07-25 19:42:15 current lr: [0.0005120000000000001, 0.0005120000000000001, 0.0005120000000000001, 0.0005120000000000001]
+Isc recall: 18.2115
+07-25 19:42:21 Epoch: 116 source_train-Loss: 1.9314 source_train-Acc: 0.9994, Cost 5.9 sec
+07-25 19:42:22 Epoch: 116 source_val-Loss: 0.2711 source_val-Acc: 0.9992, Cost 0.2 sec
+07-25 19:42:22 Epoch: 116 target_val-Loss: 1.4031 target_val-Acc: 0.7286, Cost 0.4 sec
+07-25 19:42:22 -----Epoch 117/127-----
+07-25 19:42:22 current lr: [0.0005120000000000001, 0.0005120000000000001, 0.0005120000000000001, 0.0005120000000000001]
+07-25 19:42:28 Epoch: 117 source_train-Loss: 1.9422 source_train-Acc: 0.9992, Cost 6.0 sec
+07-25 19:42:28 Epoch: 117 source_val-Loss: 0.2760 source_val-Acc: 0.9974, Cost 0.2 sec
+07-25 19:42:29 Epoch: 117 target_val-Loss: 1.5575 target_val-Acc: 0.6704, Cost 0.3 sec
+07-25 19:42:29 -----Epoch 118/127-----
+07-25 19:42:29 current lr: [0.0005120000000000001, 0.0005120000000000001, 0.0005120000000000001, 0.0005120000000000001]
+Isc recall: 47.76363636363636
+07-25 19:42:34 Epoch: 118 source_train-Loss: 1.9325 source_train-Acc: 0.9993, Cost 5.8 sec
+07-25 19:42:35 Epoch: 118 source_val-Loss: 0.2709 source_val-Acc: 0.9994, Cost 0.3 sec
+07-25 19:42:35 Epoch: 118 target_val-Loss: 1.3851 target_val-Acc: 0.7208, Cost 0.3 sec
+07-25 19:42:35 -----Epoch 119/127-----
+07-25 19:42:35 current lr: [0.0005120000000000001, 0.0005120000000000001, 0.0005120000000000001, 0.0005120000000000001]
+Isc recall: 3.685714285714286
+Isc recall: 32.605000000000004
+07-25 19:42:41 Epoch: 119 source_train-Loss: 1.9335 source_train-Acc: 0.9983, Cost 6.4 sec
+07-25 19:42:42 Epoch: 119 source_val-Loss: 0.2808 source_val-Acc: 0.9951, Cost 0.2 sec
+07-25 19:42:42 Epoch: 119 target_val-Loss: 1.2535 target_val-Acc: 0.7389, Cost 0.4 sec
+07-25 19:42:42 -----Epoch 120/127-----
+07-25 19:42:42 current lr: [0.0005120000000000001, 0.0005120000000000001, 0.0005120000000000001, 0.0005120000000000001]
+07-25 19:42:48 Epoch: 120 source_train-Loss: 1.9391 source_train-Acc: 0.9973, Cost 6.3 sec
+07-25 19:42:48 Epoch: 120 source_val-Loss: 0.2739 source_val-Acc: 0.9981, Cost 0.2 sec
+07-25 19:42:49 Epoch: 120 target_val-Loss: 1.3181 target_val-Acc: 0.7361, Cost 0.4 sec
+Isc recall: 44.53928571428571
+07-25 19:42:49 -----Epoch 121/127-----
+07-25 19:42:49 current lr: [0.0005120000000000001, 0.0005120000000000001, 0.0005120000000000001, 0.0005120000000000001]
+07-25 19:42:49 Epoch: 121 [1536/14701], Train Loss: 1.9358 Train Acc: 0.9988,2159.5 examples/sec 0.06 sec/batch
+Isc recall: 60.97
+07-25 19:42:56 Epoch: 121 source_train-Loss: 1.9523 source_train-Acc: 0.9962, Cost 6.9 sec
+07-25 19:42:56 Epoch: 121 source_val-Loss: 0.2730 source_val-Acc: 0.9982, Cost 0.2 sec
+07-25 19:42:56 Epoch: 121 target_val-Loss: 1.1823 target_val-Acc: 0.7398, Cost 0.3 sec
+07-25 19:42:56 -----Epoch 122/127-----
+07-25 19:42:56 current lr: [0.0005120000000000001, 0.0005120000000000001, 0.0005120000000000001, 0.0005120000000000001]
+07-25 19:43:03 Epoch: 122 source_train-Loss: 1.9123 source_train-Acc: 0.9988, Cost 6.7 sec
+Isc recall: 42.900000000000006
+07-25 19:43:03 Epoch: 122 source_val-Loss: 0.2715 source_val-Acc: 0.9990, Cost 0.2 sec
+07-25 19:43:04 Epoch: 122 target_val-Loss: 1.3565 target_val-Acc: 0.6959, Cost 0.3 sec
+07-25 19:43:04 -----Epoch 123/127-----
+07-25 19:43:04 current lr: [0.0005120000000000001, 0.0005120000000000001, 0.0005120000000000001, 0.0005120000000000001]
+Isc recall: 5.05
+07-25 19:43:10 Epoch: 123 source_train-Loss: 1.9948 source_train-Acc: 0.9914, Cost 6.2 sec
+07-25 19:43:10 Epoch: 123 source_val-Loss: 0.2725 source_val-Acc: 0.9997, Cost 0.2 sec
+07-25 19:43:10 Epoch: 123 target_val-Loss: 1.2716 target_val-Acc: 0.7309, Cost 0.3 sec
+07-25 19:43:10 -----Epoch 124/127-----
+07-25 19:43:10 current lr: [0.0005120000000000001, 0.0005120000000000001, 0.0005120000000000001, 0.0005120000000000001]
+07-25 19:43:16 Epoch: 124 source_train-Loss: 1.9451 source_train-Acc: 0.9980, Cost 6.1 sec
+07-25 19:43:17 Epoch: 124 source_val-Loss: 0.2781 source_val-Acc: 0.9974, Cost 0.2 sec
+07-25 19:43:17 Epoch: 124 target_val-Loss: 1.5270 target_val-Acc: 0.7034, Cost 0.4 sec
+07-25 19:43:17 -----Epoch 125/127-----
+07-25 19:43:17 current lr: [0.0005120000000000001, 0.0005120000000000001, 0.0005120000000000001, 0.0005120000000000001]
+Isc recall: 38.89
+Isc recall: 62.5
+07-25 19:43:23 Epoch: 125 source_train-Loss: 1.9388 source_train-Acc: 0.9988, Cost 6.1 sec
+07-25 19:43:23 Epoch: 125 source_val-Loss: 0.2712 source_val-Acc: 0.9992, Cost 0.2 sec
+07-25 19:43:24 Epoch: 125 target_val-Loss: 1.2982 target_val-Acc: 0.7009, Cost 0.3 sec
+07-25 19:43:24 -----Epoch 126/127-----
+07-25 19:43:24 current lr: [0.0005120000000000001, 0.0005120000000000001, 0.0005120000000000001, 0.0005120000000000001]
+07-25 19:43:26 Epoch: 126 [9216/14701], Train Loss: 1.9480 Train Acc: 0.9967,2117.2 examples/sec 0.06 sec/batch
+Isc recall: 54.89000000000001
+07-25 19:43:29 Epoch: 126 source_train-Loss: 1.9228 source_train-Acc: 0.9989, Cost 5.6 sec
+07-25 19:43:30 Epoch: 126 source_val-Loss: 0.2701 source_val-Acc: 0.9994, Cost 0.2 sec
+07-25 19:43:30 Epoch: 126 target_val-Loss: 1.4232 target_val-Acc: 0.7085, Cost 0.3 sec
+07-25 19:43:30 -----Epoch 127/127-----
+07-25 19:43:30 current lr: [0.0005120000000000001, 0.0005120000000000001, 0.0005120000000000001, 0.0005120000000000001]
+Isc recall: 22.22
+sk_confusion_matrix:
+ [[  76 1325   61    0  168]
+ [ 442 1254    0    0    0]
+ [   0    0 2025   26    0]
+ [   0    0   82 1968    0]
+ [   0  466  116    0 1463]]
+The model accuracy is 0.7164273648648649
+The model kappa is 0.645
++-----+-----------+--------+-------------+----------+
+|     | Precision | Recall | Specificity | F1 Score |
++-----+-----------+--------+-------------+----------+
+| Cor |   0.147   | 0.047  |    0.944    |  0.071   |
+| Isc |   0.412   | 0.739  |     0.77    |  0.529   |
+| Noi |   0.887   | 0.987  |    0.965    |  0.934   |
+| Nor |   0.987   |  0.96  |    0.996    |  0.973   |
+| Sti |   0.897   | 0.715  |    0.977    |  0.796   |
++-----+-----------+--------+-------------+----------+
+Computing t-SNE embedding for source domain
+07-25 19:43:36 Epoch: 127 source_train-Loss: 1.9179 source_train-Acc: 0.9988, Cost 5.8 sec
+07-25 19:43:36 Epoch: 127 source_val-Loss: 0.2749 source_val-Acc: 0.9995, Cost 0.2 sec
+07-25 19:43:36 Epoch: 127 target_val-Loss: 1.5232 target_val-Acc: 0.7175, Cost 0.3 sec
+Computing t-SNE embedding for target domain
+Computing t-SNE embedding for source domain
+Computing t-SNE embedding for target domain
+07-25 19:44:04 The model accuracy is 0.7164273648648649
+The model kappa is 0.645
++-----+-----------+--------+-------------+----------+
+|     | Precision | Recall | Specificity | F1 Score |
++-----+-----------+--------+-------------+----------+
+| Cor |   0.147   | 0.047  |    0.944    |  0.071   |
+| Isc |   0.412   | 0.739  |     0.77    |  0.529   |
+| Noi |   0.887   | 0.987  |    0.965    |  0.934   |
+| Nor |   0.987   |  0.96  |    0.996    |  0.973   |
+| Sti |   0.897   | 0.715  |    0.977    |  0.796   |
++-----+-----------+--------+-------------+----------+
+confusion_matrix:
+[[  76.  442.    0.    0.    0.]
+ [1325. 1254.    0.    0.  466.]
+ [  61.    0. 2025.   82.  116.]
+ [   0.    0.   26. 1968.    0.]
+ [ 168.    0.    0.    0. 1463.]]

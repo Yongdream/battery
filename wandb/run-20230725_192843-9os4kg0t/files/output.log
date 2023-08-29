@@ -1,0 +1,140 @@
+07-25 19:28:50 -----Epoch 0/127-----
+07-25 19:28:50 current lr: [0.001, 0.001, 0.001, 0.001]
+07-25 19:28:51 Epoch: 0 [0/14701], Train Loss: 1.5958 Train Acc: 0.2656,9.4 examples/sec 13.57 sec/batch
+07-25 19:28:56 Epoch: 0 source_train-Loss: 1.2265 source_train-Acc: 0.4104, Cost 5.5 sec
+07-25 19:28:56 Epoch: 0 source_val-Loss: 1.0508 source_val-Acc: 0.4893, Cost 0.3 sec
+Isc recall: 27.27
+07-25 19:28:56 Epoch: 0 target_val-Loss: 1.0747 target_val-Acc: 0.5262, Cost 0.4 sec
+07-25 19:28:56 -----Epoch 1/127-----
+07-25 19:28:56 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 21.08047619047619
+07-25 19:29:00 Epoch: 1 source_train-Loss: 1.0226 source_train-Acc: 0.5517, Cost 4.1 sec
+07-25 19:29:01 Epoch: 1 source_val-Loss: 0.9087 source_val-Acc: 0.5848, Cost 0.2 sec
+07-25 19:29:01 Epoch: 1 target_val-Loss: 0.9603 target_val-Acc: 0.5323, Cost 0.3 sec
+07-25 19:29:01 -----Epoch 2/127-----
+07-25 19:29:01 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0
+07-25 19:29:05 Epoch: 2 source_train-Loss: 0.7336 source_train-Acc: 0.6990, Cost 4.1 sec
+07-25 19:29:05 Epoch: 2 source_val-Loss: 0.7237 source_val-Acc: 0.6849, Cost 0.3 sec
+07-25 19:29:06 Epoch: 2 target_val-Loss: 1.1029 target_val-Acc: 0.4790, Cost 0.3 sec
+07-25 19:29:06 -----Epoch 3/127-----
+07-25 19:29:06 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0
+07-25 19:29:09 Epoch: 3 source_train-Loss: 0.7354 source_train-Acc: 0.7416, Cost 3.8 sec
+07-25 19:29:10 Epoch: 3 source_val-Loss: 0.5622 source_val-Acc: 0.8361, Cost 0.2 sec
+07-25 19:29:10 Epoch: 3 target_val-Loss: 0.8952 target_val-Acc: 0.6692, Cost 0.3 sec
+07-25 19:29:10 -----Epoch 4/127-----
+07-25 19:29:10 current lr: [0.001, 0.001, 0.001, 0.001]
+07-25 19:29:14 Epoch: 4 source_train-Loss: 0.5262 source_train-Acc: 0.8620, Cost 4.1 sec
+07-25 19:29:14 Epoch: 4 source_val-Loss: 0.4312 source_val-Acc: 0.8827, Cost 0.2 sec
+Isc recall: 0
+07-25 19:29:15 Epoch: 4 target_val-Loss: 1.0015 target_val-Acc: 0.7087, Cost 0.3 sec
+07-25 19:29:15 -----Epoch 5/127-----
+07-25 19:29:15 current lr: [0.001, 0.001, 0.001, 0.001]
+07-25 19:29:16 Epoch: 5 [3840/14701], Train Loss: 0.8292 Train Acc: 0.6648,3121.3 examples/sec 0.04 sec/batch
+Isc recall: 0
+07-25 19:29:19 Epoch: 5 source_train-Loss: 0.4602 source_train-Acc: 0.8904, Cost 4.2 sec
+07-25 19:29:19 Epoch: 5 source_val-Loss: 0.4156 source_val-Acc: 0.9144, Cost 0.2 sec
+07-25 19:29:19 Epoch: 5 target_val-Loss: 1.1273 target_val-Acc: 0.7125, Cost 0.3 sec
+07-25 19:29:19 -----Epoch 6/127-----
+07-25 19:29:19 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0
+07-25 19:29:23 Epoch: 6 source_train-Loss: 0.4317 source_train-Acc: 0.9124, Cost 4.1 sec
+07-25 19:29:24 Epoch: 6 source_val-Loss: 0.3884 source_val-Acc: 0.9349, Cost 0.3 sec
+07-25 19:29:24 Epoch: 6 target_val-Loss: 1.2939 target_val-Acc: 0.6925, Cost 0.3 sec
+07-25 19:29:24 -----Epoch 7/127-----
+07-25 19:29:24 current lr: [0.001, 0.001, 0.001, 0.001]
+07-25 19:29:28 Epoch: 7 source_train-Loss: 0.4005 source_train-Acc: 0.9428, Cost 4.0 sec
+07-25 19:29:28 Epoch: 7 source_val-Loss: 0.4106 source_val-Acc: 0.9129, Cost 0.2 sec
+Isc recall: 0
+07-25 19:29:29 Epoch: 7 target_val-Loss: 1.3909 target_val-Acc: 0.6962, Cost 0.3 sec
+07-25 19:29:29 -----Epoch 8/127-----
+07-25 19:29:29 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0
+07-25 19:29:33 Epoch: 8 source_train-Loss: 0.3863 source_train-Acc: 0.9515, Cost 4.1 sec
+07-25 19:29:33 Epoch: 8 source_val-Loss: 0.3768 source_val-Acc: 0.9483, Cost 0.3 sec
+07-25 19:29:33 Epoch: 8 target_val-Loss: 1.5505 target_val-Acc: 0.6557, Cost 0.3 sec
+07-25 19:29:33 -----Epoch 9/127-----
+07-25 19:29:33 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 21.74
+07-25 19:29:37 Epoch: 9 source_train-Loss: 0.4094 source_train-Acc: 0.9407, Cost 4.0 sec
+07-25 19:29:37 Epoch: 9 source_val-Loss: 0.5403 source_val-Acc: 0.8519, Cost 0.2 sec
+07-25 19:29:38 Epoch: 9 target_val-Loss: 1.3464 target_val-Acc: 0.4933, Cost 0.3 sec
+07-25 19:29:38 -----Epoch 10/127-----
+07-25 19:29:38 current lr: [0.001, 0.001, 0.001, 0.001]
+07-25 19:29:40 Epoch: 10 [7680/14701], Train Loss: 0.4130 Train Acc: 0.9321,3195.8 examples/sec 0.04 sec/batch
+Isc recall: 0.21428571428571427
+07-25 19:29:42 Epoch: 10 source_train-Loss: 0.3863 source_train-Acc: 0.9550, Cost 4.0 sec
+07-25 19:29:42 Epoch: 10 source_val-Loss: 0.3359 source_val-Acc: 0.9646, Cost 0.2 sec
+07-25 19:29:42 Epoch: 10 target_val-Loss: 1.3250 target_val-Acc: 0.6261, Cost 0.3 sec
+07-25 19:29:42 -----Epoch 11/127-----
+07-25 19:29:42 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0.09519999999999999
+07-25 19:29:47 Epoch: 11 source_train-Loss: 0.3699 source_train-Acc: 0.9587, Cost 4.7 sec
+07-25 19:29:47 Epoch: 11 source_val-Loss: 0.3478 source_val-Acc: 0.9589, Cost 0.2 sec
+07-25 19:29:48 Epoch: 11 target_val-Loss: 1.5272 target_val-Acc: 0.6066, Cost 0.4 sec
+07-25 19:29:48 -----Epoch 12/127-----
+07-25 19:29:48 current lr: [0.001, 0.001, 0.001, 0.001]
+07-25 19:29:52 Epoch: 12 source_train-Loss: 0.4023 source_train-Acc: 0.9472, Cost 4.5 sec
+Isc recall: 0
+07-25 19:29:52 Epoch: 12 source_val-Loss: 0.3385 source_val-Acc: 0.9743, Cost 0.2 sec
+07-25 19:29:53 Epoch: 12 target_val-Loss: 1.6888 target_val-Acc: 0.6180, Cost 0.3 sec
+07-25 19:29:53 -----Epoch 13/127-----
+07-25 19:29:53 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0
+07-25 19:29:57 Epoch: 13 source_train-Loss: 0.3594 source_train-Acc: 0.9653, Cost 4.1 sec
+07-25 19:29:57 Epoch: 13 source_val-Loss: 0.3405 source_val-Acc: 0.9625, Cost 0.3 sec
+07-25 19:29:57 Epoch: 13 target_val-Loss: 1.3813 target_val-Acc: 0.6693, Cost 0.4 sec
+07-25 19:29:57 -----Epoch 14/127-----
+07-25 19:29:57 current lr: [0.001, 0.001, 0.001, 0.001]
+07-25 19:30:02 Epoch: 14 source_train-Loss: 0.3495 source_train-Acc: 0.9699, Cost 4.5 sec
+07-25 19:30:02 Epoch: 14 source_val-Loss: 0.3140 source_val-Acc: 0.9804, Cost 0.2 sec
+07-25 19:30:03 Epoch: 14 target_val-Loss: 1.4932 target_val-Acc: 0.6604, Cost 0.3 sec
+Isc recall: 0
+07-25 19:30:03 -----Epoch 15/127-----
+07-25 19:30:03 current lr: [0.001, 0.001, 0.001, 0.001]
+07-25 19:30:06 Epoch: 15 [11520/14701], Train Loss: 0.3648 Train Acc: 0.9634,2968.6 examples/sec 0.04 sec/batch
+07-25 19:30:06 Epoch: 15 source_train-Loss: 0.3412 source_train-Acc: 0.9755, Cost 4.0 sec
+Isc recall: 0
+07-25 19:30:07 Epoch: 15 source_val-Loss: 0.3277 source_val-Acc: 0.9750, Cost 0.2 sec
+07-25 19:30:07 Epoch: 15 target_val-Loss: 1.3093 target_val-Acc: 0.7318, Cost 0.3 sec
+07-25 19:30:07 -----Epoch 16/127-----
+07-25 19:30:07 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0.125
+07-25 19:30:11 Epoch: 16 source_train-Loss: 0.3474 source_train-Acc: 0.9710, Cost 3.9 sec
+07-25 19:30:11 Epoch: 16 source_val-Loss: 0.3143 source_val-Acc: 0.9809, Cost 0.2 sec
+07-25 19:30:11 Epoch: 16 target_val-Loss: 1.3863 target_val-Acc: 0.6942, Cost 0.3 sec
+07-25 19:30:11 -----Epoch 17/127-----
+07-25 19:30:11 current lr: [0.001, 0.001, 0.001, 0.001]
+Isc recall: 0
+07-25 19:30:16 Epoch: 17 source_train-Loss: 0.3292 source_train-Acc: 0.9818, Cost 4.1 sec
+07-25 19:30:16 Epoch: 17 source_val-Loss: 0.3176 source_val-Acc: 0.9804, Cost 0.2 sec
+07-25 19:30:16 Epoch: 17 target_val-Loss: 1.4058 target_val-Acc: 0.6930, Cost 0.3 sec
+07-25 19:30:16 -----Epoch 18/127-----
+07-25 19:30:16 current lr: [0.001, 0.001, 0.001, 0.001]
+07-25 19:30:20 Epoch: 18 source_train-Loss: 0.3337 source_train-Acc: 0.9797, Cost 4.1 sec
+07-25 19:30:20 Epoch: 18 source_val-Loss: 0.3298 source_val-Acc: 0.9737, Cost 0.2 sec
+Traceback (most recent call last):
+  File "E:\Galaxy\yang7hi_battery\train_base.py", line 124, in <module>
+    trainer.train(cond=condition)
+  File "E:\Galaxy\yang7hi_battery\utlis\train_utils_base.py", line 340, in train
+    features = self.model(inputs)
+  File "D:\anaconda\envs\pytorch\lib\site-packages\torch\nn\modules\module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "E:\Galaxy\yang7hi_battery\model\VAE_ALSTM.py", line 106, in forward
+    x = self.model_net(x)
+  File "D:\anaconda\envs\pytorch\lib\site-packages\torch\nn\modules\module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "E:\Galaxy\yang7hi_battery\model\VAE_ALSTM.py", line 78, in forward
+    attention_score = self.att_net(rnn_out)
+  File "D:\anaconda\envs\pytorch\lib\site-packages\torch\nn\modules\module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "D:\anaconda\envs\pytorch\lib\site-packages\torch\nn\modules\container.py", line 139, in forward
+    input = module(input)
+  File "D:\anaconda\envs\pytorch\lib\site-packages\torch\nn\modules\module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "D:\anaconda\envs\pytorch\lib\site-packages\torch\nn\modules\activation.py", line 1376, in forward
+    return F.softmax(input, self.dim, _stacklevel=5)
+  File "D:\anaconda\envs\pytorch\lib\site-packages\torch\nn\functional.py", line 1834, in softmax
+    ret = input.softmax(dim)
+KeyboardInterrupt
