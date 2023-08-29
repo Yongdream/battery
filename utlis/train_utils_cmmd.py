@@ -39,7 +39,7 @@ def apply_dropout(m):
         m.eval()
 
 
-class TrainUtilsDA(object):
+class TrainUtilsDA_cmmd(object):
     def __init__(self, args, save_dir):
         self.args = args
         self.save_dir = save_dir
@@ -208,7 +208,7 @@ class TrainUtilsDA(object):
             elif args.distance_loss == "CORAL":
                 self.distance_loss = CORAL
             elif args.distance_loss == "CMMD":
-                self.distance_loss == CMMD
+                self.distance_loss = CMMD
             else:
                 raise Exception("loss not implement")
         else:
@@ -235,7 +235,7 @@ class TrainUtilsDA(object):
         else:
             raise Exception("Criterion not implement")
 
-        logging.info(summary(self.model_all, input_size=(args.batch_size, 16, 256)))
+        # logging.info(summary(self.model_all, input_size=(args.batch_size, 16, 256)))
         print('Model build successfully!')
 
     def train(self, cond):
@@ -352,20 +352,29 @@ class TrainUtilsDA(object):
                             b1_target, \
                             b2_target \
                                 = self.model(source_inputs, target_inputs, source_label)
+
+                            source_fe = torch.cat([b1_source, b2_source], 1)
+                            target_fe = torch.cat([b1_target, b2_target], 1)
                         else:
                             features = self.model(inputs)
 
                         if args.bottleneck:
-                            features = self.bottleneck_layer(features)
+                            s_label = self.bottleneck_layer(source_fe)
+                            t_label = self.bottleneck_layer(target_fe)
 
-                        outputs = self.classifier_layer(features)
+
+                        s_label = self.classifier_layer(s_label)
+                        t_label = self.classifier_layer(t_label)
+                        # s_label = s_label.data.max(1)[1]
+                        t_label = t_label.data.max(1)[1]
+
                         if phase != 'source_train' or epoch < args.middle_epoch:
                         # if phase != 'source_train':
-                            logits = outputs
+                            logits = s_label
                             loss = self.criterion(logits, labels)
                         else:
                             # 如果阶段是'source_train'并且当前轮次大于等于args.middle_epoch
-                            logits = outputs.narrow(0, 0, labels.size(0))   # 虽然引入了目标域 但是并不预测其的label，只是以此来对源域算loss
+                            logits = s_label
                             classifier_loss = self.criterion(logits, labels)
 
                             # Calculate the distance metric
@@ -389,8 +398,8 @@ class TrainUtilsDA(object):
                                                                                             0)))
                                 elif args.distance_loss == 'CMMD':
                                     if args.model_name == 'ATTFE':
-                                        distance_loss += self.distance_loss(s_features1, t_features1, source_label, t_label)
-                                        distance_loss += self.distance_loss((s_features2, t_features2, source_label, t_label))
+                                        distance_loss = self.distance_loss(b1_source, b1_target, labels, t_label)
+                                        distance_loss += self.distance_loss(b2_source, b2_target, labels, t_label)
                                     else:
                                         print('Other models are not suitable for the CMMD method, please use the AAFE!')
                                 else:

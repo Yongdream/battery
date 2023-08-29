@@ -69,7 +69,7 @@ def preprocess_dataset(dataset_folder, Classification, folder):
         values = filename.split('_')[1]
         data = pd.read_csv(file_path, header=0)
 
-        win_data_list = sliding_window(data, 256, 5)    # 滑窗获得数据
+        win_data_list = sliding_window(data, 300, 15)    # 滑窗获得数据
 
         for i, win_data in enumerate(win_data_list, start=1):
             features = normalize_matrix(win_data).astype('float')
@@ -124,24 +124,53 @@ def preprocess_dataset(dataset_folder, Classification, folder):
     print(f'{dataset_folder} {Classification} preprocess ok！')
 
 
+def swap_channel_data(dataset_folder):
+    file_list = os.listdir(dataset_folder)
+    for filename in file_list:
+        if not filename.endswith('.csv'):
+            continue
+        file_path = os.path.join(dataset_folder, filename)
+        values = filename.split('_')[1]
+
+        if values != 'Nor':
+            original_ch_num = file_path.split('_')[-1].replace('.csv', '')
+            original_ch = 'CH500' + original_ch_num
+
+            df = pd.read_csv(file_path)
+
+            # 对每个非故障通道，生成一个新的CSV文件
+            other_columns = [col for col in df.columns if col != original_ch]
+            for new_fault_channel in other_columns:
+                columns_order = [col for col in df.columns if col != new_fault_channel] + [new_fault_channel]
+                new_df = df[columns_order]
+
+                # 构建新的文件名
+                new_fault_channel = new_fault_channel.replace('CH500', '', 1)
+                new_filename = file_path.replace(original_ch_num, new_fault_channel)
+
+                # 保存处理后的csv文件
+                new_df.to_csv(new_filename, index=False)
+                print(f"Generated file: {new_filename}")
+
+
 if __name__ == '__main__':
-    if len(sys.argv) < 3:
-        raise Exception("Please provide dataset and Classification arguments.")
+    Classification = 'multiple'
+    datasets = ['fuds', 'udds', 'us06']
+    output_folders = ['../processed/fuds', '../processed/udds', '../processed/us06']
 
-    dataset = sys.argv[1]
-    Classification = sys.argv[2]
+    for dataset, folder in zip(datasets, output_folders):
+        if dataset == 'fuds':
+            dataset_folder = '../data/fuds'
+        elif dataset == 'udds':
+            dataset_folder = '../data/udds'
+        elif dataset == 'us06':
+            dataset_folder = '../data/us06'
+        else:
+            raise Exception(f'Not Implemented. Check one of {datasets}')
 
-    if dataset == 'fuds':
-        dataset_folder = '../data/fuds'
-    elif dataset == 'udds':
-        dataset_folder = '../data/udds'
-    elif dataset == 'us06':
-        dataset_folder = '../data/us06'
-    else:
-        raise Exception(f'Not Implemented. Check one of {datasets}')
+        os.makedirs(folder, exist_ok=True)
 
-    folder = os.path.join(os.pardir, output_folder, dataset)
-    os.makedirs(folder, exist_ok=True)
+        # swap_channel_data(dataset_folder)
 
-    preprocess_dataset(dataset_folder, Classification, folder)
+        preprocess_dataset(dataset_folder, Classification, folder)
 

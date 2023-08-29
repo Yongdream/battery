@@ -389,7 +389,7 @@ class TrainUtilsDA(object):
                                                                                             0)))
                                 elif args.distance_loss == 'CMMD':
                                     if args.model_name == 'ATTFE':
-                                        distance_loss += self.distance_loss(s_features1, t_features1, source_label, t_label)
+                                        distance_loss = self.distance_loss(s_features1, t_features1, source_label, t_label)
                                         distance_loss += self.distance_loss((s_features2, t_features2, source_label, t_label))
                                     else:
                                         print('Other models are not suitable for the CMMD method, please use the AAFE!')

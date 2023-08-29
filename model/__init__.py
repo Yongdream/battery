@@ -15,4 +15,4 @@ from model.VAE_ALSTM import Res_AltsmFeatures
 
 import model.VARE as VareFea
 
-import model.ATTFE as ATTFE
+from model.ATTFE import ATTFE

@@ -77,16 +77,19 @@ class InceptionA(nn.Module):
 
         t_branch2_conv = self.branch2_conv(target)  # torch.Size([b, 32, 300])
 
-        # source = torch.cat([branch1_gru, branch2_conv], 1)  # torch.Size([128, 64, 300])
+        s_branch1_gru = torch.sum(s_branch1_gru, dim=1)
+        s_branch2_conv = torch.sum(s_branch2_conv, dim=1)
+        t_branch1_gru = torch.sum(t_branch1_gru, dim=1)
+        t_branch2_conv = torch.sum(t_branch2_conv, dim=1)
 
         return s_branch1_gru, s_branch2_conv, t_branch1_gru, t_branch2_conv
 
 
-class AttFE(nn.Module):
-    def __init__(self,  pretrained=False, batch_size=1):
-        super(AttFE, self).__init__()
+class ATTFE(nn.Module):
+    def __init__(self,  pretrained=False):
+        super(ATTFE, self).__init__()
 
-        self.__in_features = 128
+        self.__in_features = 600
 
         if pretrained:
             warnings.warn("Pretrained model is not available")
@@ -122,7 +125,7 @@ target_data = torch.randn(batch_size, 16, 300)
 s_label = torch.randn(batch_size, 16, 300)  # 假设标签也是形状为(5, 16, 300)的张量
 
 # 创建模型实例
-model = AttFE()
+model = ATTFE()
 
 # 将数据通过模型
 b1_source, b2_source, b1_target, b2_target = model(source_data, target_data, s_label)
