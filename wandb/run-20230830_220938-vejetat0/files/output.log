@@ -1,0 +1,46 @@
+08-30 22:09:46 method: DA
+08-30 22:09:46 model_name: ALSTMAdFeatures
+08-30 22:09:46 data_name: Battery
+08-30 22:09:46 data_dir: ../processed
+08-30 22:09:46 transfer_task: [[1], [0]]
+08-30 22:09:46 normlizetype: mean-std
+08-30 22:09:46 adabn: False
+08-30 22:09:46 eval_all: False
+08-30 22:09:46 adabn_epochs: 3
+08-30 22:09:46 cuda_device: 0
+08-30 22:09:46 checkpoint_dir: ./checkpoint
+08-30 22:09:46 pretrained: False
+08-30 22:09:46 batch_size: 128
+08-30 22:09:46 num_workers: 0
+08-30 22:09:46 seed: 3
+08-30 22:09:46 patience: 50
+08-30 22:09:46 bottleneck: True
+08-30 22:09:46 bottleneck_num: 128
+08-30 22:09:46 last_batch: False
+08-30 22:09:46 distance_metric: True
+08-30 22:09:46 distance_loss: JMMD
+08-30 22:09:46 trade_off_distance: Step
+08-30 22:09:46 lam_distance: 1.2
+08-30 22:09:46 domain_adversarial: False
+08-30 22:09:46 adversarial_loss: CDA
+08-30 22:09:46 hidden_size: 1024
+08-30 22:09:46 trade_off_adversarial: Step
+08-30 22:09:46 lam_adversarial: 2
+08-30 22:09:46 opt: adam
+08-30 22:09:46 lr: 0.001
+08-30 22:09:46 momentum: 0.9
+08-30 22:09:46 weight_decay: 1e-05
+08-30 22:09:46 lr_scheduler: step
+08-30 22:09:46 gamma: 0.8
+08-30 22:09:46 steps: 80, 95, 105
+08-30 22:09:46 criterion: CeLoss
+08-30 22:09:46 middle_epoch: 25
+08-30 22:09:46 max_epoch: 50
+08-30 22:09:46 print_step: 600
+08-30 22:09:46 wandb: True
+08-30 22:09:46 using 1 gpus
+
+
+
+100%|██████████| 5/5 [00:09<00:00,  1.87s/it]
+

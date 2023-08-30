@@ -87,6 +87,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\data\fuds\FUDS_Isc_10ohm_0715_3.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\data\fuds\FUDS_Isc_1ohm_0718.csv">
           <value>
             <Attribute>

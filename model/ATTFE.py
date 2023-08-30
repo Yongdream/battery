@@ -119,19 +119,19 @@ class ATTFE(nn.Module):
         return self.__in_features
 
 
-batch_size = 5  # 这只是一个随机选择的批处理大小，你可以根据需要更改它
-source_data = torch.randn(batch_size, 16, 300)
-target_data = torch.randn(batch_size, 16, 300)
-s_label = torch.randn(batch_size, 16, 300)  # 假设标签也是形状为(5, 16, 300)的张量
-
-# 创建模型实例
-model = ATTFE()
-
-# 将数据通过模型
-b1_source, b2_source, b1_target, b2_target = model(source_data, target_data, s_label)
-
-# 打印输出的形状以确保一切按计划进行
-print(b1_source.shape)
-print(b2_source.shape)
-print(b1_target.shape)
-print(b2_target.shape)
+# batch_size = 5  # 这只是一个随机选择的批处理大小，你可以根据需要更改它
+# source_data = torch.randn(batch_size, 16, 300)
+# target_data = torch.randn(batch_size, 16, 300)
+# s_label = torch.randn(batch_size, 16, 300)  # 假设标签也是形状为(5, 16, 300)的张量
+#
+# # 创建模型实例
+# model = ATTFE()
+#
+# # 将数据通过模型
+# b1_source, b2_source, b1_target, b2_target = model(source_data, target_data, s_label)
+#
+# # 打印输出的形状以确保一切按计划进行
+# print(b1_source.shape)
+# print(b2_source.shape)
+# print(b1_target.shape)
+# print(b2_target.shape)

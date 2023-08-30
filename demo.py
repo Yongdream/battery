@@ -1,72 +1,57 @@
-from sklearn.metrics import roc_curve, auc
-from sklearn.preprocessing import label_binarize
-from itertools import cycle
 import numpy as np
 import matplotlib.pyplot as plt
+import os
 
-# 假设我们有5个类，每个样本有一个实际标签，对于每个样本，我们有5个预测的概率（每个类别一个）
 
-# 生成随机数据
-np.random.seed(1)  # 确保每次运行得到的结果一致
-n_samples = 100
-n_classes = 5
+def extract_features_v2(U_values):
+    U_ave = np.mean(U_values, axis=0)
+    # 计算每个通道与其平均值的差值
+    diffs = (U_values - U_ave[np.newaxis, :]) / U_ave[np.newaxis, :]
+    # 计算 xi^2
+    xi_squared = np.mean(diffs ** 2, axis=0)
 
-# 生成一些随机的y_score
-y_score = np.random.rand(n_samples, n_classes)
+    # 计算累积变化率
+    diff = np.diff(U_values, axis=0)
+    cum_change_rate = np.cumsum(diff, axis=0)
+    abs_cum_change_rate = np.abs(cum_change_rate)
+    max_abs_cum_change_rate = np.max(abs_cum_change_rate, axis=0, keepdims=True)
+    max_abs_cum_change_rate = max_abs_cum_change_rate.squeeze()
 
-# 为每个样本生成一个随机的实际标签
-y_test_raw = np.random.randint(n_classes, size=n_samples)
-# 然后将实际标签转换为binary matrix
-y_test = label_binarize(y_test_raw, classes=range(n_classes))
+    return U_ave, xi_squared, max_abs_cum_change_rate
 
-# 下面的部分与上一个答案相同
-fpr = dict()
-tpr = dict()
-roc_auc = dict()
-for i in range(n_classes):
-    fpr[i], tpr[i], _ = roc_curve(y_test[:, i], y_score[:, i])
-    roc_auc[i] = auc(fpr[i], tpr[i])
 
-fpr["micro"], tpr["micro"], _ = roc_curve(y_test.ravel(), y_score.ravel())
-roc_auc["micro"] = auc(fpr["micro"], tpr["micro"])
 
-all_fpr = np.unique(np.concatenate([fpr[i] for i in range(n_classes)]))
+# 定义文件路径的前缀和后缀
+prefix = 'processed/fuds/Isc/Isc_'
+suffix = '.npy'
+save_folder = 'result/squar'
 
-mean_tpr = np.zeros_like(all_fpr)
-for i in range(n_classes):
-    mean_tpr += np.interp(all_fpr, fpr[i], tpr[i])  # 使用np.interp替代scipy.interp
+# 创建一个存储所有xi_squared值的列表
+all_xi_squared = []
 
-mean_tpr /= n_classes
+# 循环前100个文件
+for i in range(1, 300):
+    filepath = f"{prefix}{i}{suffix}"
 
-fpr["macro"] = all_fpr
-tpr["macro"] = mean_tpr
-roc_auc["macro"] = auc(fpr["macro"], tpr["macro"])
+    if os.path.exists(filepath):
+        # 从文件加载数据并转置
+        U_values = np.load(filepath).T
 
-# 所有类别的FP（False Positives）、TP（True Positives）、FN（False Negatives）各自求和
-# 以样本为基准进行平均，因此样本量大的类别对结果的影响会更大
-plt.figure(figsize=(10, 8))
-plt.plot(fpr["micro"], tpr["micro"],
-         label='micro-average ROC curve (area = {0:0.2f})'
-               ''.format(roc_auc["micro"]),
-         color='deeppink', linestyle=':', linewidth=4)
+        # 确保现在的形状是 (16, 300)
+        assert U_values.shape == (16, 300)
 
-# 宏平均将所有类别等同看待 每个类别的指标都等权重地纳入最后的平均指标 论类别的样本量大小
-plt.plot(fpr["macro"], tpr["macro"],
-         label='macro-average ROC curve (area = {0:0.2f})'
-               ''.format(roc_auc["macro"]),
-         color='navy', linestyle=':', linewidth=4)
+        # 计算 xi^2 并存储
+        _, e, xi_squared = extract_features_v2(U_values)
+        all_xi_squared.append(xi_squared)
 
-colors = cycle(['aqua', 'darkorange', 'cornflowerblue', 'green', 'red'])
-for i, color in zip(range(n_classes), colors):
-    plt.plot(fpr[i], tpr[i], color=color, lw=2,
-             label='ROC curve of class {0} (area = {1:0.2f})'
-             ''.format(i, roc_auc[i]))
 
-plt.plot([0, 1], [0, 1], 'k--', lw=2)
-plt.xlim([0.0, 1.0])
-plt.ylim([0.0, 1.05])
-plt.xlabel('False Positive Rate')
-plt.ylabel('True Positive Rate')
-plt.title('Receiver operating characteristic to multi-class')
-plt.legend(loc="lower right")
-plt.show()
+        plt.figure(figsize=(10, 6))
+        plt.plot(xi_squared)
+        plt.title(r'$\xi^2$ Variation Over Time Points')
+        plt.xlabel('Time Point')
+        plt.ylabel(r'$\xi^2$ Value')
+        plt.grid(True)
+        # 保存图像
+        save_path = os.path.join(save_folder, f'Isc_{i}_plot.png')
+        plt.savefig(save_path)
+        plt.close()  # 关闭图像，避免打开过多图窗

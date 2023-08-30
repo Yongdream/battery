@@ -48,6 +48,19 @@ def extract_features(data):
     return features
 
 
+def extract_features_v2(U_values):
+    U_ave = np.mean(U_values, axis=1)
+
+    # 计算每个时间点与其平均值的差值
+    diffs = (U_values - U_ave[:, np.newaxis]) / U_ave[:, np.newaxis]
+
+    # 计算 xi^2
+    xi_squared = np.mean(diffs ** 2, axis=1)
+
+    return U_ave, xi_squared
+
+
+
 def normalize_matrix(a):
     max_value = np.max(a)
     min_value = np.min(a)
@@ -68,8 +81,10 @@ def preprocess_dataset(dataset_folder, Classification, folder):
         file_path = os.path.join(dataset_folder, filename)
         values = filename.split('_')[1]
         data = pd.read_csv(file_path, header=0)
+        # 仅选择前12列
+        data = data.iloc[:, :12]
 
-        win_data_list = sliding_window(data, 300, 15)    # 滑窗获得数据
+        win_data_list = sliding_window(data, 600, 5)    # 滑窗获得数据
 
         for i, win_data in enumerate(win_data_list, start=1):
             features = normalize_matrix(win_data).astype('float')

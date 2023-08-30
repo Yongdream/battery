@@ -9,7 +9,8 @@ from tqdm import tqdm
 import glob
 
 # BAT_state = ['Cor', 'Isc', 'noi', 'Nor', 'sti']
-BAT_state = ['Isc', 'noi', 'Nor', 'sti']
+BAT_state = ['Cor', 'Isc', 'Nor']
+# BAT_state = ['Isc', 'noi', 'Nor', 'sti']
 label_state = [i for i in range(len(BAT_state))]
 
 WS = ["udds", "fuds", "us06"]
@@ -88,8 +89,3 @@ class Battery(object):
             data_pd = pd.DataFrame({"data": list_data[0], "label": list_data[1]})
             target_val = dataset(list_data=data_pd, transform=self.data_transforms['val'])
             return source_train, source_val, target_val
-
-
-# data_dir = 'E:/Galaxy/yang7hi_battery/processed'
-# battery = Battery(data_dir, transfer_task=[[0], [1]])
-# battery.data_split()

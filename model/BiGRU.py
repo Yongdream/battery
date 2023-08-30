@@ -50,7 +50,6 @@ class BiGruAd(nn.Module):
         )
         self.att_net.add_module("att_softmax", nn.Softmax(dim=1))
 
-
     def forward(self, inputs):
         # (b, 16, 256)
 

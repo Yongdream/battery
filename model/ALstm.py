@@ -22,8 +22,12 @@ def extract_features(data):
     padding = torch.zeros((data.size(0), 1, 1), device=data.device)
     max_abs_cum_change_rate = torch.cat((padding, max_abs_cum_change_rate), dim=2)
 
+    diff_mean = (data - mean) / mean
+    # 计算 xi^2
+    xi_squared = torch.mean(diff_mean ** 2, axis=1)
+    xi_squared = xi_squared.unsqueeze(1)
     # 将所有特征合并
-    features = torch.cat((mean, var, max_abs_cum_change_rate), dim=1)
+    features = torch.cat((mean, var, max_abs_cum_change_rate, xi_squared), dim=1)
 
     return features  # 结果形状为(b, 16, 302)
 
@@ -55,11 +59,13 @@ class ALSTMAdFeatures(nn.Module):
         # self.net.add_module("act", nn.Tanh())
 
         self.conv_net = nn.Sequential()
-        self.conv_net.add_module('conv1', nn.Conv1d(16, 32, kernel_size=7, stride=1, padding=3))
+        self.conv_net.add_module('conv1', nn.Conv1d(12, 32, kernel_size=7, stride=1, padding=3))
         self.conv_net.add_module('conv1_act1', nn.ReLU())
         # self.conv_net.add_module('avg', nn.AvgPool1d(kernel_size=3, stride=2, padding=1))
-        self.conv_net.add_module('conv2', nn.Conv1d(32, 61, kernel_size=3, stride=1, padding=1))
+        self.conv_net.add_module('conv2', nn.Conv1d(32, 60, kernel_size=3, stride=1, padding=1))
         self.conv_net.add_module('conv2_act2', nn.ReLU())
+
+        self.avg_pool = nn.AvgPool1d(kernel_size=3, stride=2, padding=1)
 
         # self.rnn = klass(
         #     input_size=64,
@@ -98,6 +104,7 @@ class ALSTMAdFeatures(nn.Module):
         s_fe = extract_features(inputs)
 
         out_conv = torch.cat((out_conv, s_fe), dim=1)
+        out_conv = self.avg_pool(out_conv)
 
         out_conv = out_conv.permute(0, 2, 1)    # torch.Size([128, 150, 64])
         rnn_out, _ = self.gru_1(out_conv)       # [batch, seq_len, num_directions * hidden_size]
@@ -120,8 +127,8 @@ class ALSTMAdFeatures(nn.Module):
 
 
 batch_size = 128
-input_dim = 300
-sequence_length = 16
+input_dim = 600
+sequence_length = 12
 input_tensor = torch.randn(batch_size, sequence_length, input_dim)
 
 # 创建模型实例

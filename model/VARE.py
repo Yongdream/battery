@@ -470,10 +470,10 @@ model = VAREAdFeatures(sequence_length=sequence_length,
                         block=block)
 
 
-features = model(input_tensor)
-
-# summary(model, input_size=(256, batch_size, 16))
-
-# 打印输出张量的形状
-print("features shape:", features.shape)
+# features = model(input_tensor)
+#
+# # summary(model, input_size=(256, batch_size, 16))
+#
+# # 打印输出张量的形状
+# print("features shape:", features.shape)
 
