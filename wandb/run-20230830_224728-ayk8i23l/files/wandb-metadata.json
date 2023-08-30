@@ -1,0 +1,44 @@
+{
+    "os": "Windows-10-10.0.22000-SP0",
+    "python": "3.7.12",
+    "heartbeatAt": "2023-08-30T14:47:30.147551",
+    "startedAt": "2023-08-30T14:47:28.405914",
+    "docker": null,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "E:\\Galaxy\\yang7hi_battery\\train_base.py",
+    "codePath": "train_base.py",
+    "host": "Pioneer",
+    "username": "10147",
+    "executable": "D:\\anaconda\\envs\\pytorch\\python.exe",
+    "cpu_count": 14,
+    "cpu_count_logical": 20,
+    "cpu_freq": {
+        "current": 2300.0,
+        "min": 0.0,
+        "max": 2300.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 2300.0,
+            "min": 0.0,
+            "max": 2300.0
+        }
+    ],
+    "disk": {
+        "total": 584.8681602478027,
+        "used": 441.04308700561523
+    },
+    "gpu": "NVIDIA GeForce RTX 3060 Laptop GPU",
+    "gpu_count": 1,
+    "gpu_devices": [
+        {
+            "name": "NVIDIA GeForce RTX 3060 Laptop GPU",
+            "memory_total": 6442450944
+        }
+    ],
+    "memory": {
+        "total": 15.699939727783203
+    }
+}

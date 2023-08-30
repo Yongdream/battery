@@ -1,0 +1,72 @@
+08-30 22:42:26 -----Epoch 0/49-----
+08-30 22:42:26 current lr: [0.001, 0.001, 0.001]
+08-30 22:42:27 Epoch: 0 [0/6568], Train Loss: 1.1032 Train Acc: 0.2578,12.3 examples/sec 10.45 sec/batch
+08-30 22:42:30 Epoch: 0 source_train-Loss: 0.8782 source_train-Acc: 0.5869, Cost 3.9 sec
+08-30 22:42:30 Epoch: 0 source_val-Loss: 0.6342 source_val-Acc: 0.7614, Cost 0.3 sec
+08-30 22:42:31 Epoch: 0 target_val-Loss: 0.8232 target_val-Acc: 0.7399, Cost 0.5 sec
+08-30 22:42:31 -----Epoch 1/49-----
+08-30 22:42:31 current lr: [0.001, 0.001, 0.001]
+Isc recall: 0
+08-30 22:42:34 Epoch: 1 source_train-Loss: 0.5600 source_train-Acc: 0.7796, Cost 3.1 sec
+08-30 22:42:34 Epoch: 1 source_val-Loss: 0.5329 source_val-Acc: 0.7869, Cost 0.2 sec
+08-30 22:42:35 Epoch: 1 target_val-Loss: 0.6239 target_val-Acc: 0.8055, Cost 0.4 sec
+08-30 22:42:35 -----Epoch 2/49-----
+08-30 22:42:35 current lr: [0.001, 0.001, 0.001]
+Isc recall: 0
+08-30 22:42:38 Epoch: 2 source_train-Loss: 0.5416 source_train-Acc: 0.7858, Cost 3.0 sec
+08-30 22:42:38 Epoch: 2 source_val-Loss: 0.5329 source_val-Acc: 0.7869, Cost 0.2 sec
+Isc recall: 0
+08-30 22:42:38 Epoch: 2 target_val-Loss: 0.6264 target_val-Acc: 0.8057, Cost 0.4 sec
+08-30 22:42:38 -----Epoch 3/49-----
+08-30 22:42:38 current lr: [0.001, 0.001, 0.001]
+08-30 22:42:41 Epoch: 3 source_train-Loss: 0.5415 source_train-Acc: 0.7866, Cost 3.1 sec
+08-30 22:42:42 Epoch: 3 source_val-Loss: 0.5339 source_val-Acc: 0.7869, Cost 0.2 sec
+08-30 22:42:42 Epoch: 3 target_val-Loss: 0.6318 target_val-Acc: 0.8065, Cost 0.4 sec
+08-30 22:42:42 -----Epoch 4/49-----
+08-30 22:42:42 current lr: [0.001, 0.001, 0.001]
+Isc recall: 0
+08-30 22:42:45 Epoch: 4 source_train-Loss: 0.5401 source_train-Acc: 0.7866, Cost 3.2 sec
+08-30 22:42:45 Epoch: 4 source_val-Loss: 0.5370 source_val-Acc: 0.7869, Cost 0.2 sec
+08-30 22:42:46 Epoch: 4 target_val-Loss: 0.6325 target_val-Acc: 0.8061, Cost 0.4 sec
+08-30 22:42:46 -----Epoch 5/49-----
+08-30 22:42:46 current lr: [0.001, 0.001, 0.001]
+Isc recall: 0
+08-30 22:42:49 Epoch: 5 source_train-Loss: 0.5393 source_train-Acc: 0.7868, Cost 2.7 sec
+08-30 22:42:49 Epoch: 5 source_val-Loss: 0.5353 source_val-Acc: 0.7869, Cost 0.2 sec
+08-30 22:42:49 Epoch: 5 target_val-Loss: 0.6384 target_val-Acc: 0.8059, Cost 0.4 sec
+08-30 22:42:49 -----Epoch 6/49-----
+08-30 22:42:49 current lr: [0.001, 0.001, 0.001]
+Isc recall: 0
+08-30 22:42:52 Epoch: 6 source_train-Loss: 0.5390 source_train-Acc: 0.7869, Cost 2.8 sec
+08-30 22:42:52 Epoch: 6 source_val-Loss: 0.5341 source_val-Acc: 0.7869, Cost 0.2 sec
+Isc recall: 0
+08-30 22:42:53 Epoch: 6 target_val-Loss: 0.6124 target_val-Acc: 0.8067, Cost 0.5 sec
+08-30 22:42:53 -----Epoch 7/49-----
+08-30 22:42:53 current lr: [0.001, 0.001, 0.001]
+08-30 22:42:56 Epoch: 7 source_train-Loss: 0.5390 source_train-Acc: 0.7865, Cost 2.9 sec
+08-30 22:42:56 Epoch: 7 source_val-Loss: 0.5311 source_val-Acc: 0.7869, Cost 0.3 sec
+Isc recall: 0
+08-30 22:42:56 Epoch: 7 target_val-Loss: 0.6251 target_val-Acc: 0.8055, Cost 0.4 sec
+08-30 22:42:56 -----Epoch 8/49-----
+08-30 22:42:56 current lr: [0.001, 0.001, 0.001]
+08-30 22:42:59 Epoch: 8 source_train-Loss: 0.5254 source_train-Acc: 0.7889, Cost 3.1 sec
+08-30 22:43:00 Epoch: 8 source_val-Loss: 0.4923 source_val-Acc: 0.8931, Cost 0.2 sec
+08-30 22:43:00 Epoch: 8 target_val-Loss: 0.6490 target_val-Acc: 0.7190, Cost 0.4 sec
+08-30 22:43:00 -----Epoch 9/49-----
+08-30 22:43:00 current lr: [0.001, 0.001, 0.001]
+Isc recall: 30.212380952380954
+08-30 22:43:03 Epoch: 9 source_train-Loss: 0.5130 source_train-Acc: 0.8320, Cost 2.8 sec
+08-30 22:43:03 Epoch: 9 source_val-Loss: 0.5055 source_val-Acc: 0.8540, Cost 0.2 sec
+08-30 22:43:04 Epoch: 9 target_val-Loss: 0.6337 target_val-Acc: 0.7738, Cost 0.4 sec
+08-30 22:43:04 -----Epoch 10/49-----
+08-30 22:43:04 current lr: [0.001, 0.001, 0.001]
+Traceback (most recent call last):
+  File "E:\Galaxy\yang7hi_battery\train_base.py", line 133, in <module>
+  File "E:\Galaxy\yang7hi_battery\utlis\train_utils_base.py", line 517, in train
+    loss.backward()
+  File "D:\anaconda\envs\pytorch\lib\site-packages\torch\_tensor.py", line 396, in backward
+    torch.autograd.backward(self, gradient, retain_graph, create_graph, inputs=inputs)
+  File "D:\anaconda\envs\pytorch\lib\site-packages\torch\autograd\__init__.py", line 175, in backward
+    allow_unreachable=True, accumulate_grad=True)  # Calls into the C++ engine to run the backward pass
+KeyboardInterrupt
+Isc recall: 20.0

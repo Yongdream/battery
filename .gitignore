@@ -2,6 +2,7 @@ data/
 dataorigin/
 processed/
 result/2Dsave
+result/
 logs/
 runs/
 udds/best_result.log

@@ -763,3 +763,21 @@ Computing t-SNE embedding for source domain
 08-30 16:06:20 Epoch: 99 source_train-Loss: 0.6506 source_train-Acc: 1.0000, Cost 2.2 sec
 08-30 16:06:20 Epoch: 99 source_val-Loss: 0.2557 source_val-Acc: 1.0000, Cost 0.1 sec
 08-30 16:06:21 Epoch: 99 target_val-Loss: 0.2769 target_val-Acc: 0.9883, Cost 0.2 sec
+Computing t-SNE embedding for target domain
+Computing t-SNE embedding for source domain
+Computing t-SNE embedding for target domain
+08-30 16:06:49 The model accuracy is 0.9895833333333334
+The model kappa is 0.986
++-----+-----------+--------+-------------+----------+
+|     | Precision | Recall | Specificity | F1 Score |
++-----+-----------+--------+-------------+----------+
+| Isc |   0.997   | 0.966  |    0.999    |  0.981   |
+| Noi |   0.986   | 0.995  |    0.995    |   0.99   |
+| Nor |   0.981   | 0.986  |    0.992    |  0.983   |
+| Sti |   0.998   | 0.998  |    0.999    |  0.998   |
++-----+-----------+--------+-------------+----------+
+confusion_matrix:
+[[310.   0.   1.   0.]
+ [  0. 650.   8.   1.]
+ [ 10.   3. 657.   0.]
+ [  1.   0.   0. 663.]]

@@ -8,11 +8,6 @@ from utlis.train_utils_cmmd import TrainUtilsDA_cmmd
 from utlis.train_utils_baseDG import TrainUtilsDG
 import torch
 import warnings
-import wandb
-
-os.environ['WANDB_SILENT'] = "true"
-wandb.login()
-wandb.init(project="Battery", entity='yang7hi')  # 初始化
 
 warnings.filterwarnings('ignore')
 
@@ -30,7 +25,7 @@ def parse_args():
     parser.add_argument('--data_name', type=str, default='Battery', help='the name of the data')
     parser.add_argument('--data_dir', type=str, default='../processed', help='the directory of the data')
 
-    parser.add_argument('--transfer_task', type=list, default=[[1], [2]], help='transfer learning tasks')
+    parser.add_argument('--transfer_task', type=list, default=[[1], [0]], help='transfer learning tasks')
     parser.add_argument('--normlizetype', type=str, default='mean-std', help='nomalization type')
 
     # adabn parameters
@@ -42,8 +37,9 @@ def parse_args():
     parser.add_argument('--cuda_device', type=str, default='0', help='assign device')
     parser.add_argument('--checkpoint_dir', type=str, default='./checkpoint', help='the directory to save the model')
     parser.add_argument("--pretrained", type=bool, default=False, help='whether to load the pretrained model')
-    parser.add_argument('--batch_size', type=int, default=128, help='batchsize of the training process')
+    parser.add_argument('--batch_size', type=int, default=256, help='batchsize of the training process')
     parser.add_argument('--num_workers', type=int, default=0, help='the number of training process')
+    parser.add_argument('--seed', type=int, default=31, metavar='S', help='random seed (default: 1)')
 
     parser.add_argument('--patience', type=int, default=50, help='Early Stopping')
 
@@ -79,7 +75,7 @@ def parse_args():
     parser.add_argument('--max_epoch', type=int, default=100, help='max number of epoch')
     parser.add_argument('--print_step', type=int, default=600, help='the interval of log training information')
 
-    parser.add_argument('--wandb', type=bool, default=False, help='')
+    parser.add_argument('--wandb', type=bool, default=True, help='')
 
     args_s = parser.parse_args()
     return args_s
@@ -88,6 +84,7 @@ def parse_args():
 if __name__ == '__main__':
 
     args = parse_args()
+    torch.manual_seed(args.seed)
     os.environ['CUDA_VISIBLE_DEVICES'] = args.cuda_device.strip()
 
     # Prepare the saving path for the model

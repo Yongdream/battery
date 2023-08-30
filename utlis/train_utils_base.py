@@ -30,7 +30,9 @@ from utlis.plot_sne import plot_label_2D, plot_domain_2D
 from utlis.plot_3dsne import plot_3D
 
 
-lab_classes = ['Isc', 'Noi', 'Nor', 'Sti']
+# lab_classes = ['Isc', 'Noi', 'Nor', 'Sti']
+# lab_classes = ['Cor', 'Isc', 'Noi', 'Nor', 'Sti']
+lab_classes = ['Cor', 'Isc', 'Nor']
 dom_classes = ['source', 'target']
 
 
@@ -231,11 +233,13 @@ class TrainUtilsDA(object):
         if args.criterion == 'Entropy':
             self.criterion = nn.CrossEntropyLoss()
         elif args.criterion == 'CeLoss':
-            self.criterion = CELoss(label_smooth=0.05, class_num=4)
+            # self.criterion = CELoss(label_smooth=0.05, class_num=5)
+            self.criterion = CELoss(label_smooth=0.05, class_num=3)
+            # self.criterion = CELoss(label_smooth=0.05, class_num=5)
         else:
             raise Exception("Criterion not implement")
 
-        logging.info(summary(self.model_all, input_size=(args.batch_size, 16, 300)))
+        logging.info(summary(self.model_all, input_size=(args.batch_size, 12, 600)))
         print('Model build successfully!')
 
     def train(self, cond):
@@ -507,27 +511,6 @@ class TrainUtilsDA(object):
                             target_data = feature_all
                             target_label = result_prep
 
-                        # if epoch < args.middle_epoch:
-                        #     feature_all = torch.cat((feature_all, features), dim=0)
-                        #     if phase == 'source_train':
-                        #         source_data = feature_all
-                        #         source_label = result_prep
-                        #     elif phase == 'target_val':
-                        #         target_data = feature_all
-                        #         target_label = result_prep
-                        # else:
-                        #     if phase == 'source_train':
-                        #         source_feature_num = len(features) // 2
-                        #         feature_all = torch.cat((feature_all, features[:source_feature_num, :]), dim=0)
-                        #
-                        #         source_data = feature_all
-                        #         source_label = result_prep
-                        #     elif phase == 'target_val':
-                        #         feature_all = torch.cat((feature_all, features), dim=0)
-                        #         target_data = feature_all
-                        #         target_label = result_prep
-
-                        # Calculate the training information
                         if phase == 'source_train':
                             # backward
                             self.optimizer.zero_grad()
@@ -616,10 +599,18 @@ class TrainUtilsDA(object):
                 writer.close()
                 break
 
+        # summary_confusion, matrix_plt = summarize_confusion_matrix(best_confusion_matrix_val[0],
+        #                                                            best_confusion_matrix_val[1], 5,
+        #                                                            ['Cor', 'Isc', 'Noi', 'Nor', 'Sti'],
+        #                                                            title='Target_Valid')
         summary_confusion, matrix_plt = summarize_confusion_matrix(best_confusion_matrix_val[0],
-                                                                   best_confusion_matrix_val[1], 4,
-                                                                   ['Isc', 'Noi', 'Nor', 'Sti'],
+                                                                   best_confusion_matrix_val[1], 3,
+                                                                   ['Cor', 'Isc', 'Nor'],
                                                                    title='Target_Valid')
+        # summary_confusion, matrix_plt = summarize_confusion_matrix(best_confusion_matrix_val[0],
+        #                                                            best_confusion_matrix_val[1], 4,
+        #                                                            ['Isc', 'Noi', 'Nor', 'Sti'],
+        #                                                            title='Target_Valid')
         sne = plot_label_2D(source_data_best, source_label_best, target_data_best, target_label_best, lab_classes)
         sne_domain = plot_domain_2D(source_data_best, source_domain_label, target_data_best, target_domain_label,
                                    dom_classes)
