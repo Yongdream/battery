@@ -60,13 +60,13 @@ def parse_args():
     parser.add_argument('--rnn_hidden_size', type=int, default=32, help='')
 
     # Distance_metric parameters
-    parser.add_argument('--distance_metric', type=bool, default=False, help='whether use distance metric')
+    parser.add_argument('--distance_metric', type=bool, default=True, help='whether use distance metric')
     parser.add_argument('--distance_loss', type=str, choices=['MK-MMD', 'JMMD', 'CORAL'], default='JMMD', help='which distance loss you use')
     parser.add_argument('--trade_off_distance', type=str, default='Step', help='')
     parser.add_argument('--lam_distance', type=float, default=1.2, help='this is used for Cons')
 
     # Domain_adversarial parameters
-    parser.add_argument('--domain_adversarial', type=bool, default=True, help='whether use domain_adversarial')
+    parser.add_argument('--domain_adversarial', type=bool, default=False, help='whether use domain_adversarial')
     parser.add_argument('--adversarial_loss', type=str, choices=['DA', 'CDA', 'CDA+E'], default='CDA', help='which adversarial loss you use')
     parser.add_argument('--hidden_size', type=int, default=1024, help='whether using the last batch')
     parser.add_argument('--trade_off_adversarial', type=str, default='Step', help='')

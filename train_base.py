@@ -8,9 +8,11 @@ from utlis.train_utils_cmmd import TrainUtilsDA_cmmd
 from utlis.train_utils_baseDG import TrainUtilsDG
 import torch
 import warnings
-warnings.filterwarnings('ignore')
+import wandb
 
-
+os.environ['WANDB_SILENT'] = "true"
+wandb.login()
+wandb.init(project="Battery", entity='yang7hi')  # 初始化
 
 warnings.filterwarnings('ignore')
 
@@ -24,7 +26,7 @@ def parse_args():
 
     # model and data parameters
     parser.add_argument('--method', type=str, default='DA', choices=['DG', 'DA'], help='the name of the method')
-    parser.add_argument('--model_name', type=str, default='ATTFE', help='the name of the model')
+    parser.add_argument('--model_name', type=str, default='ALSTMAdFeatures', help='the name of the model')
     parser.add_argument('--data_name', type=str, default='Battery', help='the name of the data')
     parser.add_argument('--data_dir', type=str, default='../processed', help='the directory of the data')
 
@@ -51,7 +53,7 @@ def parse_args():
 
     #
     parser.add_argument('--distance_metric', type=bool, default=True, help='whether use distance metric')
-    parser.add_argument('--distance_loss', type=str, choices=['MK-MMD', 'JMMD', 'CORAL', 'CMMD'], default='CMMD', help='which distance loss you use')
+    parser.add_argument('--distance_loss', type=str, choices=['MK-MMD', 'JMMD', 'CORAL', 'CMMD'], default='JMMD', help='which distance loss you use')
     parser.add_argument('--trade_off_distance', type=str, default='Step', help='')
     parser.add_argument('--lam_distance', type=float, default=1.2, help='this is used for Cons')
     #
@@ -73,8 +75,8 @@ def parse_args():
     parser.add_argument('--criterion', type=str, choices=['Entropy', 'CeLoss'], default='CeLoss', help='')
 
     # save, load and display information
-    parser.add_argument('--middle_epoch', type=int, default=0, help='middle epoch')
-    parser.add_argument('--max_epoch', type=int, default=12, help='max number of epoch')
+    parser.add_argument('--middle_epoch', type=int, default=50, help='middle epoch')
+    parser.add_argument('--max_epoch', type=int, default=100, help='max number of epoch')
     parser.add_argument('--print_step', type=int, default=600, help='the interval of log training information')
 
     parser.add_argument('--wandb', type=bool, default=False, help='')

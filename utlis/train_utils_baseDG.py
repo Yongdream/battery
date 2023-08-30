@@ -27,7 +27,7 @@ from utlis.plot_sne import plot_label_2D
 from utlis.plot_3dsne import plot_3D
 
 
-classes = ['Cor', 'Isc', 'Noi', 'Nor', 'Sti']
+classes = ['Isc', 'Noi', 'Nor', 'Sti']
 
 
 class TrainUtilsDG(object):

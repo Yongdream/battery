@@ -30,7 +30,7 @@ from utlis.plot_sne import plot_label_2D, plot_domain_2D
 from utlis.plot_3dsne import plot_3D
 
 
-lab_classes = ['Cor', 'Isc', 'Noi', 'Nor', 'Sti']
+lab_classes = ['Isc', 'Noi', 'Nor', 'Sti']
 dom_classes = ['source', 'target']
 
 
@@ -231,11 +231,11 @@ class TrainUtilsDA(object):
         if args.criterion == 'Entropy':
             self.criterion = nn.CrossEntropyLoss()
         elif args.criterion == 'CeLoss':
-            self.criterion = CELoss(label_smooth=0.05, class_num=5)
+            self.criterion = CELoss(label_smooth=0.05, class_num=4)
         else:
             raise Exception("Criterion not implement")
 
-        logging.info(summary(self.model_all, input_size=(args.batch_size, 16, 256)))
+        logging.info(summary(self.model_all, input_size=(args.batch_size, 16, 300)))
         print('Model build successfully!')
 
     def train(self, cond):
@@ -617,8 +617,8 @@ class TrainUtilsDA(object):
                 break
 
         summary_confusion, matrix_plt = summarize_confusion_matrix(best_confusion_matrix_val[0],
-                                                                   best_confusion_matrix_val[1], 5,
-                                                                   ['Cor', 'Isc', 'Noi', 'Nor', 'Sti'],
+                                                                   best_confusion_matrix_val[1], 4,
+                                                                   ['Isc', 'Noi', 'Nor', 'Sti'],
                                                                    title='Target_Valid')
         sne = plot_label_2D(source_data_best, source_label_best, target_data_best, target_label_best, lab_classes)
         sne_domain = plot_domain_2D(source_data_best, source_domain_label, target_data_best, target_domain_label,

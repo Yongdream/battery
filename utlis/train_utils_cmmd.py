@@ -231,7 +231,7 @@ class TrainUtilsDA_cmmd(object):
         if args.criterion == 'Entropy':
             self.criterion = nn.CrossEntropyLoss()
         elif args.criterion == 'CeLoss':
-            self.criterion = CELoss(label_smooth=0.05, class_num=5)
+            self.criterion = CELoss(label_smooth=0.05, class_num=4)
         else:
             raise Exception("Criterion not implement")
 
@@ -303,7 +303,7 @@ class TrainUtilsDA_cmmd(object):
                 total_recall = 0
                 best_recall_epoch = 0
 
-                feature_all = torch.empty(0, args.bottleneck_num, device=self.device)
+                feature_all = torch.empty(0, 600, device=self.device)
 
                 # Set model to train mode or test mode
                 if phase == 'source_train':
@@ -323,11 +323,11 @@ class TrainUtilsDA_cmmd(object):
 
                 for batch_idx, (inputs, labels) in enumerate(self.dataloaders[phase]):
                     if phase != 'source_train' or epoch < args.middle_epoch:
-                        inputs = inputs.to(self.device)
+                        source_inputs = inputs.to(self.device)
                         labels = labels.to(self.device)
+                        target_inputs = inputs.to(self.device)
                     else:
                         source_inputs = inputs
-                        source_label = labels
                         target_inputs, target_labels = iter_target.next()
 
                         # target_domain的域标签需要+源域标签数目 (未使用)
@@ -351,7 +351,7 @@ class TrainUtilsDA_cmmd(object):
                             b2_source, \
                             b1_target, \
                             b2_target \
-                                = self.model(source_inputs, target_inputs, source_label)
+                                = self.model(source_inputs, target_inputs, labels)
 
                             source_fe = torch.cat([b1_source, b2_source], 1)
                             target_fe = torch.cat([b1_target, b2_target], 1)
@@ -503,38 +503,18 @@ class TrainUtilsDA_cmmd(object):
 
                         if phase == 'source_train':
                             if epoch >= args.middle_epoch:
-                                source_feature_num = len(features) // 2
-                                feature_all = torch.cat((feature_all, features[:source_feature_num, :]), dim=0)
+                                source_feature_num = len(source_fe)
+                                feature_all = torch.cat((feature_all, source_fe), dim=0)
                                 source_data = feature_all
                                 source_label = result_prep
                             else:
-                                feature_all = torch.cat((feature_all, features), dim=0)
+                                feature_all = torch.cat((feature_all, source_fe), dim=0)
                                 source_data = feature_all
                                 source_label = result_prep
                         elif phase == 'target_val':
-                            feature_all = torch.cat((feature_all, features), dim=0)
+                            feature_all = torch.cat((feature_all, source_fe), dim=0)
                             target_data = feature_all
                             target_label = result_prep
-
-                        # if epoch < args.middle_epoch:
-                        #     feature_all = torch.cat((feature_all, features), dim=0)
-                        #     if phase == 'source_train':
-                        #         source_data = feature_all
-                        #         source_label = result_prep
-                        #     elif phase == 'target_val':
-                        #         target_data = feature_all
-                        #         target_label = result_prep
-                        # else:
-                        #     if phase == 'source_train':
-                        #         source_feature_num = len(features) // 2
-                        #         feature_all = torch.cat((feature_all, features[:source_feature_num, :]), dim=0)
-                        #
-                        #         source_data = feature_all
-                        #         source_label = result_prep
-                        #     elif phase == 'target_val':
-                        #         feature_all = torch.cat((feature_all, features), dim=0)
-                        #         target_data = feature_all
-                        #         target_label = result_prep
 
                         # Calculate the training information
                         if phase == 'source_train':
@@ -626,8 +606,8 @@ class TrainUtilsDA_cmmd(object):
                 break
 
         summary_confusion, matrix_plt = summarize_confusion_matrix(best_confusion_matrix_val[0],
-                                                                   best_confusion_matrix_val[1], 5,
-                                                                   ['Cor', 'Isc', 'Noi', 'Nor', 'Sti'],
+                                                                   best_confusion_matrix_val[1], 4,
+                                                                   ['Isc', 'Noi', 'Nor', 'Sti'],
                                                                    title='Target_Valid')
         sne = plot_label_2D(source_data_best, source_label_best, target_data_best, target_label_best, lab_classes)
         sne_domain = plot_domain_2D(source_data_best, source_domain_label, target_data_best, target_domain_label,

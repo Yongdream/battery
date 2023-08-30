@@ -61,15 +61,15 @@ class InceptionA(nn.Module):
         self.n_layers = n_layers
         self.out_size = out_size
 
-        self.branch1_gru = torch.nn.GRU(6, hidden_size, 5, batch_first=True, bidirectional=True)
-        self.branch2_conv = nn.Conv1d(in_channels=6, out_channels=32, kernel_size=1, stride=1, padding=0)
+        self.branch1_gru = torch.nn.GRU(19, hidden_size, 3, batch_first=True, bidirectional=True)
+        self.branch2_conv = nn.Conv1d(in_channels=19, out_channels=32, kernel_size=1, stride=1, padding=0)
 
-    def forward(self, source, target, s_label):
+    def forward(self, source, target):
         s_branch1_gru = source.permute(0, 2, 1)
         s_branch1_gru, _ = self.branch1_gru(s_branch1_gru)
         s_branch1_gru = s_branch1_gru.permute(0, 2, 1)      # torch.Size([b, 32, 300])
 
-        s_branch2_conv = self.branch2_conv(source)      # torch.Size([b, 32, 300])
+        s_branch2_conv = self.branch2_conv(source)          # torch.Size([b, 32, 300])
 
         t_branch1_gru = target.permute(0, 2, 1)
         t_branch1_gru, _ = self.branch1_gru(t_branch1_gru)
@@ -95,23 +95,23 @@ class ATTFE(nn.Module):
             warnings.warn("Pretrained model is not available")
 
         self.attention = SelfAttention(embed_size=300)
-        self.conv1 = nn.Conv1d(in_channels=16, out_channels=3, kernel_size=3, padding=1)
+        self.conv1 = nn.Conv1d(in_channels=16, out_channels=8, kernel_size=3, padding=1)
 
         self.Inception = InceptionA()
 
     def forward(self, source, target, s_label):
         # Input shape: (batch_size, 16, 300)
-        s_att = self.attention(source)
-        s_con = self.conv1(s_att)       # (batch_size, 3, 300)
+        # s_att = self.attention(source)
+        s_con = self.conv1(source)       # (batch_size, 3, 300)
         s_fe = extract_features(source)    # (batch_size, 3, 300)
-        s_comb = torch.cat((s_con, s_fe), dim=1)  # torch.Size([b, 6, 300])
+        s_comb = torch.cat((source, s_fe), dim=1)  # torch.Size([b, 6, 300])
 
-        t_att = self.attention(target)
-        t_con = self.conv1(t_att)       # (batch_size, 3, 300)
+        # t_att = self.attention(target)
+        t_con = self.conv1(target)       # (batch_size, 3, 300)
         t_fe = extract_features(target)    # (batch_size, 3, 300)
-        t_comb = torch.cat((t_con, t_fe), dim=1)  # torch.Size([b, 6, 300])
+        t_comb = torch.cat((target, t_fe), dim=1)  # torch.Size([b, 6, 300])
 
-        b1_source, b2_source, b1_target, b2_target = self.Inception(s_comb, t_comb, s_label)
+        b1_source, b2_source, b1_target, b2_target = self.Inception(s_comb, t_comb)
 
         return b1_source, b2_source, b1_target, b2_target
 

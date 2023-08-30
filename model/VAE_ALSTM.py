@@ -69,8 +69,8 @@ class Res_Altsm(nn.Module):
         conv_out = self.act(conv_out)
         conv_out = self.avgpool(conv_out)   # [128, 64, 64]
         conv_out = self.residul(conv_out)   # [128, 64, 32]
-        conv_out = conv_out.permute(0, 2, 1)    # [128, 32, 64]
-        rnn_out, _ = self.gru_1(conv_out)         # (b, 64, *16)
+        conv_out = conv_out.permute(0, 2, 1)    # [b, 32, 64]
+        rnn_out, _ = self.gru_1(conv_out)         # (b, 32, *16)
         # outputs, _ = self.gru_2(outputs)
 
         # rnn_out = outputs.permute(0, 2, 1)      # (b, 16, 64)
