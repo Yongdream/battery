@@ -7,4 +7,5 @@ logs/
 runs/
 udds/best_result.log
 checkpoint/
+wandb/
 
