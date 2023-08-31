@@ -2,6 +2,14 @@ import torch
 import torch.nn as nn
 import warnings
 
+
+def z_score_normalize(tensor, dim=2):
+    mean_val = torch.mean(tensor, dim=dim, keepdim=True)
+    std_val = torch.std(tensor, dim=dim, keepdim=True)
+    standardized_tensor = (tensor - mean_val) / std_val
+    return standardized_tensor
+
+
 def extract_features(data):
     """
     从时间序列数据中提取均值、方差、最大变化率。
@@ -65,6 +73,8 @@ class ALSTMAdFeatures(nn.Module):
         self.conv_net.add_module('conv2', nn.Conv1d(32, 60, kernel_size=3, stride=1, padding=1))
         self.conv_net.add_module('conv2_act2', nn.ReLU())
 
+        self.batch_norm = torch.nn.BatchNorm1d(num_features=64)
+
         self.avg_pool = nn.AvgPool1d(kernel_size=3, stride=2, padding=1)
 
         # self.rnn = klass(
@@ -101,9 +111,11 @@ class ALSTMAdFeatures(nn.Module):
         # inputs: [batch_size, input_size*input_day]
         # inputs = inputs.view(len(inputs), self.input_size, -1)
         out_conv = self.conv_net(inputs)
-        s_fe = extract_features(inputs)
+        s_fe = extract_features(inputs)     # torch.Size([128, 4, 600])
+        s_fe = z_score_normalize(s_fe)
 
         out_conv = torch.cat((out_conv, s_fe), dim=1)
+        # out_conv = self.batch_norm(out_conv)
         out_conv = self.avg_pool(out_conv)
 
         out_conv = out_conv.permute(0, 2, 1)    # torch.Size([128, 150, 64])

@@ -39,7 +39,7 @@ def parse_args():
     parser.add_argument("--pretrained", type=bool, default=False, help='whether to load the pretrained model')
     parser.add_argument('--batch_size', type=int, default=256, help='batchsize of the training process')
     parser.add_argument('--num_workers', type=int, default=0, help='the number of training process')
-    parser.add_argument('--seed', type=int, default=31, metavar='S', help='random seed (default: 1)')
+    parser.add_argument('--seed', type=int, default=55, metavar='S', help='random seed (default: 1)')
 
     parser.add_argument('--patience', type=int, default=50, help='Early Stopping')
 
@@ -66,7 +66,7 @@ def parse_args():
     parser.add_argument('--weight-decay', type=float, default=1e-5, help='the weight decay')
     parser.add_argument('--lr_scheduler', type=str, choices=['step', 'exp', 'stepLR', 'fix'], default='step', help='the learning rate schedule')
     parser.add_argument('--gamma', type=float, default=0.8, help='learning rate scheduler parameter for step and exp')
-    parser.add_argument('--steps', type=str, default='80, 95, 105', help='the learning rate decay for step and stepLR')
+    parser.add_argument('--steps', type=str, default='40, 95, 105', help='the learning rate decay for step and stepLR')
 
     parser.add_argument('--criterion', type=str, choices=['Entropy', 'CeLoss'], default='CeLoss', help='')
 

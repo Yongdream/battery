@@ -569,7 +569,7 @@ class TrainUtilsDA(object):
                     model_state_dic = self.model_all.state_dict()
 
                     # save the best model according to the val accuracy
-                    print(f"Isc recall: {best_recall_epoch}")
+                    # print(f"Isc recall: {best_recall_epoch}")
                     if epoch_acc > best_acc and epoch > args.middle_epoch/2:
                         if best_recall_epoch > 75:
                             best_acc = epoch_acc
@@ -617,6 +617,18 @@ class TrainUtilsDA(object):
         logging.info(summary_confusion)
         if args.wandb:
             wandb.log({'summary_confusion':summary_confusion
+                       })
+
+            sne_wandb = wandb.Image(
+                sne, caption="Source and Target Labels")
+            sne_domain_wandb = wandb.Image(
+                sne_domain, caption="Source and Target Labels")
+            matrix_plt_wandb = wandb.Image(
+                matrix_plt, caption="Source and Target Labels")
+
+            wandb.log({'Source and Target Labels ': sne_wandb,
+                       'Source and Target Domains ': sne_domain_wandb,
+                       'Confusion Matrix': matrix_plt_wandb
                        })
         writer.add_figure('Source and Target Labels ', sne)
         writer.add_figure('Source and Target Domains ', sne_domain)

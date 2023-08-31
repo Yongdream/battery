@@ -1,0 +1,16 @@
+08-31 16:05:16 -----Epoch 0/99-----
+08-31 16:05:16 current lr: [0.001, 0.001, 0.001]
+Traceback (most recent call last):
+  File "train_base.py", line 128, in <module>
+    trainer.train(cond=condition)
+  File "E:\Galaxy\yang7hi_battery\utlis\train_utils_base.py", line 360, in train
+    features = self.model(inputs)
+  File "D:\anaconda\envs\pytorch\lib\site-packages\torch\nn\modules\module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "E:\Galaxy\yang7hi_battery\model\ALstm.py", line 122, in forward
+    rnn_out, _ = self.gru_1(out_conv)       # [batch, seq_len, num_directions * hidden_size]
+  File "D:\anaconda\envs\pytorch\lib\site-packages\torch\nn\modules\module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "D:\anaconda\envs\pytorch\lib\site-packages\torch\nn\modules\rnn.py", line 951, in forward
+    self.dropout, self.training, self.bidirectional, self.batch_first)
+RuntimeError: CUDA out of memory. Tried to allocate 320.00 MiB (GPU 0; 6.00 GiB total capacity; 235.35 MiB already allocated; 0 bytes free; 588.00 MiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF

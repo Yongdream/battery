@@ -51,8 +51,8 @@ class CELoss(nn.Module):
         eps = 1e-12
         if self.label_smooth is not None:
             # cross entropy loss with label smoothing
-            logprobs = F.log_softmax(pred, dim=1)	# softmax + log
-            target = F.one_hot(target, self.class_num)	# 转换成one-hot
+            logprobs = F.log_softmax(pred, dim=1)           # softmax + log
+            target = F.one_hot(target, self.class_num)      # 转换成one-hot
             # label smoothing
             # 实现 1
             # target = (1.0-self.label_smooth)*target + self.label_smooth/self.class_num

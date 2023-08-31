@@ -1,0 +1,12 @@
+08-31 16:05:15 -----Epoch 0/99-----
+08-31 16:05:15 current lr: [0.001, 0.001, 0.001]
+Traceback (most recent call last):
+  File "train_base.py", line 128, in <module>
+    trainer.train(cond=condition)
+  File "E:\Galaxy\yang7hi_battery\utlis\train_utils_base.py", line 517, in train
+    loss.backward()
+  File "D:\anaconda\envs\pytorch\lib\site-packages\torch\_tensor.py", line 396, in backward
+    torch.autograd.backward(self, gradient, retain_graph, create_graph, inputs=inputs)
+  File "D:\anaconda\envs\pytorch\lib\site-packages\torch\autograd\__init__.py", line 175, in backward
+    allow_unreachable=True, accumulate_grad=True)  # Calls into the C++ engine to run the backward pass
+RuntimeError: Unable to find a valid cuDNN algorithm to run convolution
