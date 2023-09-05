@@ -8,8 +8,8 @@ from tqdm import tqdm
 
 import glob
 
-# BAT_state = ['Cor', 'Isc', 'noi', 'Nor', 'sti']
-BAT_state = ['Cor', 'Isc', 'Nor']
+BAT_state = ['Cor', 'Isc', 'noi', 'Nor', 'sti']
+# BAT_state = ['Cor', 'Isc', 'Nor']
 # BAT_state = ['Isc', 'noi', 'Nor', 'sti']
 label_state = [i for i in range(len(BAT_state))]
 

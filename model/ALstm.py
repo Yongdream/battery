@@ -99,7 +99,7 @@ class ALSTMAdFeatures(nn.Module):
         )
         self.att_net.add_module("att_softmax", nn.Softmax(dim=1))
 
-        self.fc1 = torch.nn.Linear(9600, 2048)
+        self.fc1 = torch.nn.Linear(4800, 2048)
         self.fc2 = torch.nn.Linear(2048, 128)
 
         # self.single_out = nn.Sequential()
@@ -139,7 +139,7 @@ class ALSTMAdFeatures(nn.Module):
 
 
 batch_size = 128
-input_dim = 600
+input_dim = 300
 sequence_length = 12
 input_tensor = torch.randn(batch_size, sequence_length, input_dim)
 

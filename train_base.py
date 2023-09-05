@@ -25,7 +25,7 @@ def parse_args():
     parser.add_argument('--data_name', type=str, default='Battery', help='the name of the data')
     parser.add_argument('--data_dir', type=str, default='../processed', help='the directory of the data')
 
-    parser.add_argument('--transfer_task', type=list, default=[[1], [0]], help='transfer learning tasks')
+    parser.add_argument('--transfer_task', type=list, default=[[0], [1]], help='transfer learning tasks')
     parser.add_argument('--normlizetype', type=str, default='mean-std', help='nomalization type')
 
     # adabn parameters
@@ -66,7 +66,7 @@ def parse_args():
     parser.add_argument('--weight-decay', type=float, default=1e-5, help='the weight decay')
     parser.add_argument('--lr_scheduler', type=str, choices=['step', 'exp', 'stepLR', 'fix'], default='step', help='the learning rate schedule')
     parser.add_argument('--gamma', type=float, default=0.8, help='learning rate scheduler parameter for step and exp')
-    parser.add_argument('--steps', type=str, default='40, 95, 105', help='the learning rate decay for step and stepLR')
+    parser.add_argument('--steps', type=str, default='40, 75, 90', help='the learning rate decay for step and stepLR')
 
     parser.add_argument('--criterion', type=str, choices=['Entropy', 'CeLoss'], default='CeLoss', help='')
 

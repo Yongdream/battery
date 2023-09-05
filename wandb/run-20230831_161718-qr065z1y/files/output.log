@@ -446,3 +446,100 @@ save best model epoch 70, acc 0.9382
 08-31 16:22:46 Epoch: 86 source_val-Loss: 0.2345 source_val-Acc: 1.0000, Cost 0.3 sec
 08-31 16:22:46 Epoch: 86 target_val-Loss: 0.4317 target_val-Acc: 0.9341, Cost 0.4 sec
 08-31 16:22:46 -----Epoch 87/99-----
+08-31 16:22:46 current lr: [0.0008, 0.0008, 0.0008]
+08-31 16:22:51 Epoch: 87 source_train-Loss: 0.5392 source_train-Acc: 1.0000, Cost 4.4 sec
+08-31 16:22:51 Epoch: 87 source_val-Loss: 0.2338 source_val-Acc: 1.0000, Cost 0.3 sec
+08-31 16:22:52 Epoch: 87 target_val-Loss: 0.4300 target_val-Acc: 0.9320, Cost 0.5 sec
+08-31 16:22:52 -----Epoch 88/99-----
+08-31 16:22:52 current lr: [0.0008, 0.0008, 0.0008]
+08-31 16:22:56 Epoch: 88 source_train-Loss: 0.5449 source_train-Acc: 0.9992, Cost 4.2 sec
+08-31 16:22:56 Epoch: 88 source_val-Loss: 0.2415 source_val-Acc: 0.9993, Cost 0.3 sec
+08-31 16:22:56 Epoch: 88 target_val-Loss: 0.4731 target_val-Acc: 0.9235, Cost 0.4 sec
+08-31 16:22:56 -----Epoch 89/99-----
+08-31 16:22:56 current lr: [0.0008, 0.0008, 0.0008]
+08-31 16:23:00 Epoch: 89 source_train-Loss: 0.5481 source_train-Acc: 0.9994, Cost 4.0 sec
+08-31 16:23:01 Epoch: 89 source_val-Loss: 0.2351 source_val-Acc: 1.0000, Cost 0.3 sec
+08-31 16:23:01 Epoch: 89 target_val-Loss: 0.4663 target_val-Acc: 0.9276, Cost 0.4 sec
+08-31 16:23:01 -----Epoch 90/99-----
+08-31 16:23:01 current lr: [0.0008, 0.0008, 0.0008]
+08-31 16:23:05 Epoch: 90 source_train-Loss: 0.5375 source_train-Acc: 1.0000, Cost 4.0 sec
+save best model epoch 90, acc 0.9426
+08-31 16:23:05 Epoch: 90 source_val-Loss: 0.2343 source_val-Acc: 1.0000, Cost 0.3 sec
+08-31 16:23:06 Epoch: 90 target_val-Loss: 0.4138 target_val-Acc: 0.9426, Cost 0.4 sec
+08-31 16:23:06 save best model epoch 90, acc 0.9426
+08-31 16:23:06 -----Epoch 91/99-----
+08-31 16:23:06 current lr: [0.0008, 0.0008, 0.0008]
+08-31 16:23:10 Epoch: 91 source_train-Loss: 0.5425 source_train-Acc: 1.0000, Cost 3.9 sec
+08-31 16:23:10 Epoch: 91 source_val-Loss: 0.2343 source_val-Acc: 1.0000, Cost 0.3 sec
+08-31 16:23:11 Epoch: 91 target_val-Loss: 0.4235 target_val-Acc: 0.9377, Cost 0.4 sec
+08-31 16:23:11 -----Epoch 92/99-----
+08-31 16:23:11 current lr: [0.0008, 0.0008, 0.0008]
+08-31 16:23:12 Epoch: 92 [4096/6752], Train Loss: 0.5471 Train Acc: 0.9993,1324.9 examples/sec 0.19 sec/batch
+08-31 16:23:14 Epoch: 92 source_train-Loss: 0.5437 source_train-Acc: 1.0000, Cost 4.0 sec
+08-31 16:23:15 Epoch: 92 source_val-Loss: 0.2343 source_val-Acc: 1.0000, Cost 0.3 sec
+08-31 16:23:15 Epoch: 92 target_val-Loss: 0.4280 target_val-Acc: 0.9377, Cost 0.4 sec
+08-31 16:23:15 -----Epoch 93/99-----
+08-31 16:23:15 current lr: [0.0008, 0.0008, 0.0008]
+08-31 16:23:19 Epoch: 93 source_train-Loss: 0.5437 source_train-Acc: 1.0000, Cost 4.3 sec
+08-31 16:23:20 Epoch: 93 source_val-Loss: 0.2338 source_val-Acc: 1.0000, Cost 0.2 sec
+08-31 16:23:20 Epoch: 93 target_val-Loss: 0.4376 target_val-Acc: 0.9292, Cost 0.4 sec
+08-31 16:23:20 -----Epoch 94/99-----
+08-31 16:23:20 current lr: [0.0008, 0.0008, 0.0008]
+08-31 16:23:24 Epoch: 94 source_train-Loss: 0.5378 source_train-Acc: 1.0000, Cost 4.3 sec
+08-31 16:23:25 Epoch: 94 source_val-Loss: 0.2339 source_val-Acc: 1.0000, Cost 0.3 sec
+08-31 16:23:25 Epoch: 94 target_val-Loss: 0.4356 target_val-Acc: 0.9269, Cost 0.5 sec
+08-31 16:23:25 -----Epoch 95/99-----
+08-31 16:23:25 current lr: [0.0005120000000000001, 0.0005120000000000001, 0.0005120000000000001]
+08-31 16:23:30 Epoch: 95 source_train-Loss: 0.5422 source_train-Acc: 0.9998, Cost 4.4 sec
+08-31 16:23:30 Epoch: 95 source_val-Loss: 0.2348 source_val-Acc: 1.0000, Cost 0.3 sec
+08-31 16:23:30 Epoch: 95 target_val-Loss: 0.4381 target_val-Acc: 0.9276, Cost 0.4 sec
+08-31 16:23:30 -----Epoch 96/99-----
+08-31 16:23:30 current lr: [0.00064, 0.00064, 0.00064]
+08-31 16:23:35 Epoch: 96 source_train-Loss: 0.5568 source_train-Acc: 0.9989, Cost 4.4 sec
+08-31 16:23:35 Epoch: 96 source_val-Loss: 0.2352 source_val-Acc: 1.0000, Cost 0.3 sec
+08-31 16:23:35 Epoch: 96 target_val-Loss: 0.4680 target_val-Acc: 0.9253, Cost 0.4 sec
+08-31 16:23:35 -----Epoch 97/99-----
+08-31 16:23:35 current lr: [0.00064, 0.00064, 0.00064]
+08-31 16:23:40 Epoch: 97 source_train-Loss: 0.5359 source_train-Acc: 1.0000, Cost 4.3 sec
+08-31 16:23:40 Epoch: 97 source_val-Loss: 0.2350 source_val-Acc: 1.0000, Cost 0.3 sec
+08-31 16:23:40 Epoch: 97 target_val-Loss: 0.4223 target_val-Acc: 0.9370, Cost 0.4 sec
+08-31 16:23:40 -----Epoch 98/99-----
+08-31 16:23:40 current lr: [0.00064, 0.00064, 0.00064]
+08-31 16:23:45 Epoch: 98 source_train-Loss: 0.5381 source_train-Acc: 1.0000, Cost 4.2 sec
+08-31 16:23:45 Epoch: 98 source_val-Loss: 0.2339 source_val-Acc: 1.0000, Cost 0.3 sec
+08-31 16:23:45 Epoch: 98 target_val-Loss: 0.4746 target_val-Acc: 0.9237, Cost 0.4 sec
+08-31 16:23:45 -----Epoch 99/99-----
+08-31 16:23:45 current lr: [0.00064, 0.00064, 0.00064]
+08-31 16:23:50 Epoch: 99 source_train-Loss: 0.5411 source_train-Acc: 0.9997, Cost 4.3 sec
+sk_confusion_matrix:
+ [[1405  125    0]
+ [ 125  775    0]
+ [   0    0 1922]]
+08-31 16:23:50 Epoch: 99 source_val-Loss: 0.2342 source_val-Acc: 1.0000, Cost 0.3 sec
+08-31 16:23:50 Epoch: 99 target_val-Loss: 0.4417 target_val-Acc: 0.9269, Cost 0.5 sec
+The model accuracy is 0.9425551470588235
+The model kappa is 0.91
++-----+-----------+--------+-------------+----------+
+|     | Precision | Recall | Specificity | F1 Score |
++-----+-----------+--------+-------------+----------+
+| Cor |   0.918   | 0.918  |    0.956    |  0.918   |
+| Isc |   0.861   | 0.861  |    0.964    |  0.861   |
+| Nor |    1.0    |  1.0   |     1.0     |   1.0    |
++-----+-----------+--------+-------------+----------+
+Computing t-SNE embedding for source domain
+Computing t-SNE embedding for target domain
+Computing t-SNE embedding for source domain
+Computing t-SNE embedding for target domain
+08-31 16:25:45 The model accuracy is 0.9425551470588235
+The model kappa is 0.91
++-----+-----------+--------+-------------+----------+
+|     | Precision | Recall | Specificity | F1 Score |
++-----+-----------+--------+-------------+----------+
+| Cor |   0.918   | 0.918  |    0.956    |  0.918   |
+| Isc |   0.861   | 0.861  |    0.964    |  0.861   |
+| Nor |    1.0    |  1.0   |     1.0     |   1.0    |
++-----+-----------+--------+-------------+----------+
+confusion_matrix:
+[[1405.  125.    0.]
+ [ 125.  775.    0.]
+ [   0.    0. 1922.]]

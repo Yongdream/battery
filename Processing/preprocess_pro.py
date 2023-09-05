@@ -84,7 +84,7 @@ def preprocess_dataset(dataset_folder, Classification, folder):
         # 仅选择前12列
         data = data.iloc[:, :12]
 
-        win_data_list = sliding_window(data, 600, 5)    # 滑窗获得数据
+        win_data_list = sliding_window(data, 300, 5)    # 滑窗获得数据
 
         for i, win_data in enumerate(win_data_list, start=1):
             features = normalize_matrix(win_data).astype('float')

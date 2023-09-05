@@ -31,8 +31,8 @@ from utlis.plot_3dsne import plot_3D
 
 
 # lab_classes = ['Isc', 'Noi', 'Nor', 'Sti']
-# lab_classes = ['Cor', 'Isc', 'Noi', 'Nor', 'Sti']
-lab_classes = ['Cor', 'Isc', 'Nor']
+lab_classes = ['Cor', 'Isc', 'Noi', 'Nor', 'Sti']
+# lab_classes = ['Cor', 'Isc', 'Nor']
 dom_classes = ['source', 'target']
 
 
@@ -209,8 +209,6 @@ class TrainUtilsDA(object):
                 self.distance_loss = JAN
             elif args.distance_loss == "CORAL":
                 self.distance_loss = CORAL
-            elif args.distance_loss == "CMMD":
-                self.distance_loss == CMMD
             else:
                 raise Exception("loss not implement")
         else:
@@ -234,12 +232,12 @@ class TrainUtilsDA(object):
             self.criterion = nn.CrossEntropyLoss()
         elif args.criterion == 'CeLoss':
             # self.criterion = CELoss(label_smooth=0.05, class_num=5)
-            self.criterion = CELoss(label_smooth=0.05, class_num=3)
+            self.criterion = CELoss(label_smooth=0.05, class_num=5)
             # self.criterion = CELoss(label_smooth=0.05, class_num=5)
         else:
             raise Exception("Criterion not implement")
 
-        logging.info(summary(self.model_all, input_size=(args.batch_size, 12, 600)))
+        logging.info(summary(self.model_all, input_size=(args.batch_size, 12, 300)))
         print('Model build successfully!')
 
     def train(self, cond):
@@ -278,6 +276,8 @@ class TrainUtilsDA(object):
             wandb.init(project=save_name, entity='yang7hi', name=dir_str)
 
             wandb.watch(self.model_all)
+            for k, v in args.__dict__.items():
+                wandb.config[k] = v
 
         arr_middle_epoch = False
 
@@ -332,7 +332,7 @@ class TrainUtilsDA(object):
                     else:
                         source_inputs = inputs
                         source_label = labels
-                        target_inputs, target_labels = iter_target.next()
+                        target_inputs, target_labels = iter_target.__next__()
 
                         # target_domain的域标签需要+源域标签数目 (未使用)
                         dt_labels = ((target_labels.long()) // 100).to(self.device) + len(args.transfer_task[0])
@@ -557,7 +557,8 @@ class TrainUtilsDA(object):
                         'Epoch': epoch,
                         '{}-Loss'.format(phase): epoch_loss,
                         '{}-Acc'.format(phase): epoch_acc,
-                        'Cost': time.time() - epoch_start
+                        'Cost': time.time() - epoch_start,
+                        "best_acc": best_acc
                     })
 
                 writer.add_scalar(phase + '-acc', epoch_acc, epoch)
@@ -571,7 +572,7 @@ class TrainUtilsDA(object):
                     # save the best model according to the val accuracy
                     # print(f"Isc recall: {best_recall_epoch}")
                     if epoch_acc > best_acc and epoch > args.middle_epoch/2:
-                        if best_recall_epoch > 75:
+                        if best_recall_epoch > 0:
                             best_acc = epoch_acc
                             logging.info("save best model epoch {}, acc {:.4f}".format(epoch, epoch_acc))
                             print("save best model epoch {}, acc {:.4f}".format(epoch, epoch_acc))
@@ -599,14 +600,14 @@ class TrainUtilsDA(object):
                 writer.close()
                 break
 
-        # summary_confusion, matrix_plt = summarize_confusion_matrix(best_confusion_matrix_val[0],
-        #                                                            best_confusion_matrix_val[1], 5,
-        #                                                            ['Cor', 'Isc', 'Noi', 'Nor', 'Sti'],
-        #                                                            title='Target_Valid')
         summary_confusion, matrix_plt = summarize_confusion_matrix(best_confusion_matrix_val[0],
-                                                                   best_confusion_matrix_val[1], 3,
-                                                                   ['Cor', 'Isc', 'Nor'],
+                                                                   best_confusion_matrix_val[1], 5,
+                                                                   ['Cor', 'Isc', 'Noi', 'Nor', 'Sti'],
                                                                    title='Target_Valid')
+        # summary_confusion, matrix_plt = summarize_confusion_matrix(best_confusion_matrix_val[0],
+        #                                                            best_confusion_matrix_val[1], 3,
+        #                                                            ['Cor', 'Isc', 'Nor'],
+        #                                                            title='Target_Valid')
         # summary_confusion, matrix_plt = summarize_confusion_matrix(best_confusion_matrix_val[0],
         #                                                            best_confusion_matrix_val[1], 4,
         #                                                            ['Isc', 'Noi', 'Nor', 'Sti'],

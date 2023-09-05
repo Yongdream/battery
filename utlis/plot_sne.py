@@ -63,7 +63,7 @@ def plot_label_2D(source_data, source_label, target_data, target_label, classes)
 
     ax.spines['right'].set_visible(False)
     ax.spines['top'].set_visible(False)
-    plt.show()
+    # plt.show()
 
     return fig
 
@@ -90,7 +90,7 @@ def plot_domain_2D(source_data, source_label, target_data, target_label, classes
 
     ax.spines['right'].set_visible(False)
     ax.spines['top'].set_visible(False)
-    plt.show()
+    # plt.show()
 
     return fig
 

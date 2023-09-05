@@ -69,5 +69,5 @@ class ConfusionMatrix(object):
                              color="white" if ratio > thresh else "black",
                              fontsize=8))  # 标注文字大小为8
         fig.tight_layout()
-        fig.show()
+        # fig.show()
         return summary, recall_isc, fig
