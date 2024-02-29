@@ -34,30 +34,28 @@ def parse_args():
     parser.add_argument('--adabn_epochs', type=int, default=3, help='the number of training process')
 
     # training parameters
-    parser.add_argument('--cuda_device', type=str, default='0', help='assign device')
+    parser.add_argument('--cuda_device', type=str, default='1', help='assign device')
     parser.add_argument('--checkpoint_dir', type=str, default='./checkpoint', help='the directory to save the model')
     parser.add_argument("--pretrained", type=bool, default=False, help='whether to load the pretrained model')
-    parser.add_argument('--batch_size', type=int, default=256, help='batchsize of the training process')
+    parser.add_argument('--batch_size', type=int, default=128, help='batchsize of the training process')
     parser.add_argument('--num_workers', type=int, default=0, help='the number of training process')
-    parser.add_argument('--seed', type=int, default=55, metavar='S', help='random seed (default: 1)')
-
-    parser.add_argument('--patience', type=int, default=50, help='Early Stopping')
+    parser.add_argument('--seed', type=int, default=10, metavar='S', help='random seed (default: 1)')
 
     parser.add_argument('--bottleneck', type=bool, default=True, help='whether using the bottleneck layer')
     parser.add_argument('--bottleneck_num', type=int, default=128, help='whether using the bottleneck layer')
     parser.add_argument('--last_batch', type=bool, default=False, help='whether using the last batch')
 
     #
-    parser.add_argument('--distance_metric', type=bool, default=True, help='whether use distance metric')
-    parser.add_argument('--distance_loss', type=str, choices=['MK-MMD', 'JMMD', 'CORAL', 'CMMD'], default='JMMD', help='which distance loss you use')
+    parser.add_argument('--distance_metric', type=str, default='True', help='whether use distance metric')
+    parser.add_argument('--distance_loss', type=str, choices=['MK-MMD', 'JMMD', 'CORAL', 'CMMD', 'DSAN'], default='DSAN', help='which distance loss you use')
     parser.add_argument('--trade_off_distance', type=str, default='Step', help='')
-    parser.add_argument('--lam_distance', type=float, default=1.2, help='this is used for Cons')
+    parser.add_argument('--lam_distance', type=float, default=2.5, help='this is used for Cons')
     #
-    parser.add_argument('--domain_adversarial', type=bool, default=False, help='whether use domain_adversarial')
+    parser.add_argument('--domain_adversarial', type=str, default='False', help='whether use domain_adversarial')
     parser.add_argument('--adversarial_loss', type=str, choices=['DA', 'CDA', 'CDA+E'], default='CDA', help='which adversarial loss you use')
     parser.add_argument('--hidden_size', type=int, default=1024, help='whether using the last batch')
     parser.add_argument('--trade_off_adversarial', type=str, default='Step', help='')
-    parser.add_argument('--lam_adversarial', type=float, default=2, help='this is used for Cons')
+    parser.add_argument('--lam_adversarial', type=float, default=2.3, help='this is used for Cons')
 
     # optimization information
     parser.add_argument('--opt', type=str, choices=['sgd', 'adam'], default='adam', help='the optimizer')
@@ -71,11 +69,13 @@ def parse_args():
     parser.add_argument('--criterion', type=str, choices=['Entropy', 'CeLoss'], default='CeLoss', help='')
 
     # save, load and display information
-    parser.add_argument('--middle_epoch', type=int, default=50, help='middle epoch')
-    parser.add_argument('--max_epoch', type=int, default=100, help='max number of epoch')
+    parser.add_argument('--middle_epoch', type=int, default=25, help='middle epoch')
+    parser.add_argument('--max_epoch', type=int, default=50, help='max number of epoch')
+    parser.add_argument('--patience', type=int, default=25, help='Early Stopping')
     parser.add_argument('--print_step', type=int, default=600, help='the interval of log training information')
 
     parser.add_argument('--wandb', type=bool, default=True, help='')
+    parser.add_argument('--vis_train', type=bool, default=False, help='')
 
     args_s = parser.parse_args()
     return args_s

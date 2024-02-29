@@ -144,17 +144,17 @@ class BiGruAdPSAFeatures(nn.Module):
         return self.__in_features
 
 
-batch_size = 128
-input_dim = 256
-sequence_length = 16
-input_tensor = torch.randn(batch_size, sequence_length, input_dim)
-
-# 创建模型实例
-model = BiGruAdPSAFeatures()
-
-# 进行前向传播
-output = model(input_tensor)
-
-# 打印输出张量的形状
-print("Output shape:", output.shape)
+# batch_size = 128
+# input_dim = 256
+# sequence_length = 16
+# input_tensor = torch.randn(batch_size, sequence_length, input_dim)
+#
+# # 创建模型实例
+# model = BiGruAdPSAFeatures()
+#
+# # 进行前向传播
+# output = model(input_tensor)
+#
+# # 打印输出张量的形状
+# print("Output shape:", output.shape)
 

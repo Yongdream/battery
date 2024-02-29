@@ -23,6 +23,7 @@ from loss.DAN import DAN
 from loss.JAN import JAN
 from loss.CORAL import CORAL
 from loss.CMMD import CMMD
+from loss.DSAN import DSAN
 from utlis.entropy_CDA import Entropy
 from utlis.entropy_CDA import calc_coeff
 from utlis.entropy_CDA import grl_hook
@@ -31,9 +32,9 @@ from utlis.plot_3dsne import plot_3D
 
 
 # lab_classes = ['Isc', 'Noi', 'Nor', 'Sti']
-lab_classes = ['Cor', 'Isc', 'Noi', 'Nor', 'Sti']
+lab_classes = ['Inc', 'ISC', 'Noi', 'Nor', 'Sti']
 # lab_classes = ['Cor', 'Isc', 'Nor']
-dom_classes = ['source', 'target']
+dom_classes = ['Source', 'Target']
 
 
 def apply_dropout(m):
@@ -92,7 +93,7 @@ class TrainUtilsDA(object):
             self.classifier_layer = nn.Linear(self.model.output_num(), Dataset.num_classes)
             self.model_all = nn.Sequential(self.model, self.classifier_layer)
 
-        if args.domain_adversarial:
+        if args.domain_adversarial=='True':
             self.max_iter = len(self.dataloaders['source_train']) * (args.max_epoch - args.middle_epoch)
             if args.adversarial_loss == "CDA" or args.adversarial_loss == "CDA+E":
                 if args.bottleneck:
@@ -111,14 +112,14 @@ class TrainUtilsDA(object):
             else:
                 if args.bottleneck_num:
                     self.AdversarialNet = getattr(model, 'AdversarialNet')(in_feature=args.bottleneck_num,
-                                                                            hidden_size=args.hidden_size, 
+                                                                            hidden_size=args.hidden_size,
                                                                             max_iter=self.max_iter,
                                                                             trade_off_adversarial=args.trade_off_adversarial,
                                                                             lam_adversarial=args.lam_adversarial
                                                                             )
                 else:
                     self.AdversarialNet = getattr(model, 'AdversarialNet')(in_feature=self.model.output_num(),
-                                                                            hidden_size=args.hidden_size, 
+                                                                            hidden_size=args.hidden_size,
                                                                             max_iter=self.max_iter,
                                                                             trade_off_adversarial=args.trade_off_adversarial,
                                                                             lam_adversarial=args.lam_adversarial
@@ -129,18 +130,18 @@ class TrainUtilsDA(object):
         #     self.model_eval.fc = torch.nn.Linear(self.model_eval.fc.in_features, Dataset.num_classes)
 
         # torch.nn.DataParallel 用于在多个 GPU 上同时运行模型的模块
-        if self.device_count > 1:
+        if self.device_count > 3:
             self.model = torch.nn.DataParallel(self.model)
             # if args.adabn:
             #     self.model_eval = torch.nn.DataParallel(self.model_eval)
             if args.bottleneck:
                 self.bottleneck_layer = torch.nn.DataParallel(self.bottleneck_layer)
-            if args.domain_adversarial:
+            if args.domain_adversarial=='True':
                 self.AdversarialNet = torch.nn.DataParallel(self.AdversarialNet)
             self.classifier_layer = torch.nn.DataParallel(self.classifier_layer)
 
         # Define the learning parameters
-        if args.domain_adversarial:
+        if args.domain_adversarial=='True':
             if args.bottleneck:
                 parameter_list = [{"params": self.model.parameters(), "lr": args.lr},
                                   {"params": self.bottleneck_layer.parameters(), "lr": args.lr},
@@ -193,13 +194,13 @@ class TrainUtilsDA(object):
         #     self.model_eval.to(self.device)
         if args.bottleneck:
             self.bottleneck_layer.to(self.device)
-        if args.domain_adversarial:
+        if args.domain_adversarial=='True':
             self.AdversarialNet.to(self.device)
         self.classifier_layer.to(self.device)
 
 
         # Define the distance loss
-        if args.distance_metric:
+        if args.distance_metric == "True":
             if args.distance_loss == 'MK-MMD':
                 self.distance_loss = DAN
             elif args.distance_loss == "JMMD":
@@ -209,13 +210,17 @@ class TrainUtilsDA(object):
                 self.distance_loss = JAN
             elif args.distance_loss == "CORAL":
                 self.distance_loss = CORAL
+            elif args.distance_loss == "DSAN":
+                self.softmax_layer = nn.Softmax(dim=1)
+                self.softmax_layer = self.softmax_layer.to(self.device)
+                self.distance_loss = DSAN
             else:
                 raise Exception("loss not implement")
         else:
             self.distance_loss = None
 
         # Define the adversarial loss
-        if args.domain_adversarial:
+        if args.domain_adversarial=="True":
             if args.adversarial_loss == 'DA':
                 self.adversarial_loss = nn.BCELoss()
             elif args.adversarial_loss == "CDA" or args.adversarial_loss == "CDA+E":
@@ -314,14 +319,14 @@ class TrainUtilsDA(object):
                     self.model.train()
                     if args.bottleneck:
                         self.bottleneck_layer.train()
-                    if args.domain_adversarial:
+                    if args.domain_adversarial=='True':
                         self.AdversarialNet.train()
                     self.classifier_layer.train()
                 else:
                     self.model.eval()
                     if args.bottleneck:
                         self.bottleneck_layer.eval()
-                    if args.domain_adversarial:
+                    if args.domain_adversarial=='True':
                         self.AdversarialNet.eval()
                     self.classifier_layer.eval()
 
@@ -379,18 +384,23 @@ class TrainUtilsDA(object):
                                                                        features.narrow(0, labels.size(0), inputs.size(0) - labels.size(0)))
                                 elif args.distance_loss == 'JMMD':
                                     softmax_out = self.softmax_layer(outputs)
-                                    distance_loss = self.distance_loss([features.narrow(0, 0, labels.size(0)),
-                                                                        softmax_out.narrow(0, 0, labels.size(0))],
-                                                                        [features.narrow(0, labels.size(0),
-                                                                                        inputs.size(0) - labels.size(0)),
-                                                                        softmax_out.narrow(0, labels.size(0),
-                                                                                            inputs.size(0) - labels.size(0))],
-                                                                        )
+                                    distance_loss = self.distance_loss([features.narrow(0, 0, labels.size(0)), softmax_out.narrow(0, 0, labels.size(0))],
+                                                                        [features.narrow(0, labels.size(0), inputs.size(0) - labels.size(0)),
+                                                                        softmax_out.narrow(0, labels.size(0), inputs.size(0) - labels.size(0))],)
                                 elif args.distance_loss == 'CORAL':
                                     distance_loss = self.distance_loss(outputs.narrow(0, 0, labels.size(0)),
                                                                         outputs.narrow(0, labels.size(0),
+                                                                        inputs.size(0) - labels.size(0)))
+                                elif args.distance_loss == 'DSAN':
+                                    softmax_out = self.softmax_layer(outputs)
+                                    distance_loss = self.distance_loss([features.narrow(0, 0, labels.size(0)),
+                                                                        outputs.narrow(0, 0, labels.size(0))],
+                                                                       [features.narrow(0, labels.size(0),
                                                                                         inputs.size(0) - labels.size(
-                                                                                            0)))
+                                                                                            0)),
+                                                                        outputs.narrow(0, labels.size(0),
+                                                                                           inputs.size(0) - labels.size(
+                                                                                               0))], )
                                 elif args.distance_loss == 'CMMD':
                                     if args.model_name == 'ATTFE':
                                         distance_loss = self.distance_loss(s_features1, t_features1, source_label, t_label)
@@ -549,15 +559,16 @@ class TrainUtilsDA(object):
                 epoch_loss = epoch_loss / epoch_length
                 epoch_acc = epoch_acc / epoch_length
 
+                cost_t = time.time() - epoch_start
                 logging.info('Epoch: {} {}-Loss: {:.4f} {}-Acc: {:.4f}, Cost {:.1f} sec'.format(
-                    epoch, phase, epoch_loss, phase, epoch_acc, time.time() - epoch_start
+                    epoch, phase, epoch_loss, phase, epoch_acc, cost_t
                 ))
                 if args.wandb:
                     wandb.log({
                         'Epoch': epoch,
                         '{}-Loss'.format(phase): epoch_loss,
                         '{}-Acc'.format(phase): epoch_acc,
-                        'Cost': time.time() - epoch_start,
+                        '{}-Cost'.format(phase): cost_t,
                         "best_acc": best_acc
                     })
 
@@ -568,6 +579,23 @@ class TrainUtilsDA(object):
                 if phase == 'target_val':
                     # save the checkpoint for other learning
                     model_state_dic = self.model_all.state_dict()
+
+                    if epoch == 1:
+                        source_data_origin = source_data
+                        source_label_origin = source_label
+                        target_data_origin = target_data
+                        target_label_origin = target_label
+
+                        source_d_label_origin = torch.from_numpy(np.zeros(source_data_origin.shape[0])).to(self.device)
+                        target_d_label_origin = torch.from_numpy(np.ones(target_data_origin.shape[0])).to(self.device)
+                    elif epoch == args.middle_epoch:
+                        source_data_mid = source_data
+                        source_label_mid = source_label
+                        target_data_mid = target_data
+                        target_label_mid = target_label
+
+                        source_d_label_mid = torch.from_numpy(np.zeros(source_data_mid.shape[0])).to(self.device)
+                        target_d_label_mid = torch.from_numpy(np.ones(source_data_mid.shape[0])).to(self.device)
 
                     # save the best model according to the val accuracy
                     # print(f"Isc recall: {best_recall_epoch}")
@@ -602,35 +630,59 @@ class TrainUtilsDA(object):
 
         summary_confusion, matrix_plt = summarize_confusion_matrix(best_confusion_matrix_val[0],
                                                                    best_confusion_matrix_val[1], 5,
-                                                                   ['Cor', 'Isc', 'Noi', 'Nor', 'Sti'],
+                                                                   ['Inc', 'ISC', 'Noi', 'Nor', 'Sti'],
                                                                    title='Target_Valid')
-        # summary_confusion, matrix_plt = summarize_confusion_matrix(best_confusion_matrix_val[0],
-        #                                                            best_confusion_matrix_val[1], 3,
-        #                                                            ['Cor', 'Isc', 'Nor'],
-        #                                                            title='Target_Valid')
-        # summary_confusion, matrix_plt = summarize_confusion_matrix(best_confusion_matrix_val[0],
-        #                                                            best_confusion_matrix_val[1], 4,
-        #                                                            ['Isc', 'Noi', 'Nor', 'Sti'],
-        #                                                            title='Target_Valid')
+
+        sne_ori = plot_label_2D(source_data_origin, source_label_origin, target_data_origin, target_label_origin, lab_classes)
+        sne_domain_ori = plot_domain_2D(source_data_origin, source_d_label_origin, target_data_origin, target_d_label_origin,
+                                    dom_classes)
+
+        sne_mid = plot_label_2D(source_data_mid, source_label_mid, target_data_mid, target_label_mid, lab_classes)
+        sne_domain_mid = plot_domain_2D(source_data_mid, source_d_label_mid, target_data_mid, target_d_label_mid,
+                                    dom_classes)
+
         sne = plot_label_2D(source_data_best, source_label_best, target_data_best, target_label_best, lab_classes)
         sne_domain = plot_domain_2D(source_data_best, source_domain_label, target_data_best, target_domain_label,
                                    dom_classes)
+
         logging.info(summary_confusion)
         if args.wandb:
-            wandb.log({'summary_confusion':summary_confusion
-                       })
 
-            sne_wandb = wandb.Image(
-                sne, caption="Source and Target Labels")
-            sne_domain_wandb = wandb.Image(
-                sne_domain, caption="Source and Target Labels")
-            matrix_plt_wandb = wandb.Image(
-                matrix_plt, caption="Source and Target Labels")
+            if args.vis_train:
+                sne_ori_wandb = wandb.Image(
+                    sne_ori, caption="Source and Target Labels")
+                sne_domain_ori_wandb = wandb.Image(
+                    sne_domain_ori, caption="Source and Target Labels")
 
-            wandb.log({'Source and Target Labels ': sne_wandb,
-                       'Source and Target Domains ': sne_domain_wandb,
-                       'Confusion Matrix': matrix_plt_wandb
-                       })
+                sne_mid_wandb = wandb.Image(
+                    sne_mid, caption="Source and Target Labels")
+                sne_domain_mid_wandb = wandb.Image(
+                    sne_domain_mid, caption="Source and Target Labels")
+
+                sne_wandb = wandb.Image(
+                    sne, caption="Source and Target Labels")
+                sne_domain_wandb = wandb.Image(
+                    sne_domain, caption="Source and Target Labels")
+
+                wandb.log({
+                    'Source and Target Labels origin ': sne_ori_wandb,
+                    'Source and Target Domains origin': sne_domain_ori_wandb,
+                })
+
+                wandb.log({
+                    'Source and Target Labels mid ': sne_mid_wandb,
+                    'Source and Target Domains mid': sne_domain_mid_wandb,
+                })
+
+                wandb.log({
+                    'Source and Target Labels ': sne_wandb,
+                    'Source and Target Domains ': sne_domain_wandb,
+                })
+
+            wandb.log({'summary_confusion':summary_confusion})
+            matrix_plt_wandb = wandb.Image(matrix_plt, caption="Source and Target Labels")
+            wandb.log({'Confusion Matrix': matrix_plt_wandb})
+
         writer.add_figure('Source and Target Labels ', sne)
         writer.add_figure('Source and Target Domains ', sne_domain)
         writer.add_figure('Confusion Matrix', matrix_plt)

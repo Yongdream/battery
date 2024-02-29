@@ -6,8 +6,6 @@ import pickle
 import json
 from src.folderconstants import *
 
-datasets = ['udds', 'us06', 'fuds']
-
 
 def sliding_window(data, window_size, stride):
     """
@@ -84,7 +82,7 @@ def preprocess_dataset(dataset_folder, Classification, folder):
         # 仅选择前12列
         data = data.iloc[:, :12]
 
-        win_data_list = sliding_window(data, 300, 5)    # 滑窗获得数据
+        win_data_list = sliding_window(data, 300, 30)    # 滑窗获得数据
 
         for i, win_data in enumerate(win_data_list, start=1):
             features = normalize_matrix(win_data).astype('float')
@@ -175,17 +173,15 @@ if __name__ == '__main__':
 
     for dataset, folder in zip(datasets, output_folders):
         if dataset == 'fuds':
-            dataset_folder = '../data/fuds'
+            dataset_folder = '../data/fuds12'
         elif dataset == 'udds':
-            dataset_folder = '../data/udds'
+            dataset_folder = '../data/udds12'
         elif dataset == 'us06':
-            dataset_folder = '../data/us06'
+            dataset_folder = '../data/us0612'
         else:
             raise Exception(f'Not Implemented. Check one of {datasets}')
 
         os.makedirs(folder, exist_ok=True)
-
-        # swap_channel_data(dataset_folder)
 
         preprocess_dataset(dataset_folder, Classification, folder)
 

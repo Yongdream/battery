@@ -10,7 +10,7 @@ def process_and_save_images(start_index, end_index):
     for j in range(de_ta):
         # 构建当前索引对应的文件路径
         file_index = start_index + j
-        file_path = f"processed/udds/Nor/Nor_{file_index}.npy"
+        file_path = f"processed/udds00/Nor/Nor_{file_index}.npy"
 
         # 检查文件是否存在
         if not os.path.exists(file_path):

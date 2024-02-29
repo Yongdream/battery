@@ -40,7 +40,7 @@ def extract_features(data):
     return features  # 结果形状为(b, 16, 302)
 
 
-class ALSTMAdFeatures(nn.Module):
+class ALSTMAdFeaturesNoAtt(nn.Module):
     def __init__(self, d_feat=20, hidden_size=16, num_layers=16, dropout=0.0, rnn_type="GRU", pretrained=False):
         super().__init__()
 
@@ -108,23 +108,13 @@ class ALSTMAdFeatures(nn.Module):
 
         out_conv = torch.cat((out_conv, s_fe), dim=1)
         # out_conv = self.batch_norm(out_conv)
-        out_conv = self.avg_pool(out_conv)      # torch.Size([128, 64, 150])
+        out_conv = self.avg_pool(out_conv)          # torch.Size([128, 64, 150])
 
-        out_conv = out_conv.permute(0, 2, 1)    # torch.Size([128, 150, 64])
-        rnn_out, h2 = self.gru_1(out_conv)       # [128, 150, 64] [batch, seq_len, num_directions * hidden_size]
-        rnn_out, h1 = self.gru_2(rnn_out)        # torch.Size([128, 300, 32])
+        out_conv = out_conv.permute(0, 2, 1)        # torch.Size([128, 150, 64])
+        rnn_out, h2 = self.gru_1(out_conv)          # [128, 150, 64] [batch, seq_len, num_directions * hidden_size]
+        rnn_out, h1 = self.gru_2(rnn_out)           # torch.Size([128, 150, 32])
 
-        # print(rnn_out.shape) torch.Size([128, 150, 32])
-        # print(h1.shape) torch.Size([10, 128, 16])
-
-        attention_score = self.att_net(rnn_out)  # [batch, seq_len, 1] 计算注意力分数
-
-        out_att = torch.mul(rnn_out, attention_score)   # 使用注意力分数加权 torch.Size([128, 64, 64])
-        # out_att = torch.sum(out_att, dim=1)             # 沿着序列长度的维度求和
-
-        # 将RNN层的最后一个时间步和注意力加权结果进行拼接，然后通过全连接层输出
-        # torch.Size([128, 300, 64])
-        out_att = out_att.flatten(1)  # ([128, 2000])
+        out_att = rnn_out.flatten(1)                # torch.Size([128, 4800])
         out = self.fc1(out_att)
         out = self.fc2(out)
         return out
@@ -141,7 +131,7 @@ class ALSTMAdFeatures(nn.Module):
 # print(input_tensor.shape)
 #
 # # 创建模型实例
-# model = ALSTMAdFeatures()
+# model = ALSTMAdFeaturesNoAtt()
 # predicted_output = model(input_tensor)
 # # 打印输出张量的形状
 # print("Output shape:", predicted_output.shape)

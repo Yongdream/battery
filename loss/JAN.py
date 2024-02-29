@@ -20,7 +20,7 @@ def guassian_kernel(source, target, kernel_mul=2.0, kernel_num=5, fix_sigma=None
     return sum(kernel_val)  # /len(kernel_val)
 
 
-def JAN(source_list, target_list, kernel_muls=[2.0, 2.0], kernel_nums=[5, 1], fix_sigma_list=[None, 1.68]):
+def JAN(source_list, target_list, kernel_muls=[2.0, 2.0], kernel_nums=[5, 1], fix_sigma_list=[None, 1.68]): # [(b, 128), (b, 5)]
     batch_size = int(source_list[0].size()[0])
     layer_num = len(source_list)
     joint_kernels = None

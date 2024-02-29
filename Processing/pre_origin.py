@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 
-run_work = 'us06'
+run_work = 'udds'
 dataset_folder = f'../dataorigin/{run_work}'
 target_folder = f'../data/{run_work}'
 file_list = os.listdir(dataset_folder)
@@ -11,7 +11,7 @@ for filename in file_list:
     file_path = os.path.join(dataset_folder, filename)
     data = pd.read_csv(file_path, header=0)
     if '10ohm' in filename:
-        data = data.iloc[2000:, 2:-9]  # 删除前2000行
+        data = data.iloc[800:, 2:-9]
     else:
         data = data.iloc[1:, 2:-9]
 

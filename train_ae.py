@@ -11,7 +11,7 @@ import wandb
 
 os.environ['WANDB_SILENT'] = "true"
 wandb.login()
-wandb.init(project="Battery", entity='yang7hi')  # 初始化
+wandb.init(project="Battery", entity='yang7hiv1')  # 初始化
 
 warnings.filterwarnings('ignore')
 
