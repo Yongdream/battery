@@ -577,7 +577,7 @@ class TrainUtilsDA_cmmd(object):
                     # save the best model according to the val accuracy
                     print(f"Isc recall: {best_recall_epoch}")
                     if epoch_acc > best_acc and epoch > args.middle_epoch/2:
-                        if best_recall_epoch > 60:
+                        if best_recall_epoch > 20:
                             best_acc = epoch_acc
                             logging.info("save best model epoch {}, acc {:.4f}".format(epoch, epoch_acc))
                             print("save best model epoch {}, acc {:.4f}".format(epoch, epoch_acc))

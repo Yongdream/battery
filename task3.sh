@@ -20,14 +20,14 @@ tasks=(
   "[[2], [2]]"
 )
 
-num_iterations=3
+num_iterations=4
 seed=13
 
 for ((i=0; i<$num_iterations; i++)); do
   let "seed=seed+5"
   for task in "${tasks[@]}"; do
 
-    python train_base.py --transfer_task "$task" --model_name "ALSTMAdFeatures" --distance_loss "DSAN" --seed $seed
+    python train_base.py --transfer_task "$task" --model_name "LSTMFeatures"  --seed $seed
 
   done
 done

@@ -21,7 +21,7 @@ def parse_args():
 
     # model and data parameters
     parser.add_argument('--method', type=str, default='DA', choices=['DG', 'DA'], help='the name of the method')
-    parser.add_argument('--model_name', type=str, default='ALSTMAdFeatures', help='the name of the model')
+    parser.add_argument('--model_name', type=str, default='LSTMFeatures', help='the name of the model')
     parser.add_argument('--data_name', type=str, default='Battery', help='the name of the data')
     parser.add_argument('--data_dir', type=str, default='../processed', help='the directory of the data')
 
@@ -46,7 +46,7 @@ def parse_args():
     parser.add_argument('--last_batch', type=bool, default=False, help='whether using the last batch')
 
     #
-    parser.add_argument('--distance_metric', type=str, default='True', help='whether use distance metric')
+    parser.add_argument('--distance_metric', type=str, default='False', help='whether use distance metric')
     parser.add_argument('--distance_loss', type=str, choices=['MK-MMD', 'JMMD', 'CORAL', 'CMMD', 'DSAN'], default='DSAN', help='which distance loss you use')
     parser.add_argument('--trade_off_distance', type=str, default='Step', help='')
     parser.add_argument('--lam_distance', type=float, default=2.5, help='this is used for Cons')

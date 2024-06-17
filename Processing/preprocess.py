@@ -473,8 +473,8 @@ def load_data(dataset, Classification):
 
 
 if __name__ == '__main__':
-    commands = sys.argv[1]
-    Classification = sys.argv[2]
+    commands = sys.argv[1]      # 输入工况
+    Classification = sys.argv[2]    # 输入单/多 multiple
     load = []
     if len(commands) > 0:
         load_data(commands, Classification)

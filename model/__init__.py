@@ -6,6 +6,7 @@ from model.ALstm import ALSTMAdFeatures
 from model.ALstm_nosignEnhance import ALSTMAdFeaturesNoSign
 from model.ALstm_noAtt import ALSTMAdFeaturesNoAtt
 from model.CBDANModel import CBDANModel
+from model.LSTM import LSTMFeatures
 
 from model.Resnet1d import resnet18_features as resnet_features_1d
 

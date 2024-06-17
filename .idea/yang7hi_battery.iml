@@ -6,7 +6,7 @@
       <excludeFolder url="file://$MODULE_DIR$/checkpoint" />
       <excludeFolder url="file://$MODULE_DIR$/processed" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.7 (pytorch) (11)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Remote Python 3.7.16 (sftp://user@10.2.133.189:22/home/user/anaconda3/envs/yang/bin/python)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="PyDocumentationSettings">
