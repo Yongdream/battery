@@ -9,5 +9,8 @@ udds/best_result.log
 checkpoint/
 wandb/
 
+.idea
+__pycache__
+
 dataorigin.zip
 Processing.zip
