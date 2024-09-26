@@ -1,5 +1,13 @@
-Battery fault diagnosis research
+# Battery fault diagnosis research
 
+## Links to papers
 
+- https://www.sciencedirect.com/science/article/pii/S2352152X24024514#fig6
 
-https://feed.iggv5.com/c/7729f547-5496-4b20-949c-c6fc0e8ea38a/platform/clash/iGG-iGuge
+## Highlights
+
+- First to use sub-domain granular info for multi-fault lithium battery diagnosis.
+- Innovative multi-level feature processing with attention-guided Bi-GRU.
+- Verified under three conditions, diagnostic accuracy is significantly enhanced.
+
+![1-s2.0-S2352152X24024514-gr6_lrg](./typora_photo/README/1-s2.0-S2352152X24024514-gr6_lrg.jpg)
