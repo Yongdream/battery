@@ -11,3 +11,7 @@
 - Verified under three conditions, diagnostic accuracy is significantly enhanced.
 
 ![1-s2.0-S2352152X24024514-gr6_lrg](./typora_photo/README/1-s2.0-S2352152X24024514-gr6_lrg.jpg)
+
+## License 
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.

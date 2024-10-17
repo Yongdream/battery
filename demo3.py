@@ -43,4 +43,3 @@ ax.axis('off')
 plt.title("Common-Emitter Amplifier Schematic")
 plt.show()
 
-components
